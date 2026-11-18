@@ -13,9 +13,11 @@
       <img src="https://img.shields.io/badge/Repositories-FitzzXYZ-8BA872?style=for-the-badge&logo=github&logoColor=FFFFFF&labelColor=141714" alt="GitHub Repositories" />
     </a>
     &nbsp;
-    <img src="https://img.shields.io/badge/Role-Full--Stack_Developer-5F7A50?style=for-the-badge&labelColor=141714" alt="Full-Stack Developer" />
+    <a href="./graphify-out/GRAPH_REPORT.md">
+      <img src="https://img.shields.io/badge/Graphify-Knowledge_Graph-7C3AED?style=for-the-badge&labelColor=141714" alt="Graphify Knowledge Graph Report" />
+    </a>
     &nbsp;
-    <img src="https://img.shields.io/badge/Theme-%C3%9Cbel_4x_HD_Edition-7C3AED?style=for-the-badge&labelColor=141714" alt="Übel 4x HD Edition" />
+    <img src="https://img.shields.io/badge/Role-Full--Stack_Developer-5F7A50?style=for-the-badge&labelColor=141714" alt="Full-Stack Developer" />
   </p>
 
   <p align="center">
@@ -35,7 +37,13 @@
   </p>
 
   <p align="center">
-    <img src="./assets/telemetry-header.svg" alt="04 · GitHub Telemetry & Contribution Activity" width="100%" />
+    <a href="./graphify-out/GRAPH_REPORT.md">
+      <img src="./assets/graphify-map.svg" alt="04 · Graphify Knowledge Graph & Architecture Map" width="100%" />
+    </a>
+  </p>
+
+  <p align="center">
+    <img src="./assets/telemetry-header.svg" alt="05 · GitHub Telemetry & Contribution Activity" width="100%" />
   </p>
 
   <p align="center">

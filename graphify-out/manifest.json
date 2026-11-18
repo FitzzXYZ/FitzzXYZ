@@ -1,0 +1,86 @@
+{
+  "README.md": {
+    "mtime": 1794995727.4868293,
+    "seen": 1794996103.215924,
+    "ast_hash": "929858158b0ef5cc904962153e894574",
+    "semantic_hash": "929858158b0ef5cc904962153e894574"
+  },
+  "assets/developer-dashboard.svg": {
+    "mtime": 1794995433.0672886,
+    "seen": 1794996103.2159462,
+    "ast_hash": "5458d187cd8926df1dface8f1f8cb67c",
+    "semantic_hash": "5458d187cd8926df1dface8f1f8cb67c"
+  },
+  "assets/divider.svg": {
+    "mtime": 1794994961.4368382,
+    "seen": 1794996103.2159534,
+    "ast_hash": "507447598d346256fbd99396cf6375bc",
+    "semantic_hash": "507447598d346256fbd99396cf6375bc"
+  },
+  "assets/footer.svg": {
+    "mtime": 1794995433.0773456,
+    "seen": 1794996103.2159572,
+    "ast_hash": "bec1ecd8e80502a310b85b63e53ac158",
+    "semantic_hash": "bec1ecd8e80502a310b85b63e53ac158"
+  },
+  "assets/hero-banner.svg": {
+    "mtime": 1794995433.063245,
+    "seen": 1794996103.2159607,
+    "ast_hash": "a399216ffbacb0fbaef0857763dd357b",
+    "semantic_hash": "a399216ffbacb0fbaef0857763dd357b"
+  },
+  "assets/tech-stack.svg": {
+    "mtime": 1794995433.0702877,
+    "seen": 1794996103.215964,
+    "ast_hash": "e453ef26fb507ec05e27f44f8be6f121",
+    "semantic_hash": "e453ef26fb507ec05e27f44f8be6f121"
+  },
+  "assets/telemetry-header.svg": {
+    "mtime": 1794995433.0763566,
+    "seen": 1794996103.215968,
+    "ast_hash": "fd2c8fd14760a48baa89aadbdbf5898e",
+    "semantic_hash": "fd2c8fd14760a48baa89aadbdbf5898e"
+  },
+  "assets/telemetry-stats.svg": {
+    "mtime": 1794995707.8791368,
+    "seen": 1794996103.2159848,
+    "ast_hash": "450da22907887006557c4e6f95719a7e",
+    "semantic_hash": "450da22907887006557c4e6f95719a7e"
+  },
+  "assets/ubel-1.png": {
+    "mtime": 1794994943.1156676,
+    "seen": 1794996103.2159877,
+    "ast_hash": "8f762b224e7707f93a66e81b09edd61d",
+    "semantic_hash": "8f762b224e7707f93a66e81b09edd61d"
+  },
+  "assets/ubel-2.png": {
+    "mtime": 1794994945.927027,
+    "seen": 1794996103.215991,
+    "ast_hash": "e190c479c125fc970084eec32bd4da4e",
+    "semantic_hash": "e190c479c125fc970084eec32bd4da4e"
+  },
+  "assets/ubel-3.png": {
+    "mtime": 1794994948.9706829,
+    "seen": 1794996103.2159941,
+    "ast_hash": "fe3602632a586deedadba85920235df7",
+    "semantic_hash": "fe3602632a586deedadba85920235df7"
+  },
+  "assets/ubel-4.png": {
+    "mtime": 1794994954.1815634,
+    "seen": 1794996103.2159982,
+    "ast_hash": "366383976f8bff446733d8c6d5e3c484",
+    "semantic_hash": "366383976f8bff446733d8c6d5e3c484"
+  },
+  "assets/ubel-dossier.svg": {
+    "mtime": 1794995433.0692925,
+    "seen": 1794996103.216001,
+    "ast_hash": "5458d187cd8926df1dface8f1f8cb67c",
+    "semantic_hash": "5458d187cd8926df1dface8f1f8cb67c"
+  },
+  "assets/ubel-showcase.svg": {
+    "mtime": 1794995433.0743487,
+    "seen": 1794996103.2160037,
+    "ast_hash": "c4e0f56fa52f6226ac35cd5d80d80900",
+    "semantic_hash": "c4e0f56fa52f6226ac35cd5d80d80900"
+  }
+}

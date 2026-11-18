@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="100%">
+  <defs>
+    <clipPath id="gOuter"><rect x="0" y="0" width="1200" height="440" rx="20"/></clipPath>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Manrope', Roboto, Helvetica, Arial, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace; }
+      @keyframes pulseNode {
+        0%, 100% { r: 11px; stroke-opacity: 0.9; }
+        50% { r: 13.5px; stroke-opacity: 0.4; }
+      }
+      .god-pulse { animation: pulseNode 3s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <g clip-path="url(#gOuter)">
+    <rect x="0" y="0" width="1200" height="440" rx="20" fill="#0D0F0D"/>
+
+    <!-- Section Header Bar -->
+    <rect x="24" y="20" width="10" height="20" rx="3" fill="#9D6BFF"/>
+    <text x="44" y="36" class="sans" font-size="18" font-weight="700" fill="#FFFFFF">04 · Graphify Knowledge Graph &amp; Architecture Map</text>
+    <text x="1176" y="35" text-anchor="end" class="mono" font-size="11.5" font-weight="600" fill="#C4B5FD">24 NODES · 34 EDGES · 4 COMMUNITIES</text>
+
+    <!-- ============================================================ -->
+    <!-- LEFT CARD: NODE-LINK KNOWLEDGE GRAPH TOPOLOGY (x=24, y=64, w=740, h=352) -->
+    <!-- ============================================================ -->
+    <rect x="24" y="64" width="740" height="352" rx="14" fill="#141714" stroke="#262C26" stroke-width="1"/>
+
+    <!-- Subtle Coordinate Grid inside Graph Canvas -->
+    <g stroke="#1C211C" stroke-width="1">
+      <line x1="24" y1="150" x2="764" y2="150"/>
+      <line x1="24" y1="240" x2="764" y2="240"/>
+      <line x1="24" y1="330" x2="764" y2="330"/>
+      <line x1="200" y1="64" x2="200" y2="416"/>
+      <line x1="394" y1="64" x2="394" y2="416"/>
+      <line x1="588" y1="64" x2="588" y2="416"/>
+    </g>
+
+    <!-- Community Cluster Halo Zones -->
+    <circle cx="185" cy="165" r="78" fill="#8BA872" fill-opacity="0.05" stroke="#8BA872" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+    <circle cx="210" cy="325" r="74" fill="#9D6BFF" fill-opacity="0.05" stroke="#9D6BFF" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+    <circle cx="605" cy="160" r="72" fill="#C4B5FD" fill-opacity="0.05" stroke="#C4B5FD" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+    <circle cx="595" cy="325" r="74" fill="#5F7A50" fill-opacity="0.06" stroke="#8BA872" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+
+    <!-- Graph Edges (34 connections) -->
+    <g stroke-width="1.4" stroke-opacity="0.55">
+      <!-- Central God Node (README: 394, 240) to Community Hubs -->
+      <line x1="394" y1="240" x2="185" y2="165" stroke="#8BA872" stroke-width="2.2"/>
+      <line x1="394" y1="240" x2="275" y2="285" stroke="#9D6BFF" stroke-width="2.2"/>
+      <line x1="394" y1="240" x2="165" y2="345" stroke="#9D6BFF" stroke-width="1.8"/>
+      <line x1="394" y1="240" x2="605" y2="160" stroke="#C4B5FD" stroke-width="2.2"/>
+      <line x1="394" y1="240" x2="595" y2="325" stroke="#8BA872" stroke-width="2.0"/>
+      <line x1="394" y1="240" x2="394" y2="125" stroke="#9D6BFF" stroke-width="1.8"/>
+      <line x1="394" y1="240" x2="495" y2="200" stroke="#8BA872"/>
+      <line x1="394" y1="240" x2="495" y2="355" stroke="#8BA872"/>
+
+      <!-- C0 Edges (Tech Matrix -> Tiers & Projects) -->
+      <line x1="185" y1="165" x2="110" y2="115" stroke="#8BA872"/>
+      <line x1="185" y1="165" x2="100" y2="185" stroke="#8BA872"/>
+      <line x1="185" y1="165" x2="155" y2="235" stroke="#8BA872"/>
+      <line x1="185" y1="165" x2="260" y2="115" stroke="#8BA872"/>
+      <line x1="260" y1="115" x2="394" y2="125" stroke="#9D6BFF"/>
+      <line x1="275" y1="285" x2="260" y2="210" stroke="#8BA872"/>
+      <line x1="260" y1="210" x2="110" y2="115" stroke="#8BA872" stroke-dasharray="3 3"/>
+      <line x1="260" y1="210" x2="100" y2="185" stroke="#8BA872" stroke-dasharray="3 3"/>
+
+      <!-- C1 Edges (Workbench & Showcase -> HD Artworks 1 & 2) -->
+      <line x1="275" y1="285" x2="165" y2="345" stroke="#9D6BFF"/>
+      <line x1="275" y1="285" x2="115" y2="285" stroke="#9D6BFF"/>
+      <line x1="275" y1="285" x2="235" y2="380" stroke="#9D6BFF"/>
+      <line x1="275" y1="285" x2="335" y2="365" stroke="#9D6BFF"/>
+      <line x1="165" y1="345" x2="115" y2="285" stroke="#9D6BFF"/>
+      <line x1="165" y1="345" x2="235" y2="380" stroke="#9D6BFF"/>
+
+      <!-- C3 Edges (Hero Stage -> HD Artworks 3 & 4) -->
+      <line x1="605" y1="160" x2="540" y2="105" stroke="#C4B5FD"/>
+      <line x1="605" y1="160" x2="685" y2="115" stroke="#C4B5FD"/>
+      <line x1="605" y1="160" x2="675" y2="205" stroke="#C4B5FD"/>
+      <line x1="165" y1="345" x2="540" y2="105" stroke="#C4B5FD" stroke-opacity="0.3"/>
+      <line x1="165" y1="345" x2="685" y2="115" stroke="#C4B5FD" stroke-opacity="0.3"/>
+
+      <!-- C2 Edges (Telemetry & Footer) -->
+      <line x1="595" y1="325" x2="675" y2="285" stroke="#8BA872"/>
+      <line x1="595" y1="325" x2="670" y2="365" stroke="#8BA872"/>
+      <line x1="595" y1="325" x2="495" y2="355" stroke="#8BA872"/>
+    </g>
+
+    <!-- Graph Nodes -->
+    <!-- GOD NODE 1: FitzzXYZ README (Center Bridge, 11 edges) -->
+    <circle cx="394" cy="240" r="18" fill="#8BA872" fill-opacity="0.2"/>
+    <circle cx="394" cy="240" r="11" fill="#8BA872" stroke="#FFFFFF" stroke-width="2" class="god-pulse"/>
+    <text x="394" y="268" text-anchor="middle" class="mono" font-size="10.5" font-weight="700" fill="#FFFFFF">README.md (11)</text>
+
+    <!-- GOD NODE 2: Bento Workbench (275, 285 - 7 edges) -->
+    <circle cx="275" cy="285" r="9" fill="#9D6BFF" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="275" y="306" text-anchor="middle" class="mono" font-size="9.5" font-weight="600" fill="#DDD6FE">Workbench (7)</text>
+
+    <!-- GOD NODE 3: Tech Stack Matrix (185, 165 - 5 edges) -->
+    <circle cx="185" cy="165" r="8.5" fill="#8BA872" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="185" y="185" text-anchor="middle" class="mono" font-size="9.5" font-weight="600" fill="#B5D69C">TechMatrix (5)</text>
+
+    <!-- GOD NODE 4: Ubel 4x HD Archive (165, 345 - 5 edges) -->
+    <circle cx="165" cy="345" r="8.5" fill="#9D6BFF" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="155" y="365" text-anchor="middle" class="mono" font-size="9.5" font-weight="600" fill="#DDD6FE">HDArchive (5)</text>
+
+    <!-- GOD NODE 5: Hero Banner Stage (605, 160 - 4 edges) -->
+    <circle cx="605" cy="160" r="8" fill="#C4B5FD" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="605" y="180" text-anchor="middle" class="mono" font-size="9.5" font-weight="600" fill="#E4E4E7">HeroStage (4)</text>
+
+    <!-- Graphify Node (394, 125) -->
+    <circle cx="394" cy="125" r="7.5" fill="#9D6BFF" stroke="#B5D69C" stroke-width="1.5"/>
+    <text x="394" y="109" text-anchor="middle" class="mono" font-size="10" font-weight="700" fill="#C4B5FD">Graphify Engine</text>
+
+    <!-- Supporting Community Nodes -->
+    <circle cx="110" cy="115" r="5.5" fill="#8BA872"/><text x="110" y="103" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Frontend</text>
+    <circle cx="100" cy="185" r="5.5" fill="#8BA872"/><text x="66" y="188" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Backend</text>
+    <circle cx="155" cy="235" r="5.5" fill="#8BA872"/><text x="155" y="250" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">DataTier</text>
+    <circle cx="260" cy="115" r="5.5" fill="#8BA872"/><text x="260" y="103" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">DevOps</text>
+    <circle cx="260" cy="210" r="6" fill="#8BA872"/><text x="295" y="213" class="mono" font-size="8.5" fill="#B5D69C">GondrongRental</text>
+
+    <circle cx="115" cy="285" r="5.5" fill="#9D6BFF"/><text x="75" y="288" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Ubel-1.png</text>
+    <circle cx="235" cy="380" r="5.5" fill="#9D6BFF"/><text x="235" y="396" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Ubel-2.png</text>
+    <circle cx="335" cy="365" r="5.5" fill="#9D6BFF"/><text x="335" y="382" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Reelseiden</text>
+
+    <circle cx="540" cy="105" r="5.5" fill="#C4B5FD"/><text x="540" y="93" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Ubel-3.png</text>
+    <circle cx="685" cy="115" r="5.5" fill="#C4B5FD"/><text x="685" y="103" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Ubel-4.png</text>
+    <circle cx="675" cy="205" r="5.5" fill="#C4B5FD"/><text x="675" y="221" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">FullStackRole</text>
+
+    <circle cx="595" cy="325" r="7" fill="#8BA872"/><text x="595" y="345" text-anchor="middle" class="mono" font-size="9" fill="#B5D69C">Telemetry</text>
+    <circle cx="675" cy="285" r="5.5" fill="#5F7A50"/><text x="675" y="273" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">StatsCard</text>
+    <circle cx="670" cy="365" r="5.5" fill="#5F7A50"/><text x="670" y="381" text-anchor="middle" class="mono" font-size="8.5" fill="#A1A1AA">Footer</text>
+    <circle cx="495" cy="355" r="5.5" fill="#9D6BFF"/><text x="495" y="371" text-anchor="middle" class="mono" font-size="8.5" fill="#C4B5FD">@fitzz_xyz</text>
+
+    <!-- Bottom Legend inside Left Card -->
+    <rect x="40" y="376" width="708" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/>
+    <circle cx="58" cy="390" r="4" fill="#8BA872"/><text x="68" y="394" class="mono" font-size="10" fill="#B5D69C">C0: Full-Stack Matrix</text>
+    <circle cx="224" cy="390" r="4" fill="#9D6BFF"/><text x="234" y="394" class="mono" font-size="10" fill="#DDD6FE">C1: Übel 4x HD System</text>
+    <circle cx="398" cy="390" r="4" fill="#5F7A50"/><text x="408" y="394" class="mono" font-size="10" fill="#A1A1AA">C2: Telemetry &amp; Nav</text>
+    <circle cx="560" cy="390" r="4" fill="#C4B5FD"/><text x="570" y="394" class="mono" font-size="10" fill="#E4E4E7">C3: Hero Portrait Stage</text>
+
+    <!-- ============================================================ -->
+    <!-- RIGHT CARD: GRAPHIFY REPORT & GOD NODES (x=780, y=64, w=396, h=352) -->
+    <!-- ============================================================ -->
+    <rect x="780" y="64" width="396" height="352" rx="14" fill="#141714" stroke="#262C26" stroke-width="1"/>
+
+    <text x="800" y="94" class="sans" font-size="15" font-weight="700" fill="#FFFFFF">Graphify Audit &amp; God Nodes</text>
+    <text x="1156" y="94" text-anchor="end" class="mono" font-size="11" font-weight="600" fill="#8BA872">1.6x TOKEN SAVING</text>
+    <line x1="800" y1="106" x2="1156" y2="106" stroke="#262C26" stroke-width="1"/>
+
+    <!-- Audit Pills -->
+    <rect x="800" y="118" width="172" height="46" rx="8" fill="#1A1E1A" stroke="#2D382B"/>
+    <text x="814" y="136" class="mono" font-size="10" fill="#8B949E">EXTRACTED EDGES</text>
+    <text x="814" y="154" class="mono" font-size="13" font-weight="700" fill="#B5D69C">88% (1.00 conf)</text>
+
+    <rect x="984" y="118" width="172" height="46" rx="8" fill="#1A1E1A" stroke="#33294A"/>
+    <text x="998" y="136" class="mono" font-size="10" fill="#8B949E">INFERRED EDGES</text>
+    <text x="998" y="154" class="mono" font-size="13" font-weight="700" fill="#C4B5FD">12% (0.92 conf)</text>
+
+    <!-- Top God Nodes List -->
+    <text x="800" y="186" class="mono" font-size="11" font-weight="700" fill="#A1A1AA">TOP GOD NODES (CENTRALITY BRIDGES)</text>
+
+    <rect x="800" y="196" width="356" height="32" rx="6" fill="#1A1E1A" stroke="#2A312A"/>
+    <text x="814" y="216" class="mono" font-size="11.5" font-weight="600" fill="#FFFFFF">1. FitzzXYZ Profile README</text>
+    <text x="1142" y="216" text-anchor="end" class="mono" font-size="11" font-weight="600" fill="#8BA872">11 edges</text>
+
+    <rect x="800" y="234" width="356" height="32" rx="6" fill="#1A1E1A" stroke="#2A312A"/>
+    <text x="814" y="254" class="mono" font-size="11.5" font-weight="600" fill="#FFFFFF">2. Bento Developer Workbench</text>
+    <text x="1142" y="254" text-anchor="end" class="mono" font-size="11" font-weight="600" fill="#C4B5FD">7 edges</text>
+
+    <rect x="800" y="272" width="356" height="32" rx="6" fill="#1A1E1A" stroke="#2A312A"/>
+    <text x="814" y="292" class="mono" font-size="11.5" font-weight="600" fill="#FFFFFF">3. 4-Tier Tech Arsenal Matrix</text>
+    <text x="1142" y="292" text-anchor="end" class="mono" font-size="11" font-weight="600" fill="#8BA872">5 edges</text>
+
+    <rect x="800" y="310" width="356" height="32" rx="6" fill="#1A1E1A" stroke="#2A312A"/>
+    <text x="814" y="330" class="mono" font-size="11.5" font-weight="600" fill="#FFFFFF">4. Übel 4x HD Visual Archive</text>
+    <text x="1142" y="330" text-anchor="end" class="mono" font-size="11" font-weight="600" fill="#C4B5FD">5 edges</text>
+
+    <!-- Bottom Cohesion Readout -->
+    <rect x="800" y="354" width="356" height="46" rx="8" fill="#1A1E1A" stroke="#262C26"/>
+    <text x="814" y="373" class="mono" font-size="10.5" font-weight="600" fill="#8B949E">COHESION SCORES (LEIDEN CLUSTERING)</text>
+    <text x="814" y="391" class="mono" font-size="11" font-weight="600" fill="#B5D69C">C0: 0.29  ·  C1: 0.40  ·  C2: 0.47  ·  C3: 0.50</text>
+
+    <rect x="0.5" y="0.5" width="1199" height="439" rx="19.5" fill="none" stroke="#262C26" stroke-width="1"/>
+  </g>
+</svg>
