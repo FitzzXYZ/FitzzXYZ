@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 310" width="100%" height="100%">
+  <defs>
+    <clipPath id="techOuter"><rect x="0" y="0" width="1200" height="310" rx="20"/></clipPath>
+    <style>
+  .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Manrope', Roboto, Helvetica, Arial, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace; }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+  }
+  .pulse { animation: pulseDot 2.8s ease-in-out infinite; }
+</style>
+  </defs>
+
+  <g clip-path="url(#techOuter)">
+    <rect x="0" y="0" width="1200" height="310" rx="20" fill="#0D0F0D"/>
+
+    <!-- Section Header Bar -->
+    <rect x="24" y="20" width="10" height="20" rx="3" fill="#9D6BFF"/>
+    <text x="44" y="36" class="sans" font-size="18" font-weight="700" fill="#FFFFFF">02 · Full-Stack Technical Arsenal &amp; Tooling</text>
+    <text x="1176" y="35" text-anchor="end" class="mono" font-size="11.5" font-weight="600" fill="#C4B5FD">4-TIER ENGINEERING MATRIX</text>
+
+    <!-- 4 Equal Columns: w=273, gap=20 -> x = 24, 317, 610, 903 -->
+    <!-- COL 1: Frontend -->
+    <g transform="translate(24, 64)">
+      <rect x="0" y="0" width="273" height="222" rx="14" fill="#141714" stroke="#262C26" stroke-width="1"/>
+      <text x="20" y="30" class="mono" font-size="12" font-weight="700" fill="#8BA872">01 · FRONTEND &amp; UI</text>
+      <line x1="20" y1="42" x2="253" y2="42" stroke="#262C26" stroke-width="1"/>
+
+      <rect x="20" y="56" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="70" r="3.5" fill="#8BA872"/><text x="48" y="74" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">TypeScript &amp; JavaScript</text>
+      <rect x="20" y="92" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="106" r="3.5" fill="#8BA872"/><text x="48" y="110" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">React.js &amp; Next.js</text>
+      <rect x="20" y="128" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="142" r="3.5" fill="#8BA872"/><text x="48" y="146" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Tailwind CSS &amp; Motion</text>
+      <rect x="20" y="164" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="178" r="3.5" fill="#8BA872"/><text x="48" y="182" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">HTML5, CSS3 &amp; Vite</text>
+    </g>
+
+    <!-- COL 2: Backend -->
+    <g transform="translate(317, 64)">
+      <rect x="0" y="0" width="273" height="222" rx="14" fill="#141714" stroke="#262C26" stroke-width="1"/>
+      <text x="20" y="30" class="mono" font-size="12" font-weight="700" fill="#C4B5FD">02 · BACKEND &amp; OOP</text>
+      <line x1="20" y1="42" x2="253" y2="42" stroke="#262C26" stroke-width="1"/>
+
+      <rect x="20" y="56" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="70" r="3.5" fill="#9D6BFF"/><text x="48" y="74" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Node.js &amp; Express.js</text>
+      <rect x="20" y="92" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="106" r="3.5" fill="#9D6BFF"/><text x="48" y="110" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Java OOP &amp; Collections</text>
+      <rect x="20" y="128" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="142" r="3.5" fill="#9D6BFF"/><text x="48" y="146" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">PHP &amp; Laravel Framework</text>
+      <rect x="20" y="164" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="178" r="3.5" fill="#9D6BFF"/><text x="48" y="182" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Python &amp; RESTful APIs</text>
+    </g>
+
+    <!-- COL 3: Data & Storage -->
+    <g transform="translate(610, 64)">
+      <rect x="0" y="0" width="273" height="222" rx="14" fill="#141714" stroke="#262C26" stroke-width="1"/>
+      <text x="20" y="30" class="mono" font-size="12" font-weight="700" fill="#8BA872">03 · DATA &amp; STORAGE</text>
+      <line x1="20" y1="42" x2="253" y2="42" stroke="#262C26" stroke-width="1"/>
+
+      <rect x="20" y="56" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="70" r="3.5" fill="#8BA872"/><text x="48" y="74" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">PostgreSQL Relational DB</text>
+      <rect x="20" y="92" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="106" r="3.5" fill="#8BA872"/><text x="48" y="110" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">MySQL &amp; MariaDB</text>
+      <rect x="20" y="128" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="142" r="3.5" fill="#8BA872"/><text x="48" y="146" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">MongoDB Document Store</text>
+      <rect x="20" y="164" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="178" r="3.5" fill="#8BA872"/><text x="48" y="182" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Prisma ORM &amp; GraphQL</text>
+    </g>
+
+    <!-- COL 4: DevOps & Workflow -->
+    <g transform="translate(903, 64)">
+      <rect x="0" y="0" width="273" height="222" rx="14" fill="#141714" stroke="#262C26" stroke-width="1"/>
+      <text x="20" y="30" class="mono" font-size="12" font-weight="700" fill="#C4B5FD">04 · DEVOPS &amp; TOOLS</text>
+      <line x1="20" y1="42" x2="253" y2="42" stroke="#262C26" stroke-width="1"/>
+
+      <rect x="20" y="56" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="70" r="3.5" fill="#9D6BFF"/><text x="48" y="74" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Git &amp; GitHub Workflow</text>
+      <rect x="20" y="92" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="106" r="3.5" fill="#9D6BFF"/><text x="48" y="110" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Docker Containerization</text>
+      <rect x="20" y="128" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="142" r="3.5" fill="#9D6BFF"/><text x="48" y="146" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">Linux Environment &amp; CLI</text>
+      <rect x="20" y="164" width="233" height="28" rx="6" fill="#1A1E1A" stroke="#2A312A"/><circle cx="34" cy="178" r="3.5" fill="#9D6BFF"/><text x="48" y="182" class="sans" font-size="12.5" font-weight="600" fill="#E4E4E7">VS Code, Eclipse &amp; Vercel</text>
+    </g>
+
+    <rect x="0.5" y="0.5" width="1199" height="309" rx="19.5" fill="none" stroke="#262C26" stroke-width="1"/>
+  </g>
+</svg>
