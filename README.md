@@ -7,16 +7,10 @@
 
   <!-- ✦ SINGLE-ROW GUILD REGISTRY & NAVIGATION BADGES ✦ -->
   <p align="center">
-    <a href="https://www.instagram.com/fitzz_xyz/" target="_blank">
-      <img src="https://img.shields.io/badge/Instagram-@fitzz__xyz-9D6BFF?style=for-the-badge&logo=instagram&logoColor=FFFFFF&labelColor=13181F" alt="Instagram @fitzz_xyz" />
-    </a>
-    <a href="https://github.com/FitzzXYZ?tab=repositories" target="_blank">
-      <img src="https://img.shields.io/badge/Quests-Repositories-68D37A?style=for-the-badge&logo=github&logoColor=FFFFFF&labelColor=13181F" alt="GitHub Repositories" />
-    </a>
-    <a href="./graphify-out/GRAPH_REPORT.md">
-      <img src="https://img.shields.io/badge/Graphify-Astral_Map-7C3AED?style=for-the-badge&labelColor=13181F" alt="Graphify Knowledge Graph Report" />
-    </a>
-    <img src="https://img.shields.io/badge/Rank-First--Class_Mage-E5B84B?style=for-the-badge&labelColor=13181F" alt="First-Class Mage" />
+    <a href="https://www.instagram.com/fitzz_xyz/" target="_blank"><img height="25" src="https://img.shields.io/badge/Instagram-@fitzz__xyz-9D6BFF?style=for-the-badge&logo=instagram&logoColor=FFFFFF&labelColor=13181F" alt="Instagram @fitzz_xyz" /></a>&nbsp;
+    <a href="https://github.com/FitzzXYZ?tab=repositories" target="_blank"><img height="25" src="https://img.shields.io/badge/Quests-Repositories-68D37A?style=for-the-badge&logo=github&logoColor=FFFFFF&labelColor=13181F" alt="GitHub Repositories" /></a>&nbsp;
+    <a href="./graphify-out/GRAPH_REPORT.md"><img height="25" src="https://img.shields.io/badge/Graphify-Astral_Map-7C3AED?style=for-the-badge&labelColor=13181F" alt="Graphify Knowledge Graph Report" /></a>&nbsp;
+    <img height="25" src="https://img.shields.io/badge/Rank-First--Class_Mage-E5B84B?style=for-the-badge&labelColor=13181F" alt="First-Class Mage" />
   </p>
 
   <!-- ✦ LORE ACT I · PHILOSOPHY OF VISUALIZATION + LIVE FOREST MANA GIF (460x259 MATCHED) ✦ -->
