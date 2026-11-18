@@ -17,7 +17,7 @@
 
     <!-- Section Header Bar -->
     <rect x="24" y="20" width="10" height="20" rx="3" fill="#9D6BFF"/>
-    <text x="44" y="36" class="sans" font-size="18" font-weight="700" fill="#FFFFFF">04 · Graphify Knowledge Graph &amp; Architecture Map</text>
+    <text x="44" y="36" class="sans" font-size="18" font-weight="700" fill="#FFFFFF">05 · Graphify Astral Knowledge Map (Ende Leylines)</text>
     <text x="1176" y="35" text-anchor="end" class="mono" font-size="11.5" font-weight="600" fill="#C4B5FD">24 NODES · 34 EDGES · 4 COMMUNITIES</text>
 
     <!-- ============================================================ -->
