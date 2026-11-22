@@ -50,7 +50,6 @@
       .cinzel { font-family: 'Cinzel', Georgia, serif; font-weight: 600; fill: #F4EFE6; }
       .folio { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-size: 14.5px; fill: #D4A843; }
       .sans-bold { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 700; }
-      .sans-med { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 600; }
       .sans-reg { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 400; }
       .mono-stat { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-variant-numeric: tabular-nums; }
     </style>
@@ -65,8 +64,7 @@
   <polygon points="1184,444 1188,440 1184,436 1180,440" fill="#D4A843" fill-opacity="0.65"/>
 
   <g clip-path="url(#loc_clip)">
-    <!-- Top Section Title Row (Abacus Icon + Title + Fantasy Folio) -->
-    <!-- Custom Abacus / Arcane Counter Icon -->
+    <!-- Top Section Title Row -->
     <g transform="translate(36, 20)">
       <rect x="0" y="0" width="24" height="24" rx="4" fill="#1A1512" stroke="#D4A843" stroke-width="1.4"/>
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
@@ -81,7 +79,7 @@
       <circle cx="13" cy="17" r="2" fill="#9CC084"/>
     </g>
     <text x="70" y="39" class="sans-bold" font-size="20" fill="#F4EFE6">Total Kode yang Sudah Saya Tulis</text>
-    <text x="1164" y="39" text-anchor="end" class="folio">Arcane Grimoire Codebase Ledger · Verified LOC</text>
+    <text x="1164" y="39" text-anchor="end" class="folio">FitzzXYZ Owned Repositories · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <!-- Inner Nocturnal Sanctuary Card -->
@@ -92,68 +90,62 @@
     <text x="56" y="102" class="sans-bold" font-size="13" fill="#4DE1D3" letter-spacing="1.8">TOTAL KODE YANG SUDAH DITULIS</text>
 
     <!-- Big Hero Number + "baris kode" -->
-    <text x="56" y="148" class="sans-bold" font-size="44" fill="#FFFFFF">83.199 <tspan font-size="20" font-weight="600" fill="#C8C2B4">baris kode</tspan></text>
+    <text x="56" y="148" class="sans-bold" font-size="44" fill="#FFFFFF">26.303 <tspan font-size="20" font-weight="600" fill="#C8C2B4">baris kode</tspan></text>
 
     <!-- Subtitle: files · repos · languages -->
-    <text x="56" y="172" class="sans-reg" font-size="15" fill="#9CA3AF">938 file  ·  20 repo  ·  21 bahasa</text>
+    <text x="56" y="172" class="sans-reg" font-size="15" fill="#9CA3AF">151 file  ·  5 repo  ·  9 bahasa</text>
 
     <!-- Multi-Segment Proportional Language Bar -->
     <g clip-path="url(#loc_bar_clip)">
-      <rect x="56.00" y="186" width="306.33" height="16" fill="#8E96AA"/>
-      <rect x="361.73" y="186" width="234.52" height="16" fill="#6E78B8"/>
-      <rect x="595.65" y="186" width="227.99" height="16" fill="#4A90E2"/>
-      <rect x="823.04" y="186" width="135.51" height="16" fill="#C88A2E"/>
-      <rect x="957.95" y="186" width="37.59" height="16" fill="#E5C068"/>
-      <rect x="994.94" y="186" width="36.50" height="16" fill="#38B2D6"/>
-      <rect x="1030.85" y="186" width="25.62" height="16" fill="#85C872"/>
-      <rect x="1055.87" y="186" width="24.54" height="16" fill="#9B7EDE"/>
-      <rect x="1079.81" y="186" width="16.92" height="16" fill="#E05D53"/>
-      <rect x="1096.13" y="186" width="14.74" height="16" fill="#8E887A"/>
-      <rect x="1110.27" y="186" width="34.33" height="16" fill="#6B7280"/>
+      <rect x="56.00" y="186" width="602.26" height="16" fill="#4A90E2"/>
+      <rect x="657.66" y="186" width="152.92" height="16" fill="#8E96AA"/>
+      <rect x="809.98" y="186" width="125.72" height="16" fill="#E5C068"/>
+      <rect x="935.10" y="186" width="86.55" height="16" fill="#9B7EDE"/>
+      <rect x="1021.06" y="186" width="70.23" height="16" fill="#6E78B8"/>
+      <rect x="1090.69" y="186" width="18.01" height="16" fill="#D97757"/>
+      <rect x="1108.10" y="186" width="15.83" height="16" fill="#D4A843"/>
+      <rect x="1123.33" y="186" width="12.57" height="16" fill="#5B9BD5"/>
+      <rect x="1135.30" y="186" width="9.30" height="16" fill="#E05D53"/>
     </g>
 
-    <!-- 2-Column 10-Language Breakdown -->
+    <!-- 2-Column Language Breakdown -->
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.16" stroke-width="1"/>
     
-      <circle cx="64" cy="237" r="6" fill="#8E96AA"/>
-      <text x="84" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">JSX</text>
-      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">23.403 baris  ·  <tspan fill="#8E96AA" font-weight="600">28.1%</tspan></text>
+      <circle cx="64" cy="237" r="6" fill="#4A90E2"/>
+      <text x="84" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">TypeScript</text>
+      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">14.551 baris  ·  <tspan fill="#4A90E2" font-weight="600">55.3%</tspan></text>
 
-      <circle cx="638" cy="237" r="6" fill="#6E78B8"/>
-      <text x="658" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">PHP</text>
-      <text x="1144" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">17.927 baris  ·  <tspan fill="#6E78B8" font-weight="600">21.5%</tspan></text>
+      <circle cx="638" cy="237" r="6" fill="#8E96AA"/>
+      <text x="658" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">JSX</text>
+      <text x="1144" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">3.692 baris  ·  <tspan fill="#8E96AA" font-weight="600">14.0%</tspan></text>
 
-      <circle cx="64" cy="273" r="6" fill="#4A90E2"/>
-      <text x="84" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">TypeScript</text>
-      <text x="562" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">17.369 baris  ·  <tspan fill="#4A90E2" font-weight="600">20.9%</tspan></text>
+      <circle cx="64" cy="273" r="6" fill="#E5C068"/>
+      <text x="84" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">JavaScript</text>
+      <text x="562" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">3.013 baris  ·  <tspan fill="#E5C068" font-weight="600">11.5%</tspan></text>
 
-      <circle cx="638" cy="273" r="6" fill="#C88A2E"/>
-      <text x="658" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">Java</text>
-      <text x="1144" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">10.343 baris  ·  <tspan fill="#C88A2E" font-weight="600">12.4%</tspan></text>
+      <circle cx="638" cy="273" r="6" fill="#9B7EDE"/>
+      <text x="658" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">CSS</text>
+      <text x="1144" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">2.074 baris  ·  <tspan fill="#9B7EDE" font-weight="600">7.9%</tspan></text>
 
-      <circle cx="64" cy="309" r="6" fill="#E5C068"/>
-      <text x="84" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">JavaScript</text>
-      <text x="562" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">2.855 baris  ·  <tspan fill="#E5C068" font-weight="600">3.4%</tspan></text>
+      <circle cx="64" cy="309" r="6" fill="#6E78B8"/>
+      <text x="84" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">PHP</text>
+      <text x="562" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.678 baris  ·  <tspan fill="#6E78B8" font-weight="600">6.4%</tspan></text>
 
-      <circle cx="638" cy="309" r="6" fill="#38B2D6"/>
-      <text x="658" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">Go</text>
-      <text x="1144" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">2.743 baris  ·  <tspan fill="#38B2D6" font-weight="600">3.3%</tspan></text>
+      <circle cx="638" cy="309" r="6" fill="#D97757"/>
+      <text x="658" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">HTML</text>
+      <text x="1144" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">417 baris  ·  <tspan fill="#D97757" font-weight="600">1.6%</tspan></text>
 
-      <circle cx="64" cy="345" r="6" fill="#85C872"/>
-      <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Bourne Shell</text>
-      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.900 baris  ·  <tspan fill="#85C872" font-weight="600">2.3%</tspan></text>
+      <circle cx="64" cy="345" r="6" fill="#D4A843"/>
+      <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">SQL</text>
+      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">372 baris  ·  <tspan fill="#D4A843" font-weight="600">1.4%</tspan></text>
 
-      <circle cx="638" cy="345" r="6" fill="#9B7EDE"/>
-      <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">CSS</text>
-      <text x="1144" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.863 baris  ·  <tspan fill="#9B7EDE" font-weight="600">2.2%</tspan></text>
+      <circle cx="638" cy="345" r="6" fill="#5B9BD5"/>
+      <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
+      <text x="1144" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">296 baris  ·  <tspan fill="#5B9BD5" font-weight="600">1.1%</tspan></text>
 
       <circle cx="64" cy="381" r="6" fill="#E05D53"/>
       <text x="84" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">Blade</text>
-      <text x="562" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.214 baris  ·  <tspan fill="#E05D53" font-weight="600">1.5%</tspan></text>
-
-      <circle cx="638" cy="381" r="6" fill="#8E887A"/>
-      <text x="658" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">DOS Batch</text>
-      <text x="1144" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.058 baris  ·  <tspan fill="#8E887A" font-weight="600">1.3%</tspan></text>
+      <text x="562" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">210 baris  ·  <tspan fill="#E05D53" font-weight="600">0.8%</tspan></text>
 
     <!-- Bottom Caption & Timestamp -->
     <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>

@@ -1,7 +1,7 @@
 """Generate and auto-update assets/frieren-total-loc.svg for FitzzXYZ.
-Counts actual lines of code (excluding blank lines & comments) across owned non-fork
-repositories when GH_TOKEN / LOC_TOKEN is available, falling back to the verified
-workspace baseline so the card never renders empty.
+Counts actual lines of code (excluding blank lines & comments) across all owned
+non-fork repositories (including private repos) when LOC_TOKEN is configured in
+GitHub Actions, falling back to the verified FitzzXYZ owned-repo snapshot.
 """
 import base64
 from datetime import datetime, timezone, timedelta
@@ -16,63 +16,78 @@ ASSETS_DIR = os.path.join(REPO_ROOT, "assets")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 OUT_SVG = os.path.join(ASSETS_DIR, "frieren-total-loc.svg")
 
-# Verified baseline across owned private + local & public repositories
+# Verified snapshot of FitzzXYZ's own repositories:
+# FitzzXYZ, Lomba-UI-UX, RPL-Web, Portofolio, WEB-Gondrong-Rental (excluding blank lines & comments)
 BASELINE = {
-    "total_lines": 83199,
-    "total_files": 938,
-    "total_repos": 20,
-    "total_langs": 21,
+    "total_lines": 26303,
+    "total_files": 151,
+    "total_repos": 5,
+    "total_langs": 9,
     "languages": [
-        {"name": "JSX",          "lines": 23403, "pct": 28.1, "color": "#8E96AA"},
-        {"name": "PHP",          "lines": 17927, "pct": 21.5, "color": "#6E78B8"},
-        {"name": "TypeScript",   "lines": 17369, "pct": 20.9, "color": "#4A90E2"},
-        {"name": "Java",         "lines": 10343, "pct": 12.4, "color": "#C88A2E"},
-        {"name": "JavaScript",   "lines": 2855,  "pct": 3.4,  "color": "#E5C068"},
-        {"name": "Go",           "lines": 2743,  "pct": 3.3,  "color": "#38B2D6"},
-        {"name": "Bourne Shell", "lines": 1900,  "pct": 2.3,  "color": "#85C872"},
-        {"name": "CSS",          "lines": 1863,  "pct": 2.2,  "color": "#9B7EDE"},
-        {"name": "Blade",        "lines": 1214,  "pct": 1.5,  "color": "#E05D53"},
-        {"name": "DOS Batch",    "lines": 1058,  "pct": 1.3,  "color": "#8E887A"},
+        {"name": "TypeScript", "lines": 14551, "pct": 55.3, "color": "#4A90E2"},
+        {"name": "JSX",        "lines": 3692,  "pct": 14.0, "color": "#8E96AA"},
+        {"name": "JavaScript", "lines": 3013,  "pct": 11.5, "color": "#E5C068"},
+        {"name": "CSS",        "lines": 2074,  "pct": 7.9,  "color": "#9B7EDE"},
+        {"name": "PHP",        "lines": 1678,  "pct": 6.4,  "color": "#6E78B8"},
+        {"name": "HTML",       "lines": 417,   "pct": 1.6,  "color": "#D97757"},
+        {"name": "SQL",        "lines": 372,   "pct": 1.4,  "color": "#D4A843"},
+        {"name": "Python",     "lines": 296,   "pct": 1.1,  "color": "#5B9BD5"},
+        {"name": "Blade",      "lines": 210,   "pct": 0.8,  "color": "#E05D53"},
     ],
-    "other_segments": [
-        {"pct": 3.1, "color": "#6B7280"}
-    ]
+    "other_segments": [],
 }
 
 LANG_COLORS = {
-    "JSX": "#8E96AA",
-    "PHP": "#6E78B8",
     "TypeScript": "#4A90E2",
-    "Java": "#C88A2E",
+    "JSX": "#8E96AA",
     "JavaScript": "#E5C068",
-    "Go": "#38B2D6",
-    "Bourne Shell": "#85C872",
     "CSS": "#9B7EDE",
-    "Blade": "#E05D53",
-    "DOS Batch": "#8E887A",
-    "Python": "#5B9BD5",
+    "SCSS": "#C084FC",
+    "PHP": "#6E78B8",
     "HTML": "#D97757",
     "SQL": "#D4A843",
+    "Python": "#5B9BD5",
+    "Blade": "#E05D53",
+    "Java": "#C88A2E",
+    "Go": "#38B2D6",
+    "Bourne Shell": "#85C872",
+    "DOS Batch": "#8E887A",
+    "PowerShell": "#60A5FA",
+    "Vue": "#42B883",
+    "Svelte": "#FF3E00",
+    "Rust": "#DEA584",
 }
 
 EXT_MAP = {
-    ".jsx": "JSX",
     ".tsx": "TypeScript",
     ".ts": "TypeScript",
-    ".php": "PHP",
-    ".java": "Java",
+    ".jsx": "JSX",
     ".js": "JavaScript",
     ".mjs": "JavaScript",
-    ".go": "Go",
-    ".sh": "Bourne Shell",
-    ".bash": "Bourne Shell",
-    ".css": "CSS",
-    ".scss": "CSS",
-    ".bat": "DOS Batch",
-    ".cmd": "DOS Batch",
+    ".cjs": "JavaScript",
+    ".php": "PHP",
+    ".java": "Java",
     ".py": "Python",
     ".html": "HTML",
+    ".htm": "HTML",
+    ".css": "CSS",
+    ".scss": "SCSS",
     ".sql": "SQL",
+    ".sh": "Bourne Shell",
+    ".bash": "Bourne Shell",
+    ".bat": "DOS Batch",
+    ".cmd": "DOS Batch",
+    ".ps1": "PowerShell",
+    ".go": "Go",
+    ".rs": "Rust",
+    ".vue": "Vue",
+    ".svelte": "Svelte",
+}
+
+SKIP_DIRS = {
+    ".git", "node_modules", "vendor", ".next", "dist", "build",
+    ".settings", "bin", ".metadata", "__pycache__", ".venv", "venv",
+    "target", "out", ".vscode", ".idea", "storage", "bootstrap", "cache",
 }
 
 
@@ -88,55 +103,94 @@ def font_b64(fname: str) -> str:
         return base64.b64encode(f.read()).decode("ascii")
 
 
+def count_file_lines(path: str) -> int:
+    cnt = 0
+    in_block = False
+    with open(path, "r", encoding="utf-8", errors="ignore") as fp:
+        for line in fp:
+            s = line.strip()
+            if not s:
+                continue
+            if in_block:
+                if "*/" in s:
+                    in_block = False
+                continue
+            if s.startswith("/*"):
+                if "*/" not in s:
+                    in_block = True
+                continue
+            if s.startswith(("//", "#", "--", "<!--", "*")):
+                continue
+            cnt += 1
+    return cnt
+
+
 def try_count_from_github() -> dict | None:
-    """If LOC_TOKEN (PAT with repo access) is configured in CI, count across all owned repos."""
+    """When LOC_TOKEN (PAT with repo scope) is configured in CI, count across all owned non-fork repos."""
     token = os.environ.get("LOC_TOKEN", "").strip()
     if not token:
         return None
     try:
-        req = urllib.request.Request(
-            "https://api.github.com/user/repos?per_page=100&affiliation=owner",
-            headers={
-                "Authorization": f"Bearer {token}",
-                "User-Agent": "FitzzXYZ-LOC-Counter",
-                "Accept": "application/vnd.github+json",
-            },
-        )
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            repos = [r for r in json.loads(resp.read().decode()) if not r.get("fork")]
-        if len(repos) < 5:
+        repos = []
+        page = 1
+        while True:
+            req = urllib.request.Request(
+                f"https://api.github.com/user/repos?per_page=100&affiliation=owner&page={page}",
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "User-Agent": "FitzzXYZ-LOC-Counter",
+                    "Accept": "application/vnd.github+json",
+                },
+            )
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                batch = json.loads(resp.read().decode())
+            if not batch:
+                break
+            repos.extend(r for r in batch if not r.get("fork"))
+            if len(batch) < 100:
+                break
+            page += 1
+
+        if not repos:
             return None
 
         lang_lines = {}
         total_files = 0
+        counted_repos = 0
         with tempfile.TemporaryDirectory() as tmp:
             for r in repos:
                 clone_url = r["clone_url"].replace("https://", f"https://x-access-token:{token}@")
                 dst = os.path.join(tmp, r["name"])
-                subprocess.run(["git", "clone", "--depth", "1", clone_url, dst], check=False)
+                res = subprocess.run(["git", "clone", "--depth", "1", clone_url, dst], check=False)
+                if res.returncode != 0 or not os.path.exists(dst):
+                    continue
+                repo_has_code = False
                 for root, dirs, files in os.walk(dst):
-                    dirs[:] = [d for d in dirs if d not in (".git", "node_modules", "vendor", "dist", "build", ".next")]
+                    dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
                     for f in files:
+                        if f.endswith((".min.js", ".min.css", ".d.ts")):
+                            continue
                         lang = "Blade" if f.endswith(".blade.php") else EXT_MAP.get(os.path.splitext(f)[1].lower())
                         if not lang:
                             continue
                         p = os.path.join(root, f)
                         try:
-                            with open(p, "r", encoding="utf-8", errors="ignore") as fp:
-                                cnt = sum(
-                                    1
-                                    for line in fp
-                                    if line.strip()
-                                    and not line.strip().startswith(("//", "#", "/*", "*", "<!--", "--"))
-                                )
+                            if os.path.getsize(p) > 500_000:
+                                continue
+                            cnt = count_file_lines(p)
                             if cnt > 0:
                                 lang_lines[lang] = lang_lines.get(lang, 0) + cnt
                                 total_files += 1
+                                repo_has_code = True
                         except Exception:
                             pass
+                if repo_has_code:
+                    counted_repos += 1
+
         total_lines = sum(lang_lines.values())
-        if total_lines < 1000:
+        if total_lines == 0:
             return None
+
         sorted_langs = sorted(lang_lines.items(), key=lambda x: -x[1])
         top10 = []
         used_pct = 0.0
@@ -153,10 +207,10 @@ def try_count_from_github() -> dict | None:
         return {
             "total_lines": total_lines,
             "total_files": total_files,
-            "total_repos": len(repos),
+            "total_repos": counted_repos or len(repos),
             "total_langs": len(lang_lines),
             "languages": top10,
-            "other_segments": [{"pct": rem_pct, "color": "#6B7280"}] if rem_pct > 0 else [],
+            "other_segments": [{"pct": rem_pct, "color": "#6B7280"}] if rem_pct >= 0.1 else [],
         }
     except Exception:
         return None
@@ -191,11 +245,11 @@ def build_svg(data: dict) -> str:
         cur_x += w
     bar_svg = "\n      ".join(seg_rects)
 
-    # Build 2-column language rows (5 left, 5 right, ordered row-by-row like the reference screenshot)
-    langs = data["languages"]
+    # Build 2-column language rows (up to 10 languages: 5 left, up to 5 right)
+    langs = data["languages"][:10]
     row_els = []
-    for idx, item in enumerate(langs[:10]):
-        col = idx % 2  # 0 = left, 1 = right
+    for idx, item in enumerate(langs):
+        col = idx % 2
         row = idx // 2
         cx = 64 if col == 0 else 638
         tx = 84 if col == 0 else 658
@@ -267,7 +321,6 @@ def build_svg(data: dict) -> str:
       .cinzel {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; fill: #F4EFE6; }}
       .folio {{ font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-size: 14.5px; fill: #D4A843; }}
       .sans-bold {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 700; }}
-      .sans-med {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 600; }}
       .sans-reg {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 400; }}
       .mono-stat {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-variant-numeric: tabular-nums; }}
     </style>
@@ -282,8 +335,7 @@ def build_svg(data: dict) -> str:
   <polygon points="1184,444 1188,440 1184,436 1180,440" fill="#D4A843" fill-opacity="0.65"/>
 
   <g clip-path="url(#loc_clip)">
-    <!-- Top Section Title Row (Abacus Icon + Title + Fantasy Folio) -->
-    <!-- Custom Abacus / Arcane Counter Icon -->
+    <!-- Top Section Title Row -->
     <g transform="translate(36, 20)">
       <rect x="0" y="0" width="24" height="24" rx="4" fill="#1A1512" stroke="#D4A843" stroke-width="1.4"/>
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
@@ -298,7 +350,7 @@ def build_svg(data: dict) -> str:
       <circle cx="13" cy="17" r="2" fill="#9CC084"/>
     </g>
     <text x="70" y="39" class="sans-bold" font-size="20" fill="#F4EFE6">Total Kode yang Sudah Saya Tulis</text>
-    <text x="1164" y="39" text-anchor="end" class="folio">Arcane Grimoire Codebase Ledger · Verified LOC</text>
+    <text x="1164" y="39" text-anchor="end" class="folio">FitzzXYZ Owned Repositories · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <!-- Inner Nocturnal Sanctuary Card -->
@@ -319,7 +371,7 @@ def build_svg(data: dict) -> str:
       {bar_svg}
     </g>
 
-    <!-- 2-Column 10-Language Breakdown -->
+    <!-- 2-Column Language Breakdown -->
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.16" stroke-width="1"/>
     {rows_svg}
 
