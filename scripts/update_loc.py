@@ -28,38 +28,38 @@ BASELINE = {
     "total_repos": 5,
     "total_langs": 9,
     "languages": [
-        {"name": "TypeScript", "lines": 14551, "pct": 55.3, "color": "#4A90E2"},
-        {"name": "JSX",        "lines": 3692,  "pct": 14.0, "color": "#8E96AA"},
+        {"name": "TypeScript", "lines": 14551, "pct": 55.3, "color": "#7DA8E6"},
+        {"name": "JSX",        "lines": 3692,  "pct": 14.0, "color": "#9CC084"},
         {"name": "JavaScript", "lines": 3013,  "pct": 11.5, "color": "#E5C068"},
-        {"name": "CSS",        "lines": 2074,  "pct": 7.9,  "color": "#9B7EDE"},
-        {"name": "PHP",        "lines": 1678,  "pct": 6.4,  "color": "#6E78B8"},
-        {"name": "HTML",       "lines": 417,   "pct": 1.6,  "color": "#D97757"},
-        {"name": "SQL",        "lines": 372,   "pct": 1.4,  "color": "#D4A843"},
-        {"name": "Python",     "lines": 296,   "pct": 1.1,  "color": "#5B9BD5"},
-        {"name": "Blade",      "lines": 210,   "pct": 0.8,  "color": "#E05D53"},
+        {"name": "CSS",        "lines": 2074,  "pct": 7.9,  "color": "#B399EE"},
+        {"name": "PHP",        "lines": 1678,  "pct": 6.4,  "color": "#8E96C8"},
+        {"name": "HTML",       "lines": 417,   "pct": 1.6,  "color": "#D4886A"},
+        {"name": "SQL",        "lines": 372,   "pct": 1.4,  "color": "#C8A252"},
+        {"name": "Python",     "lines": 296,   "pct": 1.1,  "color": "#6EA8A6"},
+        {"name": "Blade",      "lines": 210,   "pct": 0.8,  "color": "#C96D68"},
     ],
     "other_segments": [],
 }
 
 LANG_COLORS = {
-    "TypeScript": "#4A90E2",
-    "JSX": "#8E96AA",
+    "TypeScript": "#7DA8E6",
+    "JSX": "#9CC084",
     "JavaScript": "#E5C068",
-    "CSS": "#9B7EDE",
-    "SCSS": "#C084FC",
-    "PHP": "#6E78B8",
-    "HTML": "#D97757",
-    "SQL": "#D4A843",
-    "Python": "#5B9BD5",
-    "Blade": "#E05D53",
-    "Java": "#C88A2E",
-    "Go": "#38B2D6",
-    "Bourne Shell": "#85C872",
+    "CSS": "#B399EE",
+    "SCSS": "#C4A7F2",
+    "PHP": "#8E96C8",
+    "HTML": "#D4886A",
+    "SQL": "#C8A252",
+    "Python": "#6EA8A6",
+    "Blade": "#C96D68",
+    "Java": "#C48F47",
+    "Go": "#6BB5C9",
+    "Bourne Shell": "#7EA876",
     "DOS Batch": "#8E887A",
-    "PowerShell": "#60A5FA",
-    "Vue": "#42B883",
-    "Svelte": "#FF3E00",
-    "Rust": "#DEA584",
+    "PowerShell": "#7DA8E6",
+    "Vue": "#85B890",
+    "Svelte": "#D4886A",
+    "Rust": "#C98D6B",
 }
 
 EXT_MAP = {
@@ -269,18 +269,18 @@ def build_loc_svg(data: dict) -> str:
       <stop offset="100%" stop-color="#16131E"/>
     </linearGradient>
     <linearGradient id="loc_card_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#131722"/>
-      <stop offset="50%" stop-color="#19182C"/>
-      <stop offset="100%" stop-color="#1F1B38"/>
+      <stop offset="0%" stop-color="#101512"/>
+      <stop offset="55%" stop-color="#141916"/>
+      <stop offset="100%" stop-color="#171420"/>
     </linearGradient>
     <linearGradient id="loc_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.6"/>
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
       <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
     </linearGradient>
-    <radialGradient id="loc_glow" cx="80%" cy="20%" r="60%">
-      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.16"/>
-      <stop offset="55%" stop-color="#8BA872" stop-opacity="0.06"/>
+    <radialGradient id="loc_glow" cx="85%" cy="18%" r="60%">
+      <stop offset="0%" stop-color="#8BA872" stop-opacity="0.10"/>
+      <stop offset="55%" stop-color="#D4A843" stop-opacity="0.05"/>
       <stop offset="100%" stop-color="#0E1310" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
@@ -310,8 +310,8 @@ def build_loc_svg(data: dict) -> str:
         font-weight: 500;
         src: url("data:font/woff;base64,{cormorant_500i}") format("woff");
       }}
-      .cinzel {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; fill: #F4EFE6; }}
-      .folio {{ font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-size: 14.5px; fill: #D4A843; }}
+      .cinzel {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
+      .folio {{ font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-size: 14.5px; }}
       .sans-bold {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 700; }}
       .sans-reg {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-weight: 400; }}
       .mono-stat {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-variant-numeric: tabular-nums; }}
@@ -339,26 +339,26 @@ def build_loc_svg(data: dict) -> str:
       <circle cx="7" cy="17" r="2" fill="#E5C068"/>
       <circle cx="13" cy="17" r="2" fill="#9CC084"/>
     </g>
-    <text x="70" y="39" class="sans-bold" font-size="20" fill="#F4EFE6">Total Kode yang Sudah Saya Tulis</text>
-    <text x="1164" y="39" text-anchor="end" class="folio">FitzzXYZ Owned Repositories · Verified LOC</text>
+    <text x="70" y="39" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">TOTAL KODE YANG SUDAH SAYA TULIS</text>
+    <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned Repositories · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
-    <rect x="28" y="68" width="1144" height="362" rx="14" fill="url(#loc_card_bg)" stroke="#A78BFA" stroke-opacity="0.28" stroke-width="1"/>
-    <rect x="28" y="68" width="1144" height="362" rx="14" fill="url(#loc_glow)"/>
+    <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_card_bg)" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_glow)"/>
 
-    <text x="56" y="102" class="sans-bold" font-size="13" fill="#4DE1D3" letter-spacing="1.8">TOTAL KODE YANG SUDAH DITULIS</text>
-    <text x="56" y="148" class="sans-bold" font-size="44" fill="#FFFFFF">{total_lines_str} <tspan font-size="20" font-weight="600" fill="#C8C2B4">baris kode</tspan></text>
-    <text x="56" y="172" class="sans-reg" font-size="15" fill="#9CA3AF">{meta_str}</text>
+    <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">{total_lines_str} <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">{meta_str}</text>
 
     <g clip-path="url(#loc_bar_clip)">
       {bar_svg}
     </g>
 
-    <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.16" stroke-width="1"/>
+    <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     {rows_svg}
 
     <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
-    <text x="1144" y="414" text-anchor="end" class="sans-reg" font-size="13" fill="#8E96AA">{updated_str}</text>
+    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#D4A843">{updated_str}</text>
   </g>
 </svg>'''
 
