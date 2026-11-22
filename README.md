@@ -75,7 +75,15 @@
     <img src="./assets/frieren-telemetry-ledger.svg" alt="Imperial Archive Telemetry — Verified GitHub & Workspace Metrics" width="100%" />
   </p>
 
-  <!-- XIII. ASTRAL MANA RESONANCE — 52-WEEK SPELLCASTING CHRONICLE -->
+  <!-- XIII. TOTAL KODE YANG SUDAH SAYA TULIS (DAILY AUTO-UPDATED LOC BREAKDOWN) -->
+  <p align="center">
+    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 83.199 baris kode (938 file · 20 repo · 21 bahasa)" width="100%" />
+  </p>
+  <p align="center">
+    <sub>Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar. Diperbarui otomatis tiap hari.</sub>
+  </p>
+
+  <!-- XIV. ASTRAL MANA RESONANCE — 52-WEEK SPELLCASTING CHRONICLE -->
   <p align="center">
     <img src="./assets/mana-contribution-grid.svg" alt="Astral Mana Resonance — 28 Spellcasts Recorded" width="100%" />
   </p>
