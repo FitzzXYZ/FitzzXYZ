@@ -19,6 +19,7 @@ FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 OUT_LOC_SVG = os.path.join(ASSETS_DIR, "frieren-total-loc.svg")
 OUT_GRID_SVG = os.path.join(ASSETS_DIR, "mana-contribution-grid.svg")
 OUT_LEDGER_SVG = os.path.join(ASSETS_DIR, "frieren-telemetry-ledger.svg")
+OUT_GRAPH_SVG = os.path.join(ASSETS_DIR, "frieren-activity-graph.svg")
 
 # Verified snapshot of FitzzXYZ's own repositories:
 # FitzzXYZ, Lomba-UI-UX, RPL-Web, Portofolio, WEB-Gondrong-Rental (excluding blank lines & comments)
@@ -363,8 +364,171 @@ def build_loc_svg(data: dict) -> str:
 </svg>'''
 
 
+def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
+    """Build a 31-day smooth monotone cubic contribution graph matching the Frieren x Ubel Grimoire palette."""
+    cinzel_600 = font_b64("cinzel-600.woff")
+    cormorant_500i = font_b64("cormorant-italic-500.woff")
+    wib = timezone(timedelta(hours=7))
+    updated_str = datetime.now(wib).strftime("Diperbarui %d-%m-%Y")
+
+    pts = daily_points[-31:]
+    n = len(pts)
+    vals = [c for _, c in pts]
+    raw_max = max(vals) if vals else 1
+    # Clean integer Y-axis ceiling and tick step
+    if raw_max <= 9:
+        y_max, y_step = max(raw_max, 5), 1
+    elif raw_max <= 20:
+        y_max = ((raw_max + 1) // 2) * 2
+        y_step = 2
+    else:
+        y_step = max(5, ((raw_max // 5) + 4) // 5 * 5)
+        y_max = ((raw_max + y_step - 1) // y_step) * y_step
+
+    gx0, gy0 = 96.0, 84.0
+    gx1, gy1 = 1152.0, 290.0
+    gw, gh = gx1 - gx0, gy1 - gy0
+
+    coords = []
+    for i, (_, v) in enumerate(pts):
+        x = gx0 + (i / max(1, n - 1)) * gw
+        y = gy1 - (v / max(1, y_max)) * gh
+        coords.append((x, y, v))
+
+    # Fritsch-Carlson monotone Hermite cubic spline (smooth curves without undershooting below 0)
+    slopes = [0.0] * n
+    secants = [(coords[i + 1][1] - coords[i][1]) / max(1e-6, coords[i + 1][0] - coords[i][0]) for i in range(n - 1)]
+    slopes[0] = secants[0] if n > 1 else 0.0
+    slopes[-1] = secants[-1] if n > 1 else 0.0
+    for i in range(1, n - 1):
+        if secants[i - 1] * secants[i] <= 0:
+            slopes[i] = 0.0
+        else:
+            slopes[i] = (secants[i - 1] + secants[i]) * 0.5
+    for i in range(n - 1):
+        if abs(secants[i]) < 1e-9:
+            slopes[i] = 0.0
+            slopes[i + 1] = 0.0
+        else:
+            a = slopes[i] / secants[i]
+            b = slopes[i + 1] / secants[i]
+            h = (a * a + b * b) ** 0.5
+            if h > 3.0:
+                t = 3.0 / h
+                slopes[i] = t * a * secants[i]
+                slopes[i + 1] = t * b * secants[i]
+
+    path_parts = [f"M {coords[0][0]:.2f} {coords[0][1]:.2f}"]
+    for i in range(n - 1):
+        x0, y0, _ = coords[i]
+        x1, y1, _ = coords[i + 1]
+        dx = x1 - x0
+        cp1x = x0 + dx / 3.0
+        cp1y = min(gy1, max(gy0 - 4, y0 + slopes[i] * dx / 3.0))
+        cp2x = x1 - dx / 3.0
+        cp2y = min(gy1, max(gy0 - 4, y1 - slopes[i + 1] * dx / 3.0))
+        path_parts.append(f"C {cp1x:.2f} {cp1y:.2f}, {cp2x:.2f} {cp2y:.2f}, {x1:.2f} {y1:.2f}")
+
+    line_d = " ".join(path_parts)
+    area_d = f"{line_d} L {coords[-1][0]:.2f} {gy1:.2f} L {coords[0][0]:.2f} {gy1:.2f} Z"
+
+    # Gridlines & axis labels
+    grid_lines = []
+    for tick in range(0, y_max + 1, y_step):
+        ty = gy1 - (tick / max(1, y_max)) * gh
+        grid_lines.append(
+            f'<line x1="{gx0:.1f}" y1="{ty:.1f}" x2="{gx1:.1f}" y2="{ty:.1f}" stroke="#D4A843" stroke-opacity="0.14" stroke-width="1" stroke-dasharray="3 4"/>'
+            f'<text x="{gx0 - 14:.1f}" y="{ty + 4:.1f}" text-anchor="end" class="axis-num">{tick}</text>'
+        )
+
+    x_labels = []
+    dots = []
+    peak_val = max(vals) if vals else 0
+    for i, ((dt, v), (x, y, _)) in enumerate(zip(pts, coords)):
+        day_num = str(int(dt.split("-")[2]))
+        grid_lines.append(
+            f'<line x1="{x:.1f}" y1="{gy0:.1f}" x2="{x:.1f}" y2="{gy1:.1f}" stroke="#D4A843" stroke-opacity="0.08" stroke-width="1" stroke-dasharray="3 4"/>'
+        )
+        x_labels.append(f'<text x="{x:.1f}" y="{gy1 + 22:.1f}" text-anchor="middle" class="axis-num">{day_num}</text>')
+        if v > 0 and v == peak_val:
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7.5" fill="#E5C068" fill-opacity="0.28"/>')
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="#F4EFE6" stroke="#E5C068" stroke-width="1.8"/>')
+        elif v > 0:
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/>')
+        else:
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/>')
+
+    period_total = sum(vals)
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 364" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ag_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1310"/>
+      <stop offset="50%" stop-color="#131815"/>
+      <stop offset="100%" stop-color="#16131E"/>
+    </linearGradient>
+    <linearGradient id="ag_border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="ag_line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9CC084"/>
+      <stop offset="55%" stop-color="#B399EE"/>
+      <stop offset="100%" stop-color="#E5C068"/>
+    </linearGradient>
+    <linearGradient id="ag_area" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.34"/>
+      <stop offset="65%" stop-color="#9CC084" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0E1310" stop-opacity="0.0"/>
+    </linearGradient>
+    <clipPath id="ag_clip"><rect x="0" y="0" width="1200" height="364" rx="16"/></clipPath>
+    <style>
+      @font-face {{
+        font-family: 'Cinzel';
+        font-style: normal;
+        font-weight: 600;
+        src: url("data:font/woff;base64,{cinzel_600}") format("woff");
+      }}
+      @font-face {{
+        font-family: 'CormorantItalic';
+        font-style: italic;
+        font-weight: 500;
+        src: url("data:font/woff;base64,{cormorant_500i}") format("woff");
+      }}
+      .cinzel {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
+      .folio {{ font-family: 'CormorantItalic', Georgia, serif; font-style: italic; }}
+      .axis-num {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 12px; fill: #9CC084; font-variant-numeric: tabular-nums; }}
+      .axis-title {{ font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; fill: #D4A843; letter-spacing: 1.4px; }}
+    </style>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="1199" height="363" rx="15.5" fill="url(#ag_bg)" stroke="url(#ag_border)" stroke-width="1.2"/>
+  <rect x="6.5" y="6.5" width="1187" height="351" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
+  <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="16,352 20,348 16,344 12,348" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="1184,352 1188,348 1184,344 1180,348" fill="#D4A843" fill-opacity="0.65"/>
+
+  <g clip-path="url(#ag_clip)">
+    <text x="36" y="42" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">{USERNAME.upper()}’S CONTRIBUTION GRAPH</text>
+    <text x="1164" y="42" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">{period_total} contributions in the last 31 days  ·  {updated_str}</text>
+    <line x1="36" y1="56" x2="1164" y2="56" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+
+    <text x="34" y="188" text-anchor="middle" transform="rotate(-90 34 188)" class="axis-title">CONTRIBUTIONS</text>
+    <text x="624" y="340" text-anchor="middle" class="axis-title">DAYS</text>
+
+    {"".join(grid_lines)}
+    {"".join(x_labels)}
+
+    <path d="{area_d}" fill="url(#ag_area)"/>
+    <path d="{line_d}" fill="none" stroke="url(#ag_line)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    {"".join(dots)}
+  </g>
+</svg>'''
+
+
 def update_live_github_widgets():
-    """Update mana-contribution-grid.svg and frieren-telemetry-ledger.svg directly from GitHub."""
+    """Update mana-contribution-grid.svg, frieren-activity-graph.svg, and frieren-telemetry-ledger.svg directly from GitHub."""
     token = (os.environ.get("LOC_TOKEN") or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or "").strip()
     total_contribs = None
     try:
@@ -394,8 +558,21 @@ def update_live_github_widgets():
             with open(OUT_GRID_SVG, "w", encoding="utf-8") as f:
                 f.write(grid_svg)
             print(f"Updated {OUT_GRID_SVG} ({total_contribs} contributions, {len(cells)} cells)")
+
+        # Build 31-day live contribution spline graph
+        day_ids = dict(re.findall(r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*id="(contribution-day-component-\d+-\d+)"', html))
+        tips = dict(re.findall(r'for="(contribution-day-component-\d+-\d+)"[^>]*>([^<]+)<', html))
+        daily_points = []
+        for dt, cid in sorted(day_ids.items())[-31:]:
+            m_day = re.match(r"(\d+)\s+contribution", tips.get(cid, "").strip())
+            daily_points.append((dt, int(m_day.group(1)) if m_day else 0))
+        if daily_points:
+            graph_svg = build_activity_graph_svg(daily_points)
+            with open(OUT_GRAPH_SVG, "w", encoding="utf-8") as f:
+                f.write(graph_svg)
+            print(f"Generated {OUT_GRAPH_SVG} ({os.path.getsize(OUT_GRAPH_SVG)/1024:.1f} KB, 31-day sum={sum(c for _, c in daily_points)})")
     except Exception as exc:
-        print(f"[warn] Contribution grid live update skipped: {exc}")
+        print(f"[warn] Contribution grid/graph live update skipped: {exc}")
 
     try:
         profile = json.loads(http_get(f"https://api.github.com/users/{USERNAME}", token=token))

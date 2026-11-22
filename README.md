@@ -85,7 +85,12 @@
 
   <!-- XIV. ASTRAL MANA RESONANCE — 52-WEEK SPELLCASTING CHRONICLE -->
   <p align="center">
-    <img src="./assets/mana-contribution-grid.svg" alt="Astral Mana Resonance — 28 Spellcasts Recorded" width="100%" />
+    <img src="./assets/mana-contribution-grid.svg" alt="Astral Mana Resonance — Live 52-Week Contribution Calendar" width="100%" />
+  </p>
+
+  <!-- XV. FITZZXYZ'S 31-DAY CONTRIBUTION ACTIVITY GRAPH (AUTO-UPDATED DAILY) -->
+  <p align="center">
+    <img src="./assets/frieren-activity-graph.svg" alt="FitzzXYZ's Contribution Graph — Live 31-Day Activity Curve" width="100%" />
   </p>
 
   <!-- XIV. ASTRAL KNOWLEDGE CONSTELLATION — GRAPHIFY -->
