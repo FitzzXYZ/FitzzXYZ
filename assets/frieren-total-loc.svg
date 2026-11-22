@@ -55,7 +55,6 @@
     </style>
   </defs>
 
-  <!-- Outer Illuminated Grimoire Frame -->
   <rect x="0.5" y="0.5" width="1199" height="455" rx="15.5" fill="url(#loc_outer_bg)" stroke="url(#loc_border)" stroke-width="1.2"/>
   <rect x="6.5" y="6.5" width="1187" height="443" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
   <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
@@ -64,7 +63,6 @@
   <polygon points="1184,444 1188,440 1184,436 1180,440" fill="#D4A843" fill-opacity="0.65"/>
 
   <g clip-path="url(#loc_clip)">
-    <!-- Top Section Title Row -->
     <g transform="translate(36, 20)">
       <rect x="0" y="0" width="24" height="24" rx="4" fill="#1A1512" stroke="#D4A843" stroke-width="1.4"/>
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
@@ -82,20 +80,13 @@
     <text x="1164" y="39" text-anchor="end" class="folio">FitzzXYZ Owned Repositories · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
-    <!-- Inner Nocturnal Sanctuary Card -->
     <rect x="28" y="68" width="1144" height="362" rx="14" fill="url(#loc_card_bg)" stroke="#A78BFA" stroke-opacity="0.28" stroke-width="1"/>
     <rect x="28" y="68" width="1144" height="362" rx="14" fill="url(#loc_glow)"/>
 
-    <!-- Eyebrow Header -->
     <text x="56" y="102" class="sans-bold" font-size="13" fill="#4DE1D3" letter-spacing="1.8">TOTAL KODE YANG SUDAH DITULIS</text>
-
-    <!-- Big Hero Number + "baris kode" -->
     <text x="56" y="148" class="sans-bold" font-size="44" fill="#FFFFFF">26.303 <tspan font-size="20" font-weight="600" fill="#C8C2B4">baris kode</tspan></text>
-
-    <!-- Subtitle: files · repos · languages -->
     <text x="56" y="172" class="sans-reg" font-size="15" fill="#9CA3AF">151 file  ·  5 repo  ·  9 bahasa</text>
 
-    <!-- Multi-Segment Proportional Language Bar -->
     <g clip-path="url(#loc_bar_clip)">
       <rect x="56.00" y="186" width="602.26" height="16" fill="#4A90E2"/>
       <rect x="657.66" y="186" width="152.92" height="16" fill="#8E96AA"/>
@@ -108,7 +99,6 @@
       <rect x="1135.30" y="186" width="9.30" height="16" fill="#E05D53"/>
     </g>
 
-    <!-- 2-Column Language Breakdown -->
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.16" stroke-width="1"/>
     
       <circle cx="64" cy="237" r="6" fill="#4A90E2"/>
@@ -147,7 +137,6 @@
       <text x="84" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">Blade</text>
       <text x="562" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">210 baris  ·  <tspan fill="#E05D53" font-weight="600">0.8%</tspan></text>
 
-    <!-- Bottom Caption & Timestamp -->
     <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
     <text x="1144" y="414" text-anchor="end" class="sans-reg" font-size="13" fill="#8E96AA">Diperbarui 22-11-2026</text>
   </g>

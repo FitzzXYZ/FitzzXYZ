@@ -1,20 +1,24 @@
-"""Generate and auto-update assets/frieren-total-loc.svg for FitzzXYZ.
-Counts actual lines of code (excluding blank lines & comments) across all owned
-non-fork repositories (including private repos) when LOC_TOKEN is configured in
-GitHub Actions, falling back to the verified FitzzXYZ owned-repo snapshot.
+"""Daily auto-updater for FitzzXYZ GitHub Profile SVGs:
+1. assets/frieren-total-loc.svg      — Total Lines of Code across all owned non-fork repos (private + public with LOC_TOKEN/GH_TOKEN)
+2. assets/mana-contribution-grid.svg — Live 52-week GitHub contribution calendar
+3. assets/frieren-telemetry-ledger.svg — Live GitHub contributions, followers, following & repo count
 """
 import base64
 from datetime import datetime, timezone, timedelta
 import json
 import os
+import re
 import subprocess
 import tempfile
 import urllib.request
 
+USERNAME = os.environ.get("GITHUB_USERNAME", "FitzzXYZ")
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(REPO_ROOT, "assets")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
-OUT_SVG = os.path.join(ASSETS_DIR, "frieren-total-loc.svg")
+OUT_LOC_SVG = os.path.join(ASSETS_DIR, "frieren-total-loc.svg")
+OUT_GRID_SVG = os.path.join(ASSETS_DIR, "mana-contribution-grid.svg")
+OUT_LEDGER_SVG = os.path.join(ASSETS_DIR, "frieren-telemetry-ledger.svg")
 
 # Verified snapshot of FitzzXYZ's own repositories:
 # FitzzXYZ, Lomba-UI-UX, RPL-Web, Portofolio, WEB-Gondrong-Rental (excluding blank lines & comments)
@@ -59,29 +63,14 @@ LANG_COLORS = {
 }
 
 EXT_MAP = {
-    ".tsx": "TypeScript",
-    ".ts": "TypeScript",
+    ".tsx": "TypeScript", ".ts": "TypeScript",
     ".jsx": "JSX",
-    ".js": "JavaScript",
-    ".mjs": "JavaScript",
-    ".cjs": "JavaScript",
-    ".php": "PHP",
-    ".java": "Java",
-    ".py": "Python",
-    ".html": "HTML",
-    ".htm": "HTML",
-    ".css": "CSS",
-    ".scss": "SCSS",
-    ".sql": "SQL",
-    ".sh": "Bourne Shell",
-    ".bash": "Bourne Shell",
-    ".bat": "DOS Batch",
-    ".cmd": "DOS Batch",
-    ".ps1": "PowerShell",
-    ".go": "Go",
-    ".rs": "Rust",
-    ".vue": "Vue",
-    ".svelte": "Svelte",
+    ".js": "JavaScript", ".mjs": "JavaScript", ".cjs": "JavaScript",
+    ".php": "PHP", ".java": "Java", ".py": "Python",
+    ".html": "HTML", ".htm": "HTML", ".css": "CSS", ".scss": "SCSS",
+    ".sql": "SQL", ".sh": "Bourne Shell", ".bash": "Bourne Shell",
+    ".bat": "DOS Batch", ".cmd": "DOS Batch", ".ps1": "PowerShell",
+    ".go": "Go", ".rs": "Rust", ".vue": "Vue", ".svelte": "Svelte",
 }
 
 SKIP_DIRS = {
@@ -101,6 +90,16 @@ def font_b64(fname: str) -> str:
         return ""
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode("ascii")
+
+
+def http_get(url: str, token: str = "") -> str:
+    headers = {"User-Agent": "FitzzXYZ-Profile-AutoUpdater"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+        headers["Accept"] = "application/vnd.github+json"
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return resp.read().decode("utf-8", errors="ignore")
 
 
 def count_file_lines(path: str) -> int:
@@ -126,24 +125,19 @@ def count_file_lines(path: str) -> int:
 
 
 def try_count_from_github() -> dict | None:
-    """When LOC_TOKEN (PAT with repo scope) is configured in CI, count across all owned non-fork repos."""
-    token = os.environ.get("LOC_TOKEN", "").strip()
+    """When LOC_TOKEN or GH_TOKEN (PAT with repo scope) is configured in CI, count across all owned non-fork repos."""
+    token = (os.environ.get("LOC_TOKEN") or os.environ.get("GH_TOKEN") or "").strip()
     if not token:
         return None
     try:
         repos = []
         page = 1
         while True:
-            req = urllib.request.Request(
+            raw = http_get(
                 f"https://api.github.com/user/repos?per_page=100&affiliation=owner&page={page}",
-                headers={
-                    "Authorization": f"Bearer {token}",
-                    "User-Agent": "FitzzXYZ-LOC-Counter",
-                    "Accept": "application/vnd.github+json",
-                },
+                token=token,
             )
-            with urllib.request.urlopen(req, timeout=20) as resp:
-                batch = json.loads(resp.read().decode())
+            batch = json.loads(raw)
             if not batch:
                 break
             repos.extend(r for r in batch if not r.get("fork"))
@@ -212,11 +206,12 @@ def try_count_from_github() -> dict | None:
             "languages": top10,
             "other_segments": [{"pct": rem_pct, "color": "#6B7280"}] if rem_pct >= 0.1 else [],
         }
-    except Exception:
+    except Exception as exc:
+        print(f"[warn] GitHub private LOC fetch skipped: {exc}")
         return None
 
 
-def build_svg(data: dict) -> str:
+def build_loc_svg(data: dict) -> str:
     cinzel_600 = font_b64("cinzel-600.woff")
     cinzel_800 = font_b64("cinzel-800.woff")
     cormorant_600 = font_b64("cormorant-600.woff")
@@ -225,7 +220,6 @@ def build_svg(data: dict) -> str:
     wib = timezone(timedelta(hours=7))
     updated_str = datetime.now(wib).strftime("Diperbarui %d-%m-%Y")
 
-    # Build proportional horizontal bar segments (x=56 to x=1144, total width = 1088)
     bar_x = 56.0
     bar_w = 1088.0
     bar_y = 186
@@ -245,7 +239,6 @@ def build_svg(data: dict) -> str:
         cur_x += w
     bar_svg = "\n      ".join(seg_rects)
 
-    # Build 2-column language rows (up to 10 languages: 5 left, up to 5 right)
     langs = data["languages"][:10]
     row_els = []
     for idx, item in enumerate(langs):
@@ -265,7 +258,6 @@ def build_svg(data: dict) -> str:
       <text x="{rx}" y="{ry}" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">{lines_str} baris  ·  <tspan fill="{item["color"]}" font-weight="600">{pct_str}</tspan></text>''')
 
     rows_svg = "\n".join(row_els)
-
     total_lines_str = fmt_id(data["total_lines"])
     meta_str = f'{fmt_id(data["total_files"])} file  ·  {data["total_repos"]} repo  ·  {data["total_langs"]} bahasa'
 
@@ -326,7 +318,6 @@ def build_svg(data: dict) -> str:
     </style>
   </defs>
 
-  <!-- Outer Illuminated Grimoire Frame -->
   <rect x="0.5" y="0.5" width="1199" height="455" rx="15.5" fill="url(#loc_outer_bg)" stroke="url(#loc_border)" stroke-width="1.2"/>
   <rect x="6.5" y="6.5" width="1187" height="443" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
   <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
@@ -335,7 +326,6 @@ def build_svg(data: dict) -> str:
   <polygon points="1184,444 1188,440 1184,436 1180,440" fill="#D4A843" fill-opacity="0.65"/>
 
   <g clip-path="url(#loc_clip)">
-    <!-- Top Section Title Row -->
     <g transform="translate(36, 20)">
       <rect x="0" y="0" width="24" height="24" rx="4" fill="#1A1512" stroke="#D4A843" stroke-width="1.4"/>
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
@@ -353,43 +343,99 @@ def build_svg(data: dict) -> str:
     <text x="1164" y="39" text-anchor="end" class="folio">FitzzXYZ Owned Repositories · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
-    <!-- Inner Nocturnal Sanctuary Card -->
     <rect x="28" y="68" width="1144" height="362" rx="14" fill="url(#loc_card_bg)" stroke="#A78BFA" stroke-opacity="0.28" stroke-width="1"/>
     <rect x="28" y="68" width="1144" height="362" rx="14" fill="url(#loc_glow)"/>
 
-    <!-- Eyebrow Header -->
     <text x="56" y="102" class="sans-bold" font-size="13" fill="#4DE1D3" letter-spacing="1.8">TOTAL KODE YANG SUDAH DITULIS</text>
-
-    <!-- Big Hero Number + "baris kode" -->
     <text x="56" y="148" class="sans-bold" font-size="44" fill="#FFFFFF">{total_lines_str} <tspan font-size="20" font-weight="600" fill="#C8C2B4">baris kode</tspan></text>
-
-    <!-- Subtitle: files · repos · languages -->
     <text x="56" y="172" class="sans-reg" font-size="15" fill="#9CA3AF">{meta_str}</text>
 
-    <!-- Multi-Segment Proportional Language Bar -->
     <g clip-path="url(#loc_bar_clip)">
       {bar_svg}
     </g>
 
-    <!-- 2-Column Language Breakdown -->
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.16" stroke-width="1"/>
     {rows_svg}
 
-    <!-- Bottom Caption & Timestamp -->
     <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
     <text x="1144" y="414" text-anchor="end" class="sans-reg" font-size="13" fill="#8E96AA">{updated_str}</text>
   </g>
 </svg>'''
 
 
+def update_live_github_widgets():
+    """Update mana-contribution-grid.svg and frieren-telemetry-ledger.svg directly from GitHub."""
+    token = (os.environ.get("LOC_TOKEN") or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or "").strip()
+    total_contribs = None
+    try:
+        html = http_get(f"https://github.com/users/{USERNAME}/contributions")
+        m_tot = re.search(r"([\d,]+)\s+contributions?\s+in\s+the\s+last\s+year", html)
+        if m_tot:
+            total_contribs = int(m_tot.group(1).replace(",", ""))
+        cells = re.findall(
+            r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*id="contribution-day-component-(\d+)-(\d+)"[^>]*data-level="(\d)"',
+            html,
+        )
+        if cells and os.path.exists(OUT_GRID_SVG):
+            level_colors = {0: "#171D19", 1: "#35523A", 2: "#5F7A50", 3: "#8BA872", 4: "#E5C068"}
+            rects = "".join(
+                f'<rect x="{58 + int(c) * 21}" y="{72 + int(r) * 21}" width="15" height="15" rx="3" fill="{level_colors.get(int(lvl), "#171D19")}"/>'
+                for _, r, c, lvl in cells
+            )
+            with open(OUT_GRID_SVG, "r", encoding="utf-8") as f:
+                grid_svg = f.read()
+            grid_svg = re.sub(r"<g>(<rect [^>]+/>)+</g>", f"<g>{rects}</g>", grid_svg, count=1)
+            if total_contribs is not None:
+                grid_svg = re.sub(
+                    r"\d+\s+inscriptions recorded in the current cycle",
+                    f"{total_contribs} inscriptions recorded in the current cycle",
+                    grid_svg,
+                )
+            with open(OUT_GRID_SVG, "w", encoding="utf-8") as f:
+                f.write(grid_svg)
+            print(f"Updated {OUT_GRID_SVG} ({total_contribs} contributions, {len(cells)} cells)")
+    except Exception as exc:
+        print(f"[warn] Contribution grid live update skipped: {exc}")
+
+    try:
+        profile = json.loads(http_get(f"https://api.github.com/users/{USERNAME}", token=token))
+        followers = profile.get("followers")
+        following = profile.get("following")
+        pub_repos = profile.get("public_repos")
+        if os.path.exists(OUT_LEDGER_SVG):
+            with open(OUT_LEDGER_SVG, "r", encoding="utf-8") as f:
+                ledger = f.read()
+            if total_contribs is not None:
+                ledger = re.sub(
+                    r'(<text x="36" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
+                    rf"\g<1>{total_contribs}\g<2>",
+                    ledger,
+                )
+            if pub_repos is not None:
+                ledger = re.sub(r"\d+\s+public repos", f"{pub_repos} public repos", ledger)
+            if followers is not None and following is not None:
+                ledger = re.sub(
+                    r'(<text x="936" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
+                    rf"\g<1>{followers}\g<2>",
+                    ledger,
+                )
+                ledger = re.sub(r"followers · \d+ following", f"followers · {following} following", ledger)
+            with open(OUT_LEDGER_SVG, "w", encoding="utf-8") as f:
+                f.write(ledger)
+            print(f"Updated {OUT_LEDGER_SVG} (contribs={total_contribs}, followers={followers}, repos={pub_repos})")
+    except Exception as exc:
+        print(f"[warn] Telemetry ledger live update skipped: {exc}")
+
+
 def main():
     live = try_count_from_github()
     data = live if live else BASELINE
-    svg = build_svg(data)
+    svg = build_loc_svg(data)
     os.makedirs(ASSETS_DIR, exist_ok=True)
-    with open(OUT_SVG, "w", encoding="utf-8") as f:
+    with open(OUT_LOC_SVG, "w", encoding="utf-8") as f:
         f.write(svg)
-    print(f"Generated {OUT_SVG} ({os.path.getsize(OUT_SVG)/1024:.1f} KB)")
+    print(f"Generated {OUT_LOC_SVG} ({os.path.getsize(OUT_LOC_SVG)/1024:.1f} KB, source={'github-live' if live else 'baseline'})")
+    update_live_github_widgets()
 
 
 if __name__ == "__main__":

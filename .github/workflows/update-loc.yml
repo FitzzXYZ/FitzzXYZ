@@ -1,15 +1,15 @@
-name: Update Total Lines of Code SVG
+name: Auto-Update Profile Stats & LOC
 
 on:
   schedule:
-    - cron: '0 17 * * *' # Runs daily at 00:00 WIB (UTC+7)
+    - cron: '0 17 * * *' # Runs automatically every day at 00:00 WIB (UTC+7)
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  update-loc:
+  update-profile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout FitzzXYZ Profile Repository
@@ -20,14 +20,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Calculate LOC and regenerate SVG
+      - name: Recalculate LOC & Live GitHub Widgets
         env:
           LOC_TOKEN: ${{ secrets.LOC_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/update_loc.py
 
-      - name: Commit & Push updated LOC card
+      - name: Commit & Push Updated SVGs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/frieren-total-loc.svg
-          git diff --staged --quiet || (git commit -m "chore(loc): update daily total lines of code card" && git push)
+          git add assets/frieren-total-loc.svg assets/mana-contribution-grid.svg assets/frieren-telemetry-ledger.svg
+          git diff --staged --quiet || (git commit -m "chore(auto): daily update LOC & live GitHub profile widgets" && git push)
