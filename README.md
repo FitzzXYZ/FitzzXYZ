@@ -94,7 +94,7 @@
   <!-- TOTAL KODE YANG SUDAH SAYA TULIS (Auto-Updated on Every Commit & Hourly) -->
   <p align="center">
     <a href="https://github.com/FitzzXYZ?tab=repositories">
-      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 113.138 baris kode (576 file · 8 repo · 14 bahasa)" width="100%" />
+      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 113.149 baris kode (576 file · 8 repo · 14 bahasa)" width="100%" />
     </a>
   </p>
 
@@ -117,6 +117,10 @@
     <a href="./graphify-out/GRAPH_REPORT.md">
       <img src="./assets/graphify-map.svg" alt="Astral Knowledge Constellation — Graphify 24 Nodes & 38 Leylines" width="100%" />
     </a>
+  </p>
+
+  <p align="center">
+    <img src="./assets/frieren-divider.svg" alt="" width="100%" />
   </p>
 
   <!-- NOCTURNE & EMPATHY — ANIMATED CODA -->

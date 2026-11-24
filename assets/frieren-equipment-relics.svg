@@ -79,7 +79,7 @@
     <text x="394" y="94" class="cinzel" font-size="11" fill="#B399EE" letter-spacing="1">GUILD INSIGNIA</text>
     <text x="394" y="116" class="title" font-size="19">First-Class Medallion</text>
     <text x="340" y="152" class="body" font-size="14.5">Authority over backend logic:</text>
-    <text x="340" y="174" class="italic" font-size="14.5" fill="#B399EE">Node.js · Java OOP · Python · Laravel</text>
+    <text x="340" y="174" class="italic" font-size="14.5" fill="#B399EE">Node.js · Go · Laravel · Java OOP · Python</text>
 
     <line x1="624" y1="70" x2="624" y2="196" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
 

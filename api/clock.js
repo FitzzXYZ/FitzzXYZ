@@ -371,7 +371,9 @@ function buildClockSvg(tz = "Asia/Jakarta") {
 export default function handler(req, res) {
   const tz = (req.query && req.query.tz) || "Asia/Jakarta";
   res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0");
+  res.setHeader("CDN-Cache-Control", "no-store");
+  res.setHeader("Vercel-CDN-Cache-Control", "no-store");
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Expires", "0");
   return res.status(200).send(buildClockSvg(tz));

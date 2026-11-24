@@ -830,6 +830,15 @@ def update_live_github_widgets(loc_data: dict | None = None):
                     dash,
                     count=1,
                 )
+                if loc_data and loc_data.get("total_lines"):
+                    loc_str = fmt_id(loc_data["total_lines"])
+                    rep_cnt = loc_data.get("total_repos", 8)
+                    dash = re.sub(
+                        r'"(?:Graphify: Knowledge Maps|[\d\.]+ LOC · \d+ Active Repos)"',
+                        f'"{loc_str} LOC · {rep_cnt} Active Repos"',
+                        dash,
+                        count=1,
+                    )
                 with open(OUT_DASH_SVG, "w", encoding="utf-8") as f:
                     f.write(dash)
                 print(f"Updated {OUT_DASH_SVG} (latest quest={latest['name']}, pushed={rpush})")
