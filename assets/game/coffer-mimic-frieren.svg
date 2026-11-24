@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 96" width="120" height="96" role="img" aria-label="Mimic Chest Devouring Frieren">
+  <rect x="4" y="4" width="112" height="88" rx="10" fill="#140D0E" stroke="#D4886A" stroke-width="1.6"/>
+  <path d="M 16 34 Q 60 12 104 30 L 100 44 L 16 44 Z" fill="#221215" stroke="#D4886A" stroke-width="1.8"/>
+  <rect x="16" y="54" width="88" height="24" rx="3" fill="#1B1012" stroke="#E5C068" stroke-width="1.8"/>
+  <rect x="20" y="38" width="80" height="20" fill="#090C0A"/>
+  <circle cx="32" cy="32" r="2.8" fill="#E5C068"/>
+  <circle cx="88" cy="30" r="2.8" fill="#E5C068"/>
+  <polygon points="24,42 29,51 34,42 39,51 44,42 49,51 54,42" fill="#F4EFE6"/>
+  <polygon points="66,42 71,51 76,42 81,51 86,42 91,51 96,42" fill="#F4EFE6"/>
+  <polygon points="28,56 33,48 38,56 43,48 48,56" fill="#F4EFE6"/>
+  <path d="M 44 46 Q 22 36 12 52 Q 24 58 42 50 Z" fill="#F4EFE6" stroke="#7DA8E6" stroke-width="1.1"/>
+  <path d="M 76 46 Q 98 36 108 52 Q 96 58 78 50 Z" fill="#F4EFE6" stroke="#7DA8E6" stroke-width="1.1"/>
+  <rect x="49" y="34" width="22" height="16" rx="2" fill="#F4EFE6" stroke="#E5C068" stroke-width="1.4"/>
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-7 54 34; 8 54 34; -7 54 34" dur="0.45s" repeatCount="indefinite"/>
+    <rect x="48" y="14" width="7" height="20" rx="2" fill="#F4EFE6"/>
+    <path d="M 45 10 L 56 10 L 56 20 L 48 20 Z" fill="#5C3D2E" stroke="#E5C068" stroke-width="1"/>
+  </g>
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="8 66 34; -7 66 34; 8 66 34" dur="0.45s" repeatCount="indefinite"/>
+    <rect x="64" y="12" width="7" height="22" rx="2" fill="#F4EFE6"/>
+    <path d="M 63 8 L 74 8 L 71 18 L 63 18 Z" fill="#5C3D2E" stroke="#E5C068" stroke-width="1"/>
+  </g>
+</svg>

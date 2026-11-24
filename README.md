@@ -83,12 +83,18 @@
     </a>
   </p>
   <p align="center">
+    <a href="https://fitzzxyz.vercel.app/api/game?act=reelseiden">
+      <img src="./assets/game/frieren-game-hud.svg" alt="First-Class Mage Equipment Loadout, Four-Chamber Spiegel Boss Roster, and Grimoire Rarity Compendium" width="100%" />
+    </a>
+  </p>
+  <p align="center">
     <a href="https://fitzzxyz.vercel.app/api/game?act=reelseiden"><img height="34" src="./assets/btn-game-reelseiden.svg" alt="Cast Reelseiden" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=sorganeil"><img height="34" src="./assets/btn-game-sorganeil.svg" alt="Cast Sorganeil" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=ward"><img height="34" src="./assets/btn-game-ward.svg" alt="Cast Mana Ward" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=chest1"><img height="34" src="./assets/btn-game-chest1.svg" alt="Open Chest I" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=chest2"><img height="34" src="./assets/btn-game-chest2.svg" alt="Open Chest II" /></a>&nbsp;
-    <a href="https://fitzzxyz.vercel.app/api/game?act=chest3"><img height="34" src="./assets/btn-game-chest3.svg" alt="Open Chest III" /></a>
+    <a href="https://fitzzxyz.vercel.app/api/game?act=chest3"><img height="34" src="./assets/btn-game-chest3.svg" alt="Open Chest III" /></a>&nbsp;
+    <a href="https://fitzzxyz.vercel.app/api/game?act=rescue"><img height="34" src="./assets/btn-game-rescue.svg" alt="Pull Frieren from Mimic" /></a>
   </p>
 
   <p align="center">

@@ -28,6 +28,12 @@ const CORMORANT_600 = loadFontB64("cormorant-600.woff");
 const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
 const UBEL_AVATAR = loadFileText("assets/ubel-mini-b64.txt");
 const SPIEGEL_AVATAR = loadFileText("assets/spiegel-mini-b64.txt");
+const BOSS_PORTRAITS = [
+  loadFileText("assets/game/boss-ubel-b64.txt") || SPIEGEL_AVATAR,
+  loadFileText("assets/game/boss-sense-b64.txt") || SPIEGEL_AVATAR,
+  loadFileText("assets/game/boss-lernen-b64.txt") || SPIEGEL_AVATAR,
+  loadFileText("assets/game/boss-frieren-b64.txt") || SPIEGEL_AVATAR,
+];
 
 const FONT_FACE_CSS = [
   CINZEL_600 && `@font-face{font-family:'Cinzel';font-style:normal;font-weight:600;font-display:swap;src:url("data:font/woff;base64,${CINZEL_600}") format("woff");}`,
@@ -39,6 +45,8 @@ const FONT_FACE_CSS = [
 const GRIMOIRE_LOOT = [
   {
     title: "Reelseiden Severing Treatise",
+    tier: "First-Class Folio",
+    tierCol: "#9CC084",
     relic: "Tailor’s Shears (+6 Slash)",
     effect: "Restores 30 MP and grants +6 permanent severing affinity",
     bonusDmg: 0,
@@ -48,6 +56,8 @@ const GRIMOIRE_LOOT = [
   },
   {
     title: "Flamme’s Blue Moon Folio",
+    tier: "Folk Grimoire",
+    tierCol: "#9CC084",
     relic: "Blue Moon Blossom (+8 MP/turn)",
     effect: "Folk spell of quiet blossoms: restores 35 HP and +8 MP regeneration",
     bonusDmg: 0,
@@ -57,6 +67,8 @@ const GRIMOIRE_LOOT = [
   },
   {
     title: "Eisen’s Sour Grapes Scroll",
+    tier: "Folk Grimoire",
+    tierCol: "#E5C068",
     relic: "Vanguard Resolve (+40 HP)",
     effect: "Dwarven expedition tonic: restores 40 HP and 15 MP",
     bonusDmg: 0,
@@ -66,6 +78,8 @@ const GRIMOIRE_LOOT = [
   },
   {
     title: "Serie’s Living Grimoire",
+    tier: "Mythic Codex",
+    tierCol: "#7DA8E6",
     relic: "First-Class Seal (45 True Dmg)",
     effect: "Ancient privilege: inflicts 45 true damage to the Spiegel Replica",
     bonusDmg: 45,
@@ -75,6 +89,8 @@ const GRIMOIRE_LOOT = [
   },
   {
     title: "Sorganeil Ocular Apocrypha",
+    tier: "First-Class Folio",
+    tierCol: "#B399EE",
     relic: "Binding Gaze (2.2x Mark)",
     effect: "Locks the Replica in sight and applies a 2.2x execution mark",
     bonusDmg: 18,
@@ -151,6 +167,8 @@ function createInitialState() {
     frierenTrapped: false,
     lastDmg: 52,
     activeRelic: "Blue Moon Blossom (+8 MP/turn)",
+    activeRelicTier: "Folk Grimoire",
+    activeRelicColor: "#9CC084",
     activeRelicEffect: "Regenerates +8 MP after every turn and illuminates hidden leylines.",
     lastSpell: "reelseiden",
     duelLog1: "Übel pictures tailor’s shears gliding through silk. Reelseiden severs the Replica for 52 damage.",
@@ -210,6 +228,21 @@ function applyAction(st, act, isFocusCrit = false) {
   if (!act) return;
   if (act === "reset") {
     Object.assign(st, createInitialState());
+    return;
+  }
+
+  if (act === "stage0" || act === "stage1" || act === "stage2" || act === "stage3") {
+    const targetIdx = Number(act.replace("stage", "")) % BOSS_ROSTER.length;
+    st.stageIdx = targetIdx;
+    const selBoss = BOSS_ROSTER[targetIdx];
+    st.bossMaxHp = selBoss.maxHp;
+    st.bossHp = selBoss.maxHp;
+    st.bossBound = false;
+    st.bossCharging = false;
+    st.turn += 1;
+    pushHistory(st, selBoss.shortName);
+    st.duelLog1 = `Entered ${selBoss.stage} (${selBoss.title}): ${selBoss.name} materializes from the Spiegel crystal.`;
+    st.duelLog2 = `Trait observation: ${selBoss.trait}.`;
     return;
   }
 
@@ -356,6 +389,8 @@ function applyAction(st, act, isFocusCrit = false) {
       st.empathy = Math.min(3, st.empathy + 1);
       const loot = GRIMOIRE_LOOT[(st.turn + idx) % GRIMOIRE_LOOT.length];
       st.activeRelic = loot.relic;
+      st.activeRelicTier = loot.tier || "First-Class Folio";
+      st.activeRelicColor = loot.tierCol || "#9CC084";
       st.activeRelicEffect = `${loot.effect}.`;
       st.ubelHp = Math.min(st.ubelMaxHp, st.ubelHp + loot.healHp);
       st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + loot.healMp);
@@ -366,7 +401,7 @@ function applyAction(st, act, isFocusCrit = false) {
         st.bossHp = Math.max(10, st.bossHp - loot.bonusDmg);
       }
       if (loot.bind) st.bossBound = true;
-      st.chestLog1 = `${label} appraised: discovered ${loot.title}.`;
+      st.chestLog1 = `${label} appraised (${st.activeRelicTier}): discovered ${loot.title}.`;
       st.chestLog2 = `${loot.effect}.`;
     }
   }
@@ -410,9 +445,11 @@ function renderDungeonMapBar(stageIdx) {
       ? `<circle cx="${n.x}" cy="24" r="7" fill="none" stroke="#E5C068" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3 2"><animateTransform attributeName="transform" type="rotate" from="0 ${n.x} 24" to="360 ${n.x} 24" dur="10s" repeatCount="indefinite"/></circle>`
       : "";
     dots += `
-      ${ring}
-      <polygon points="${n.x},20 ${n.x + 4},24 ${n.x},28 ${n.x - 4},24" fill="${col}"/>
-      <text x="${n.x}" y="44" text-anchor="middle" class="svg-body" font-size="11.5" fill="${col}">${n.label}</text>`;
+      <g data-act="stage${i}" style="cursor:pointer">
+        ${ring}
+        <polygon points="${n.x},20 ${n.x + 4},24 ${n.x},28 ${n.x - 4},24" fill="${col}"/>
+        <text x="${n.x}" y="44" text-anchor="middle" class="svg-body" font-size="11.5" fill="${col}">${n.label}</text>
+      </g>`;
   }
   return lines + dots;
 }
@@ -553,8 +590,9 @@ export function buildGameSvg(st) {
     ? `<image href="${UBEL_AVATAR}" x="52" y="104" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#ubel_av)"/>`
     : `<rect x="52" y="104" width="64" height="64" rx="8" fill="#161E18"/>`;
 
-  const spiegelImg = SPIEGEL_AVATAR
-    ? `<image href="${SPIEGEL_AVATAR}" x="548" y="104" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#spiegel_av)"/>`
+  const currentBossAvatar = BOSS_PORTRAITS[st.stageIdx % BOSS_PORTRAITS.length] || SPIEGEL_AVATAR;
+  const spiegelImg = currentBossAvatar
+    ? `<image href="${currentBossAvatar}" x="548" y="104" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#spiegel_av)"/>`
     : `<rect x="548" y="104" width="64" height="64" rx="8" fill="#1C1422"/>`;
 
   // Binding Chains Overlay on Boss Portrait when Sight-Locked

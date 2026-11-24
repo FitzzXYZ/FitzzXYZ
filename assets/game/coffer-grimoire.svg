@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 96" width="120" height="96" role="img" aria-label="Ancient Grimoire Reliquary Discovery">
+  <rect x="4" y="4" width="112" height="88" rx="10" fill="#0E1310" stroke="#9CC084" stroke-width="1.6"/>
+  <circle cx="60" cy="38" r="26" fill="#E5C068" opacity="0.16"/>
+  <line x1="60" y1="8" x2="60" y2="24" stroke="#E5C068" stroke-width="1.8"/>
+  <line x1="34" y1="20" x2="46" y2="30" stroke="#9CC084" stroke-width="1.8"/>
+  <line x1="86" y1="20" x2="74" y2="30" stroke="#9CC084" stroke-width="1.8"/>
+  <rect x="24" y="54" width="72" height="24" rx="3" fill="#181512" stroke="#E5C068" stroke-width="1.8"/>
+  <path d="M 34 44 Q 47 36 60 44 Q 73 36 86 44 L 86 24 Q 73 16 60 24 Q 47 16 34 24 Z" fill="#F4EFE6" stroke="#D4A843" stroke-width="1.8"/>
+  <line x1="60" y1="24" x2="60" y2="44" stroke="#D4A843" stroke-width="1.6"/>
+  <line x1="40" y1="29" x2="54" y2="29" stroke="#8E887A" stroke-width="1.4"/>
+  <line x1="40" y1="35" x2="54" y2="35" stroke="#9CC084" stroke-width="1.4"/>
+  <line x1="66" y1="29" x2="80" y2="29" stroke="#B399EE" stroke-width="1.4"/>
+  <line x1="66" y1="35" x2="80" y2="35" stroke="#8E887A" stroke-width="1.4"/>
+</svg>

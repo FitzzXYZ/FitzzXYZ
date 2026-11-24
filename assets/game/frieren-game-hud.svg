@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 118" width="100%" height="100%" role="img" aria-label="First-Class Mage Equipment Loadout, Four-Chamber Boss Roster, and Grimoire Rarity Compendium">
+  <defs>
+    <linearGradient id="hud_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1310"/>
+      <stop offset="50%" stop-color="#131815"/>
+      <stop offset="100%" stop-color="#16131E"/>
+    </linearGradient>
+    <linearGradient id="hud_border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.5"/>
+    </linearGradient>
+    <style>
+      .h-head { font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-size: 12.5px; fill: #E5C068; letter-spacing: 0.8px; }
+      .h-title { font-family: 'Cormorant Garamond', 'Cormorant', Georgia, serif; font-weight: 700; font-size: 15px; fill: #F4EFE6; }
+      .h-sub { font-family: 'Cormorant Garamond', 'Cormorant', Georgia, serif; font-style: italic; font-weight: 500; font-size: 13.5px; fill: #C8C2B4; }
+    </style>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="1199" height="117" rx="12" fill="url(#hud_bg)" stroke="url(#hud_border)" stroke-width="1.2"/>
+
+  <!-- Column I: Übel's First-Class Equipment Loadout (3 Class-Readable Slots parted by hairlines) -->
+  <polygon points="28,20 32,24 28,28 24,24" fill="#9CC084"/>
+  <text x="40" y="28" class="h-head">I. ÜBEL’S EQUIPPED LOADOUT</text>
+  <line x1="24" y1="38" x2="412" y2="38" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+
+  <!-- Slot 1: Twin Shears -->
+  <circle cx="40" cy="64" r="14" fill="#090C0A" stroke="#9CC084" stroke-width="1.2"/>
+  <path d="M 33 71 L 47 57 M 35 57 L 47 69" stroke="#9CC084" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="62" y="60" class="h-title">Tailor’s Shears</text>
+  <text x="62" y="78" class="h-sub" fill="#9CC084">+6 Sever, 5m Reach</text>
+  <text x="62" y="96" class="h-sub">Weapon Slot</text>
+
+  <line x1="164" y1="48" x2="164" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <!-- Slot 2: Sorganeil Lens -->
+  <circle cx="188" cy="64" r="14" fill="#090C0A" stroke="#B399EE" stroke-width="1.2"/>
+  <ellipse cx="188" cy="64" rx="8" ry="5" fill="none" stroke="#B399EE" stroke-width="1.5"/>
+  <circle cx="188" cy="64" r="2.2" fill="#E5C068"/>
+  <text x="210" y="60" class="h-title">Sorganeil Gaze</text>
+  <text x="210" y="78" class="h-sub" fill="#B399EE">2.2x Sight-Lock Mark</text>
+  <text x="210" y="96" class="h-sub">Ocular Slot</text>
+
+  <line x1="306" y1="48" x2="306" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <!-- Slot 3: Flamme's Folio -->
+  <circle cx="330" cy="64" r="14" fill="#090C0A" stroke="#E5C068" stroke-width="1.2"/>
+  <rect x="323" y="57" width="14" height="14" rx="2" fill="none" stroke="#E5C068" stroke-width="1.4"/>
+  <line x1="330" y1="57" x2="330" y2="71" stroke="#E5C068" stroke-width="1.2"/>
+  <text x="352" y="60" class="h-title">Flamme Folio</text>
+  <text x="352" y="78" class="h-sub" fill="#E5C068">+8 MP/Turn Sync</text>
+  <text x="352" y="96" class="h-sub">Relic Slot</text>
+
+  <!-- Master Divider I/II -->
+  <line x1="432" y1="16" x2="432" y2="102" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+
+  <!-- Column II: 4-Chamber Spiegel Boss Roster -->
+  <polygon points="456,20 460,24 456,28 452,24" fill="#E5C068"/>
+  <text x="468" y="28" class="h-head">II. FOUR-CHAMBER SPIEGEL GAUNTLET</text>
+  <line x1="452" y1="38" x2="804" y2="38" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+
+  <text x="452" y="60" class="h-title" fill="#9CC084">I. Übel Replica</text>
+  <text x="452" y="78" class="h-sub">160 HP, Mirror Slash</text>
+  <text x="452" y="96" class="h-sub" fill="#9CC084">0% Armor</text>
+
+  <line x1="544" y1="48" x2="544" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <text x="556" y="60" class="h-title" fill="#D4886A">II. Sense Replica</text>
+  <text x="556" y="78" class="h-sub">220 HP, Hair Lance</text>
+  <text x="556" y="96" class="h-sub" fill="#D4886A">20% Phalanx</text>
+
+  <line x1="652" y1="48" x2="652" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <text x="664" y="60" class="h-title" fill="#E5C068">III. Lernen Replica</text>
+  <text x="664" y="78" class="h-sub">260 HP, Black Zoltraak</text>
+  <text x="664" y="96" class="h-sub" fill="#E5C068">10% Ward</text>
+
+  <line x1="744" y1="48" x2="744" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <text x="756" y="60" class="h-title" fill="#7DA8E6">IV. Frieren</text>
+  <text x="756" y="78" class="h-sub">340 HP, Pinnacle</text>
+  <text x="756" y="96" class="h-sub" fill="#7DA8E6">15% Aegis</text>
+
+  <!-- Master Divider II/III -->
+  <line x1="824" y1="16" x2="824" y2="102" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+
+  <!-- Column III: RPG Grimoire Loot Rarity & Mimic Odds -->
+  <polygon points="848,20 852,24 848,28 844,24" fill="#B399EE"/>
+  <text x="860" y="28" class="h-head">III. GRIMOIRE RARITY &amp; MIMIC ODDS</text>
+  <line x1="844" y1="38" x2="1176" y2="38" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+
+  <polygon points="850,55 855,60 850,65 845,60" fill="#9CC084"/>
+  <text x="862" y="62" class="h-title" fill="#9CC084">Folk Tier</text>
+  <text x="862" y="80" class="h-sub">Flamme &amp; Eisen Folios</text>
+  <text x="862" y="96" class="h-sub">+35 HP, +20 MP</text>
+
+  <line x1="962" y1="48" x2="962" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <polygon points="976,55 981,60 976,65 971,60" fill="#B399EE"/>
+  <text x="988" y="62" class="h-title" fill="#B399EE">First-Class</text>
+  <text x="988" y="80" class="h-sub">Reelseiden &amp; Sorganeil</text>
+  <text x="988" y="96" class="h-sub">+6 Sever / 2.2x Lock</text>
+
+  <line x1="1084" y1="48" x2="1084" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+
+  <polygon points="1098,55 1103,60 1098,65 1093,60" fill="#7DA8E6"/>
+  <text x="1110" y="62" class="h-title" fill="#7DA8E6">Mythic</text>
+  <text x="1110" y="80" class="h-sub">Serie Codex</text>
+  <text x="1110" y="96" class="h-sub" fill="#D4886A">1% Mimic Trap</text>
+</svg>
