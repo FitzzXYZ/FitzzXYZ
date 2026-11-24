@@ -743,12 +743,43 @@ def update_live_github_widgets(loc_data: dict | None = None):
         if os.path.exists(OUT_ADV_SVG):
             with open(OUT_ADV_SVG, "r", encoding="utf-8") as f:
                 adv = f.read()
+
+            def make_blocks(y_pos: int, filled: int, active_col: str) -> str:
+                n_fill = max(1, min(18, filled))
+                parts = []
+                for idx in range(18):
+                    bx = 536 + idx * 32
+                    col = active_col if idx < n_fill else "#1F2622"
+                    parts.append(f'<rect x="{bx}" y="{y_pos}" width="24" height="20" rx="3" fill="{col}"/>')
+                return "<g>" + "\n      ".join(parts) + "</g>"
+
             if commits:
+                str_val = min(18, max(8, 5 + commits // 12))
                 adv = re.sub(r"\d+\s+repository commits", f"{commits} repository commits", adv)
+                adv = re.sub(
+                    r'(<text x="506" y="151" text-anchor="end" class="mono" font-size="20" font-weight="700" fill="#9CC084">)\d+(</text>\s*)<g>(?:<rect x="\d+" y="134"[^>]+/>\s*)+</g>',
+                    rf"\g<1>{str_val}\g<2>{make_blocks(134, str_val, '#789B64')}",
+                    adv,
+                    count=1,
+                )
             if followers is not None and following is not None:
+                cha_val = min(18, max(4, followers))
                 adv = re.sub(r"\d+\s+guild followers · \d+\s+following", f"{followers} guild followers · {following} following", adv)
+                adv = re.sub(
+                    r'(<text x="506" y="367" text-anchor="end" class="mono" font-size="20" font-weight="700" fill="#E5C068">)\d+(</text>\s*)<g>(?:<rect x="\d+" y="350"[^>]+/>\s*)+</g>',
+                    rf"\g<1>{cha_val}\g<2>{make_blocks(350, cha_val, '#D4A843')}",
+                    adv,
+                    count=1,
+                )
             if best_streak is not None and total_contribs is not None:
+                con_val = min(18, max(5, 3 + total_contribs // 10))
                 adv = re.sub(r"\d+\s+day best streak · \d+\s+contributions", f"{best_streak} day best streak · {total_contribs} contributions", adv)
+                adv = re.sub(
+                    r'(<text x="506" y="421" text-anchor="end" class="mono" font-size="20" font-weight="700" fill="#7DA8E6">)\d+(</text>\s*)<g>(?:<rect x="\d+" y="404"[^>]+/>\s*)+</g>',
+                    rf"\g<1>{con_val}\g<2>{make_blocks(404, con_val, '#7DA8E6')}",
+                    adv,
+                    count=1,
+                )
             if total_contribs is not None:
                 lv = 3 if total_contribs >= 50 else 2
                 cap = 100 if total_contribs >= 50 else 50

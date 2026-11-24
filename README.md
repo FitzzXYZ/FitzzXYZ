@@ -19,7 +19,9 @@
 
   <!-- ASTRAL HOROLOGIUM — LIVE REAL-TIME WIB CELESTIAL CLOCK (Powered by Vercel Serverless) -->
   <p align="center">
-    <img src="https://fitzzxyz.vercel.app/api/clock?tz=Asia/Jakarta" alt="Astral Horologium — Live Real-Time WIB Celestial Astrolabe Clock & 29 Years Post-Himmel" width="100%" />
+    <a href="https://github.com/FitzzXYZ">
+      <img src="https://fitzzxyz.vercel.app/api/clock?tz=Asia/Jakarta" alt="Astral Horologium — Live Real-Time WIB Celestial Astrolabe Clock & 29 Years Post-Himmel" width="100%" />
+    </a>
   </p>
 
   <!-- BARDIC RESONANCE & TAVERN GRAMOPHONE OST PLAYER -->
@@ -69,7 +71,9 @@
 
   <!-- THE MAGE'S STUDY WORKBENCH & LIVE LATEST QUEST (With Photo #2) -->
   <p align="center">
-    <img src="./assets/developer-dashboard.svg" alt="The Mage's Study — Live Active Quest Log, Grimoire Scroll & Field Dossier" width="100%" />
+    <a href="https://github.com/FitzzXYZ?tab=repositories">
+      <img src="./assets/developer-dashboard.svg" alt="The Mage's Study — Live Active Quest Log, Grimoire Scroll & Field Dossier" width="100%" />
+    </a>
   </p>
 
   <p align="center">
@@ -82,22 +86,30 @@
 
   <!-- IMPERIAL ARCHIVE TELEMETRY LEDGER (Live Synced) -->
   <p align="center">
-    <img src="./assets/frieren-telemetry-ledger.svg" alt="Imperial Archive Telemetry — Verified Live GitHub Metrics" width="100%" />
+    <a href="https://github.com/FitzzXYZ">
+      <img src="./assets/frieren-telemetry-ledger.svg" alt="Imperial Archive Telemetry — Verified Live GitHub Metrics" width="100%" />
+    </a>
   </p>
 
   <!-- TOTAL KODE YANG SUDAH SAYA TULIS (Auto-Updated on Every Commit & Hourly) -->
   <p align="center">
-    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 113.014 baris kode (576 file · 8 repo · 14 bahasa)" width="100%" />
+    <a href="https://github.com/FitzzXYZ?tab=repositories">
+      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 113.138 baris kode (576 file · 8 repo · 14 bahasa)" width="100%" />
+    </a>
   </p>
 
   <!-- ASTRAL MANA RESONANCE — 52-WEEK LIVE CONTRIBUTION CALENDAR -->
   <p align="center">
-    <img src="./assets/mana-contribution-grid.svg" alt="Astral Mana Resonance — Live 52-Week Contribution Calendar" width="100%" />
+    <a href="https://github.com/FitzzXYZ">
+      <img src="./assets/mana-contribution-grid.svg" alt="Astral Mana Resonance — Live 52-Week Contribution Calendar" width="100%" />
+    </a>
   </p>
 
   <!-- FITZZXYZ'S 31-DAY LIVE CONTRIBUTION ACTIVITY GRAPH -->
   <p align="center">
-    <img src="./assets/frieren-activity-graph.svg" alt="FitzzXYZ's Contribution Graph — Live 31-Day Activity Curve" width="100%" />
+    <a href="https://github.com/FitzzXYZ">
+      <img src="./assets/frieren-activity-graph.svg" alt="FitzzXYZ's Contribution Graph — Live 31-Day Activity Curve" width="100%" />
+    </a>
   </p>
 
   <!-- ASTRAL KNOWLEDGE CONSTELLATION — GRAPHIFY -->
@@ -115,7 +127,9 @@
 
   <!-- COLOPHON & CONTINENTAL SEAL -->
   <p align="center">
-    <img src="./assets/footer.svg" alt="FitzzXYZ — On the Road to Aureole" width="100%" />
+    <a href="https://www.instagram.com/fitzz_xyz/" target="_blank">
+      <img src="./assets/footer.svg" alt="FitzzXYZ — On the Road to Aureole" width="100%" />
+    </a>
   </p>
 
 </div>

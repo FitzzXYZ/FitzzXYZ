@@ -88,7 +88,7 @@
     <circle cx="392" cy="215" r="9.5" fill="#E5C068"/>
     <text x="392" y="238" text-anchor="middle" class="cinzel" font-size="10.5" fill="#F4EFE6">README.MD</text>
 
-    <circle cx="190" cy="145" r="7" fill="#9CC084"/><text x="190" y="164" text-anchor="middle" class="italic" font-size="13" fill="#9CC084">Party Stack</text>
+    <circle cx="190" cy="145" r="7" fill="#9CC084"/><text x="190" y="164" text-anchor="middle" class="italic" font-size="13" fill="#9CC084">Horologium &amp; LOC</text>
     <circle cx="275" cy="265" r="7" fill="#B399EE"/><text x="275" y="284" text-anchor="middle" class="italic" font-size="13" fill="#B399EE">Grimoire Study</text>
     <circle cx="580" cy="145" r="7" fill="#E5C068"/><text x="580" y="164" text-anchor="middle" class="italic" font-size="13" fill="#E5C068">Hero Stage</text>
     <circle cx="575" cy="285" r="7" fill="#7DA8E6"/><text x="575" y="304" text-anchor="middle" class="italic" font-size="13" fill="#7DA8E6">Chronicle</text>
@@ -110,7 +110,7 @@
     <text x="1164" y="172" text-anchor="end" class="italic" font-size="15.5" fill="#B399EE">7 leylines</text>
     <line x1="780" y1="184" x2="1164" y2="184" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
-    <text x="780" y="212" class="title" font-size="17">3. Adventurer’s Party Stack</text>
+    <text x="780" y="212" class="title" font-size="17">3. Astral Horologium &amp; LOC</text>
     <text x="1164" y="212" text-anchor="end" class="italic" font-size="15.5" fill="#E5C068">5 leylines</text>
     <line x1="780" y1="224" x2="1164" y2="224" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
