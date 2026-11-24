@@ -77,10 +77,10 @@
 
   <!-- XIII. TOTAL KODE YANG SUDAH SAYA TULIS (DAILY AUTO-UPDATED LOC BREAKDOWN) -->
   <p align="center">
-    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 26.303 baris kode (151 file · 5 repo · 9 bahasa)" width="100%" />
+    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 35.636 baris kode (183 file · 6 repo · 10 bahasa)" width="100%" />
   </p>
   <p align="center">
-    <sub>Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar. Diperbarui otomatis tiap hari.</sub>
+    <sub>Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar. Diperbarui otomatis setiap commit &amp; terjadwal.</sub>
   </p>
 
   <!-- XIV. ASTRAL MANA RESONANCE — 52-WEEK SPELLCASTING CHRONICLE -->

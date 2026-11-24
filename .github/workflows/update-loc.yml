@@ -1,8 +1,17 @@
 name: Auto-Update Profile Stats & LOC
 
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'assets/frieren-total-loc.svg'
+      - 'assets/mana-contribution-grid.svg'
+      - 'assets/frieren-telemetry-ledger.svg'
+      - 'assets/frieren-activity-graph.svg'
   schedule:
-    - cron: '0 17 * * *' # Runs automatically every day at 00:00 WIB (UTC+7)
+    - cron: '0 */3 * * *' # Runs automatically every 3 hours
+  repository_dispatch:
+    types: [update-loc]
   workflow_dispatch:
 
 permissions:
@@ -10,6 +19,7 @@ permissions:
 
 jobs:
   update-profile:
+    if: github.actor != 'github-actions[bot]' && !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout FitzzXYZ Profile Repository
@@ -31,5 +41,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/frieren-total-loc.svg assets/mana-contribution-grid.svg assets/frieren-telemetry-ledger.svg assets/frieren-activity-graph.svg
-          git diff --staged --quiet || (git commit -m "chore(auto): daily update LOC & live GitHub profile widgets" && git push)
+          git add README.md assets/frieren-total-loc.svg assets/mana-contribution-grid.svg assets/frieren-telemetry-ledger.svg assets/frieren-activity-graph.svg
+          git diff --staged --quiet || (git commit -m "chore(auto): update Total Kode & live profile stats [skip ci]" && git push)

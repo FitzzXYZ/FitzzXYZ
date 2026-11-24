@@ -9,17 +9,33 @@ import json
 import os
 import re
 import subprocess
+import sys
 import tempfile
+import time
 import urllib.request
 
 USERNAME = os.environ.get("GITHUB_USERNAME", "FitzzXYZ")
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(REPO_ROOT, "assets")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
+README_PATH = os.path.join(REPO_ROOT, "README.md")
 OUT_LOC_SVG = os.path.join(ASSETS_DIR, "frieren-total-loc.svg")
 OUT_GRID_SVG = os.path.join(ASSETS_DIR, "mana-contribution-grid.svg")
 OUT_LEDGER_SVG = os.path.join(ASSETS_DIR, "frieren-telemetry-ledger.svg")
 OUT_GRAPH_SVG = os.path.join(ASSETS_DIR, "frieren-activity-graph.svg")
+
+# Owned local repositories + parent folders scanned (1 level) for any FitzzXYZ/* repos
+LOCAL_OWNED_REPOS = [
+    REPO_ROOT,
+    r"C:\Users\T4N0C\OneDrive\Documents\Pak Gondrong",
+]
+SCAN_PARENTS = [
+    r"D:\\",
+    r"C:\Users\T4N0C\OneDrive\Documents",
+    r"C:\Users\T4N0C\.gemini\antigravity\scratch",
+    r"C:\xampp\htdocs",
+    r"C:\Users\T4N0C\Documents",
+]
 
 # Verified snapshot of FitzzXYZ's own repositories:
 # FitzzXYZ, Lomba-UI-UX, RPL-Web, Portofolio, WEB-Gondrong-Rental (excluding blank lines & comments)
@@ -125,6 +141,99 @@ def count_file_lines(path: str) -> int:
     return cnt
 
 
+def summarize_dirs(repo_dirs: list[str]) -> dict | None:
+    """Count actual source code lines (no blank lines/comments) across a list of repository directories."""
+    lang_lines = {}
+    total_files = 0
+    counted_repos = 0
+    for dst in repo_dirs:
+        if not os.path.isdir(dst):
+            continue
+        repo_has_code = False
+        for root, dirs, files in os.walk(dst):
+            dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
+            for f in files:
+                if f.endswith((".min.js", ".min.css", ".d.ts")):
+                    continue
+                lang = "Blade" if f.endswith(".blade.php") else EXT_MAP.get(os.path.splitext(f)[1].lower())
+                if not lang:
+                    continue
+                p = os.path.join(root, f)
+                try:
+                    if os.path.getsize(p) > 500_000:
+                        continue
+                    cnt = count_file_lines(p)
+                    if cnt > 0:
+                        lang_lines[lang] = lang_lines.get(lang, 0) + cnt
+                        total_files += 1
+                        repo_has_code = True
+                except Exception:
+                    pass
+        if repo_has_code:
+            counted_repos += 1
+
+    total_lines = sum(lang_lines.values())
+    if total_lines == 0:
+        return None
+
+    sorted_langs = sorted(lang_lines.items(), key=lambda x: -x[1])
+    top10 = []
+    used_pct = 0.0
+    for name, lns in sorted_langs[:10]:
+        pct = round(lns * 100.0 / total_lines, 1)
+        used_pct += pct
+        top10.append({
+            "name": name,
+            "lines": lns,
+            "pct": pct,
+            "color": LANG_COLORS.get(name, "#8BA872"),
+        })
+    rem_pct = max(0.0, round(100.0 - used_pct, 1))
+    return {
+        "total_lines": total_lines,
+        "total_files": total_files,
+        "total_repos": counted_repos,
+        "total_langs": len(lang_lines),
+        "languages": top10,
+        "other_segments": [{"pct": rem_pct, "color": "#6B7280"}] if rem_pct >= 0.1 else [],
+    }
+
+
+def discover_local_owned_repos() -> list[str]:
+    """Discover all local Git repositories owned by USERNAME (1-level fast scan + known local paths)."""
+    found = [os.path.normpath(p) for p in LOCAL_OWNED_REPOS if os.path.isdir(os.path.join(p, ".git"))]
+    owner_needle = f"github.com/{USERNAME.lower()}/"
+    for parent in SCAN_PARENTS:
+        if not os.path.isdir(parent):
+            continue
+        try:
+            entries = os.listdir(parent)
+        except OSError:
+            continue
+        for name in entries:
+            p = os.path.normpath(os.path.join(parent, name))
+            if p in found or not os.path.isdir(os.path.join(p, ".git")):
+                continue
+            try:
+                url = subprocess.check_output(
+                    ["git", "-C", p, "remote", "get-url", "origin"],
+                    stderr=subprocess.DEVNULL, text=True,
+                ).strip().lower()
+            except Exception:
+                url = ""
+            if owner_needle in url:
+                found.append(p)
+    return found
+
+
+def try_count_local_repos() -> dict | None:
+    """When running locally on the developer's machine, recount live across all discovered owned repos."""
+    existing = discover_local_owned_repos()
+    if len(existing) < 2:
+        return None
+    return summarize_dirs(existing)
+
+
 def try_count_from_github() -> dict | None:
     """When LOC_TOKEN or GH_TOKEN (PAT with repo scope) is configured in CI, count across all owned non-fork repos."""
     token = (os.environ.get("LOC_TOKEN") or os.environ.get("GH_TOKEN") or "").strip()
@@ -149,64 +258,15 @@ def try_count_from_github() -> dict | None:
         if not repos:
             return None
 
-        lang_lines = {}
-        total_files = 0
-        counted_repos = 0
         with tempfile.TemporaryDirectory() as tmp:
+            cloned = []
             for r in repos:
                 clone_url = r["clone_url"].replace("https://", f"https://x-access-token:{token}@")
                 dst = os.path.join(tmp, r["name"])
                 res = subprocess.run(["git", "clone", "--depth", "1", clone_url, dst], check=False)
-                if res.returncode != 0 or not os.path.exists(dst):
-                    continue
-                repo_has_code = False
-                for root, dirs, files in os.walk(dst):
-                    dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
-                    for f in files:
-                        if f.endswith((".min.js", ".min.css", ".d.ts")):
-                            continue
-                        lang = "Blade" if f.endswith(".blade.php") else EXT_MAP.get(os.path.splitext(f)[1].lower())
-                        if not lang:
-                            continue
-                        p = os.path.join(root, f)
-                        try:
-                            if os.path.getsize(p) > 500_000:
-                                continue
-                            cnt = count_file_lines(p)
-                            if cnt > 0:
-                                lang_lines[lang] = lang_lines.get(lang, 0) + cnt
-                                total_files += 1
-                                repo_has_code = True
-                        except Exception:
-                            pass
-                if repo_has_code:
-                    counted_repos += 1
-
-        total_lines = sum(lang_lines.values())
-        if total_lines == 0:
-            return None
-
-        sorted_langs = sorted(lang_lines.items(), key=lambda x: -x[1])
-        top10 = []
-        used_pct = 0.0
-        for name, lns in sorted_langs[:10]:
-            pct = round(lns * 100.0 / total_lines, 1)
-            used_pct += pct
-            top10.append({
-                "name": name,
-                "lines": lns,
-                "pct": pct,
-                "color": LANG_COLORS.get(name, "#8BA872"),
-            })
-        rem_pct = max(0.0, round(100.0 - used_pct, 1))
-        return {
-            "total_lines": total_lines,
-            "total_files": total_files,
-            "total_repos": counted_repos or len(repos),
-            "total_langs": len(lang_lines),
-            "languages": top10,
-            "other_segments": [{"pct": rem_pct, "color": "#6B7280"}] if rem_pct >= 0.1 else [],
-        }
+                if res.returncode == 0 and os.path.isdir(dst):
+                    cloned.append(dst)
+            return summarize_dirs(cloned)
     except Exception as exc:
         print(f"[warn] GitHub private LOC fetch skipped: {exc}")
         return None
@@ -604,15 +664,160 @@ def update_live_github_widgets():
         print(f"[warn] Telemetry ledger live update skipped: {exc}")
 
 
+def sync_readme_alt(data: dict) -> bool:
+    """Keep README.md LOC image alt text synced with the generated SVG."""
+    if not os.path.exists(README_PATH):
+        return False
+    new_alt = (
+        f'alt="Total Kode yang Sudah Saya Tulis — {fmt_id(data["total_lines"])} baris kode '
+        f'({fmt_id(data["total_files"])} file · {data["total_repos"]} repo · {data["total_langs"]} bahasa)"'
+    )
+    with open(README_PATH, "r", encoding="utf-8") as f:
+        text = f.read()
+    updated, n = re.subn(r'alt="Total Kode yang Sudah Saya Tulis — [^"]*"', new_alt, text, count=1)
+    if n and updated != text:
+        with open(README_PATH, "w", encoding="utf-8") as f:
+            f.write(updated)
+        return True
+    return False
+
+
+def install_post_commit_hooks(extra_repos: list[str] | None = None):
+    """Install lightweight non-blocking post-commit hooks into owned repositories."""
+    py_posix = sys.executable.replace("\\", "/")
+    script_posix = os.path.abspath(__file__).replace("\\", "/")
+    hook_body = (
+        "#!/bin/sh\n"
+        "# Auto-sync FitzzXYZ profile README Total Kode on every commit (ignores bot commits)\n"
+        'MSG="$(git log -1 --pretty=%B 2>/dev/null)"\n'
+        'case "$MSG" in\n'
+        '  *"[skip ci]"*|"chore(auto):"*) exit 0 ;;\n'
+        "esac\n"
+        f'"{py_posix}" -c "import subprocess, sys; '
+        f"flags = 0x08000008 if sys.platform == 'win32' else 0; "
+        f"subprocess.Popen([sys.executable, '{script_posix}', '--auto-push'], "
+        f'creationflags=flags, close_fds=True, start_new_session=(sys.platform != \'win32\'))" '
+        ">/dev/null 2>&1\n"
+    )
+    targets = discover_local_owned_repos() + [os.path.normpath(os.path.abspath(p)) for p in (extra_repos or [])]
+    for repo in dict.fromkeys(targets):
+        hooks_dir = os.path.join(repo, ".git", "hooks")
+        if not os.path.isdir(hooks_dir):
+            continue
+        hook_path = os.path.join(hooks_dir, "post-commit")
+        with open(hook_path, "w", encoding="utf-8", newline="\n") as f:
+            f.write(hook_body)
+        try:
+            os.chmod(hook_path, 0o755)
+        except OSError:
+            pass
+        print(f"Installed post-commit hook -> {hook_path}")
+
+
+def auto_commit_and_push(include_readme: bool):
+    """Stage only auto-generated profile assets, commit with [skip ci], and push (rebasing if bot pushed earlier)."""
+    files = [
+        "assets/frieren-total-loc.svg",
+        "assets/mana-contribution-grid.svg",
+        "assets/frieren-telemetry-ledger.svg",
+        "assets/frieren-activity-graph.svg",
+    ]
+    if include_readme:
+        files.append("README.md")
+    subprocess.run(["git", "-C", REPO_ROOT, "add", "--", *files], check=False)
+    diff = subprocess.run(["git", "-C", REPO_ROOT, "diff", "--cached", "--quiet"], check=False)
+    if diff.returncode == 0:
+        return
+    res = subprocess.run(
+        ["git", "-C", REPO_ROOT, "commit", "-m", "chore(auto): update Total Kode & live stats [skip ci]"],
+        check=False,
+    )
+    if res.returncode != 0:
+        return
+    push = subprocess.run(["git", "-C", REPO_ROOT, "push", "origin", "main"], check=False)
+    if push.returncode != 0:
+        # Handle race where GitHub Actions pushed scheduled stats to origin/main
+        subprocess.run(
+            ["git", "-C", REPO_ROOT, "pull", "--rebase", "--autostash", "-X", "theirs", "origin", "main"],
+            check=False,
+        )
+        subprocess.run(["git", "-C", REPO_ROOT, "push", "origin", "main"], check=False)
+
+
+def run_update(auto_push: bool = False):
+    lock_path = os.path.join(tempfile.gettempdir(), "fitzzxyz_loc_sync.lock")
+    if auto_push:
+        # Avoid concurrent syncs or colliding with parent git index.lock right after commit
+        if os.path.exists(lock_path) and (time.time() - os.path.getmtime(lock_path)) < 120:
+            return
+        with open(lock_path, "w", encoding="utf-8") as lf:
+            lf.write(str(os.getpid()))
+        time.sleep(1.5)
+        # Sync with origin/main first so bot commits from GitHub Actions never block git push
+        subprocess.run(
+            ["git", "-C", REPO_ROOT, "pull", "--rebase", "--autostash", "origin", "main"],
+            check=False,
+        )
+
+    try:
+        readme_clean = True
+        if auto_push:
+            st = subprocess.run(
+                ["git", "-C", REPO_ROOT, "status", "--porcelain", "--", "README.md"],
+                capture_output=True, text=True, check=False,
+            )
+            readme_clean = not st.stdout.strip()
+
+        live_gh = try_count_from_github()
+        live_local = None if live_gh else try_count_local_repos()
+        data = live_gh or live_local
+        readme_changed = False
+
+        if data:
+            source = "github-live" if live_gh else "local-live"
+            svg = build_loc_svg(data)
+            os.makedirs(ASSETS_DIR, exist_ok=True)
+            with open(OUT_LOC_SVG, "w", encoding="utf-8") as f:
+                f.write(svg)
+            print(f"Generated {OUT_LOC_SVG} ({os.path.getsize(OUT_LOC_SVG)/1024:.1f} KB, source={source}, lines={data['total_lines']}, repos={data['total_repos']})")
+            if readme_clean:
+                readme_changed = sync_readme_alt(data)
+        elif not os.path.exists(OUT_LOC_SVG):
+            svg = build_loc_svg(BASELINE)
+            os.makedirs(ASSETS_DIR, exist_ok=True)
+            with open(OUT_LOC_SVG, "w", encoding="utf-8") as f:
+                f.write(svg)
+            print(f"Generated {OUT_LOC_SVG} (source=baseline)")
+        else:
+            # In CI without LOC_TOKEN, keep the latest pushed LOC counts and only refresh the date
+            wib = timezone(timedelta(hours=7))
+            updated_str = datetime.now(wib).strftime("Diperbarui %d-%m-%Y")
+            with open(OUT_LOC_SVG, "r", encoding="utf-8") as f:
+                cur_svg = f.read()
+            new_svg = re.sub(r"Diperbarui \d{2}-\d{2}-\d{4}", updated_str, cur_svg)
+            if new_svg != cur_svg:
+                with open(OUT_LOC_SVG, "w", encoding="utf-8") as f:
+                    f.write(new_svg)
+            print(f"Preserved existing LOC counts in {OUT_LOC_SVG} (refreshed date -> {updated_str})")
+
+        update_live_github_widgets()
+        if auto_push:
+            auto_commit_and_push(include_readme=readme_changed)
+    finally:
+        if auto_push and os.path.exists(lock_path):
+            try:
+                os.remove(lock_path)
+            except OSError:
+                pass
+
+
 def main():
-    live = try_count_from_github()
-    data = live if live else BASELINE
-    svg = build_loc_svg(data)
-    os.makedirs(ASSETS_DIR, exist_ok=True)
-    with open(OUT_LOC_SVG, "w", encoding="utf-8") as f:
-        f.write(svg)
-    print(f"Generated {OUT_LOC_SVG} ({os.path.getsize(OUT_LOC_SVG)/1024:.1f} KB, source={'github-live' if live else 'baseline'})")
-    update_live_github_widgets()
+    args = sys.argv[1:]
+    if "--install-hooks" in args:
+        idx = args.index("--install-hooks")
+        install_post_commit_hooks(args[idx + 1:])
+        return
+    run_update(auto_push="--auto-push" in args)
 
 
 if __name__ == "__main__":
