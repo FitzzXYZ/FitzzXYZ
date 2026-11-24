@@ -17,10 +17,9 @@
     <a href="https://github.com/FitzzXYZ/FitzzXYZ/commits/main"><img height="32" src="./assets/badge-sync.svg" alt="Live Auto-Synced Status" /></a>
   </p>
 
-  <!-- ASTRAL HOROLOGIUM — LIVE WIB CELESTIAL CLOCK & IMPERIAL ERA REGISTRY -->
-  <!-- Tip: Deploy repo ini ke Vercel lalu ganti src ke https://<app-anda>.vercel.app/api/clock?tz=Asia/Jakarta untuk jam real-time presisi tiap detik -->
+  <!-- ASTRAL HOROLOGIUM — LIVE REAL-TIME WIB CELESTIAL CLOCK (Powered by Vercel Serverless) -->
   <p align="center">
-    <img src="./assets/frieren-clock.svg" alt="Astral Horologium — Live WIB Celestial Astrolabe Clock & 29 Years Post-Himmel" width="100%" />
+    <img src="https://fitzzxyz.vercel.app/api/clock?tz=Asia/Jakarta" alt="Astral Horologium — Live Real-Time WIB Celestial Astrolabe Clock & 29 Years Post-Himmel" width="100%" />
   </p>
 
   <!-- BARDIC RESONANCE & TAVERN GRAMOPHONE OST PLAYER -->

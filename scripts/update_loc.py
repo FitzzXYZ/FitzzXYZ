@@ -1280,10 +1280,7 @@ def run_update(auto_push: bool = False):
                     f.write(new_svg)
             print(f"Preserved existing LOC counts in {OUT_LOC_SVG} (refreshed date -> {updated_str})")
 
-        with open(OUT_CLOCK_SVG, "w", encoding="utf-8") as f:
-            f.write(build_clock_svg())
-        print(f"Generated {OUT_CLOCK_SVG} ({os.path.getsize(OUT_CLOCK_SVG)/1024:.1f} KB)")
-
+        # Live real-time clock is served directly by Vercel (api/clock.js)
         update_live_github_widgets(data)
         if auto_push:
             auto_commit_and_push(include_readme=readme_changed)

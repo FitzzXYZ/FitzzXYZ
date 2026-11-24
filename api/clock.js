@@ -1,8 +1,31 @@
+import fs from "node:fs";
+import path from "node:path";
+
 /**
  * Haute Horlogerie Sousou no Frieren x Ubel Celestial Astrolabe Clock SVG Endpoint (Vercel Serverless).
- * Deploy FitzzXYZ to Vercel and embed:
- *   <img src="https://<your-app>.vercel.app/api/clock?tz=Asia/Jakarta" width="100%" />
+ * Live URL: https://fitzzxyz.vercel.app/api/clock?tz=Asia/Jakarta
  */
+
+function loadFontB64(name) {
+  try {
+    const p = path.join(process.cwd(), "assets", "fonts", name);
+    return fs.readFileSync(p).toString("base64");
+  } catch {
+    return "";
+  }
+}
+
+const CINZEL_600 = loadFontB64("cinzel-600.woff");
+const CINZEL_800 = loadFontB64("cinzel-800.woff");
+const CORMORANT_600 = loadFontB64("cormorant-600.woff");
+const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
+
+const FONT_FACE_CSS = [
+  CINZEL_600 && `@font-face{font-family:'Cinzel';font-style:normal;font-weight:600;src:url("data:font/woff;base64,${CINZEL_600}") format("woff");}`,
+  CINZEL_800 && `@font-face{font-family:'Cinzel';font-style:normal;font-weight:800;src:url("data:font/woff;base64,${CINZEL_800}") format("woff");}`,
+  CORMORANT_600 && `@font-face{font-family:'Cormorant';font-style:normal;font-weight:600;src:url("data:font/woff;base64,${CORMORANT_600}") format("woff");}`,
+  CORMORANT_500I && `@font-face{font-family:'CormorantItalic';font-style:italic;font-weight:500;src:url("data:font/woff;base64,${CORMORANT_500I}") format("woff");}`,
+].filter(Boolean).join("\n      ");
 
 function getZonedParts(timeZone) {
   const now = new Date();
@@ -85,12 +108,12 @@ function buildClockSvg(tz = "Asia/Jakarta") {
   let tensSvg = "";
   for (let d = 0; d < 6; d++) {
     const vals = Array.from({ length: 6 }, (_, k) => (k === d ? "1" : "0")).join(";");
-    tensSvg += `<text x="369" y="108" text-anchor="middle" class="clock-sec" fill="#9CC084" opacity="0">${d}<animate attributeName="opacity" values="${vals}" keyTimes="0;0.1667;0.3333;0.5;0.6667;0.8333" calcMode="discrete" dur="60s" begin="-${s}s" repeatCount="indefinite"/></text>`;
+    tensSvg += `<text x="373" y="108" text-anchor="middle" class="clock-sec" fill="#9CC084" opacity="0">${d}<animate attributeName="opacity" values="${vals}" keyTimes="0;0.1667;0.3333;0.5;0.6667;0.8333" calcMode="discrete" dur="60s" begin="-${s}s" repeatCount="indefinite"/></text>`;
   }
   let onesSvg = "";
   for (let d = 0; d < 10; d++) {
     const vals = Array.from({ length: 10 }, (_, k) => (k === d ? "1" : "0")).join(";");
-    onesSvg += `<text x="392" y="108" text-anchor="middle" class="clock-sec" fill="#9CC084" opacity="0">${d}<animate attributeName="opacity" values="${vals}" keyTimes="0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.9" calcMode="discrete" dur="10s" begin="-${s % 10}s" repeatCount="indefinite"/></text>`;
+    onesSvg += `<text x="396" y="108" text-anchor="middle" class="clock-sec" fill="#9CC084" opacity="0">${d}<animate attributeName="opacity" values="${vals}" keyTimes="0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.9" calcMode="discrete" dur="10s" begin="-${s % 10}s" repeatCount="indefinite"/></text>`;
   }
 
   const t = (h * 3600 + m * 60 + s) / 86400;
@@ -127,10 +150,13 @@ function buildClockSvg(tz = "Asia/Jakarta") {
     </linearGradient>
     <clipPath id="clk_clip"><rect x="0" y="0" width="1200" height="188" rx="16"/></clipPath>
     <style>
-      .serif { font-family: Georgia, 'Times New Roman', serif; }
-      .roman { font-family: Georgia, serif; font-size: 9px; font-weight: 700; fill: #D4A843; }
-      .clock-main { font-family: Georgia, 'Times New Roman', serif; font-size: 40px; font-weight: 700; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
-      .clock-sec { font-family: Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; }
+      ${FONT_FACE_CSS}
+      .cinzel { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
+      .serif { font-family: 'Cormorant', Georgia, serif; font-weight: 600; }
+      .folio { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-weight: 500; }
+      .roman { font-family: 'Cinzel', Georgia, serif; font-size: 9px; font-weight: 600; fill: #D4A843; }
+      .clock-main { font-family: 'Cinzel', Georgia, serif; font-size: 40px; font-weight: 800; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
+      .clock-sec { font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
     </style>
   </defs>
 
@@ -178,33 +204,33 @@ function buildClockSvg(tz = "Asia/Jakarta") {
     <circle cx="222" cy="40" r="3.6" fill="#9CC084">
       <animate attributeName="opacity" values="0.35;1;0.35" dur="2.2s" repeatCount="indefinite"/>
     </circle>
-    <text x="234" y="44" class="serif" font-size="12" font-weight="700" fill="#E5C068" letter-spacing="1.6">ASTRAL HOROLOGIUM  ·  ${safeTz.toUpperCase()}</text>
+    <text x="234" y="44" class="cinzel" font-size="12" fill="#E5C068" letter-spacing="1.6">ASTRAL HOROLOGIUM  ·  ${safeTz.toUpperCase()}</text>
 
-    <rect x="218" y="58" width="290" height="68" rx="10" fill="#0B0F0D" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
-    <line x1="416" y1="68" x2="416" y2="116" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <rect x="218" y="58" width="296" height="68" rx="10" fill="#0B0F0D" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+    <line x1="420" y1="68" x2="420" y2="116" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
     <text x="234" y="108" class="clock-main" fill="#F4EFE6">${pad(h)}<tspan fill="#E5C068"><animate attributeName="opacity" values="1;0.25;1" dur="1s" repeatCount="indefinite"/>:</tspan>${pad(m)}<tspan font-size="30" fill="#8E887A">:</tspan></text>
     ${tensSvg}
     ${onesSvg}
 
-    <text x="430" y="87" class="serif" font-size="13" font-weight="700" fill="#E5C068" letter-spacing="1.2">${tzShort}</text>
-    <text x="430" y="108" class="serif" font-style="italic" font-size="14" fill="#9CC084">${tzSub}</text>
-    <text x="220" y="152" class="serif" font-style="italic" font-size="16" fill="#C8C2B4">${weekday}, ${day} ${month} ${year}  ·  <tspan fill="${phaseCol}">${phase}</tspan></text>
+    <text x="434" y="87" class="cinzel" font-size="13" fill="#E5C068" letter-spacing="1.2">${tzShort}</text>
+    <text x="434" y="108" class="folio" font-size="15" fill="#9CC084">${tzSub}</text>
+    <text x="220" y="152" class="folio" font-size="16" fill="#C8C2B4">${weekday}, ${day} ${month} ${year}  ·  <tspan fill="${phaseCol}">${phase}</tspan></text>
 
     <line x1="564" y1="28" x2="564" y2="160" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
 
-    <text x="590" y="44" class="serif" font-size="11.5" font-weight="700" fill="#B399EE" letter-spacing="1.5">IMPERIAL ERA CHRONICLE</text>
-    <text x="590" y="80" class="serif" font-size="20" font-weight="700" fill="#F4EFE6">29 Years Post-Himmel</text>
+    <text x="590" y="44" class="cinzel" font-size="11.5" fill="#B399EE" letter-spacing="1.5">IMPERIAL ERA CHRONICLE</text>
+    <text x="590" y="80" class="cinzel" font-size="20" fill="#F4EFE6">29 Years Post-Himmel</text>
     <line x1="590" y1="95" x2="836" y2="95" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
-    <text x="590" y="121" class="serif" font-style="italic" font-size="14" fill="#8E887A">Mage Registry</text>
-    <text x="836" y="121" text-anchor="end" class="serif" font-size="15.5" fill="#9CC084">Äußerst · First-Class</text>
-    <text x="590" y="149" class="serif" font-style="italic" font-size="14" fill="#8E887A">Destination</text>
-    <text x="836" y="149" text-anchor="end" class="serif" font-size="15.5" fill="#E5C068">Aureole (Ende)</text>
+    <text x="590" y="121" class="folio" font-size="14.5" fill="#8E887A">Mage Registry</text>
+    <text x="836" y="121" text-anchor="end" class="serif" font-size="16" fill="#9CC084">Äußerst · First-Class</text>
+    <text x="590" y="149" class="folio" font-size="14.5" fill="#8E887A">Destination</text>
+    <text x="836" y="149" text-anchor="end" class="serif" font-size="16" fill="#E5C068">Aureole (Ende)</text>
 
     <line x1="860" y1="28" x2="860" y2="160" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
 
-    <text x="876" y="44" class="serif" font-size="11.5" font-weight="700" fill="#9CC084" letter-spacing="1.4">CELESTIAL MERIDIAN</text>
-    <text x="1156" y="44" text-anchor="end" class="serif" font-style="italic" font-size="14" fill="#E5C068">${dayPctInt}% of cycle</text>
+    <text x="876" y="44" class="cinzel" font-size="11.5" fill="#9CC084" letter-spacing="1.4">CELESTIAL MERIDIAN</text>
+    <text x="1156" y="44" text-anchor="end" class="folio" font-size="14.5" fill="#E5C068">${dayPctInt}% of cycle</text>
     <path d="M 876 126 Q 1016 40 1156 126 Z" fill="url(#arc_fill)"/>
     <path d="M 876 126 Q 1016 40 1156 126" fill="none" stroke="#D4A843" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="4 4"/>
     <line x1="876" y1="126" x2="1156" y2="126" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
@@ -214,11 +240,11 @@ function buildClockSvg(tz = "Asia/Jakarta") {
     <line x1="1086" y1="122" x2="1086" y2="130" stroke="#B399EE" stroke-width="1"/>
     <line x1="1156" y1="122" x2="1156" y2="130" stroke="#8E887A" stroke-width="1"/>
     ${celestialOrb}
-    <text x="876" y="149" class="serif" font-style="italic" font-size="12.5" fill="#8E887A">00:00</text>
-    <text x="946" y="149" text-anchor="middle" class="serif" font-style="italic" font-size="12.5" fill="#9CC084">Dawn</text>
-    <text x="1016" y="149" text-anchor="middle" class="serif" font-style="italic" font-size="12.5" fill="#E5C068">Noon</text>
-    <text x="1086" y="149" text-anchor="middle" class="serif" font-style="italic" font-size="12.5" fill="#B399EE">Dusk</text>
-    <text x="1156" y="149" text-anchor="end" class="serif" font-style="italic" font-size="12.5" fill="#8E887A">24:00</text>
+    <text x="876" y="149" class="folio" font-size="13" fill="#8E887A">00:00</text>
+    <text x="946" y="149" text-anchor="middle" class="folio" font-size="13" fill="#9CC084">Dawn</text>
+    <text x="1016" y="149" text-anchor="middle" class="folio" font-size="13" fill="#E5C068">Noon</text>
+    <text x="1086" y="149" text-anchor="middle" class="folio" font-size="13" fill="#B399EE">Dusk</text>
+    <text x="1156" y="149" text-anchor="end" class="folio" font-size="13" fill="#8E887A">24:00</text>
   </g>
 </svg>`;
 }

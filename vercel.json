@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/clock.js": {
+      "includeFiles": "assets/fonts/*.woff"
+    }
+  }
+}
