@@ -5,12 +5,13 @@
     <img src="./assets/hero-banner.svg" alt="FitzzXYZ — First-Class Mage & Full-Stack Arcanist (Sousou no Frieren × Übel)" width="100%" />
   </p>
 
-  <!-- CONTINENTAL MAGIC ASSOCIATION LINKS & BADGES -->
+  <!-- CONTINENTAL MAGIC ASSOCIATION LINKS & LIVE REAL-TIME BADGES -->
   <p align="center">
     <a href="https://www.instagram.com/fitzz_xyz/" target="_blank"><img height="26" src="https://img.shields.io/badge/Instagram-@fitzz__xyz-B399EE?style=for-the-badge&logo=instagram&logoColor=0E1310&labelColor=131815" alt="Instagram @fitzz_xyz" /></a>&nbsp;
-    <a href="https://github.com/FitzzXYZ?tab=repositories" target="_blank"><img height="26" src="https://img.shields.io/badge/Guild_Quests-Repositories-9CC084?style=for-the-badge&logo=github&logoColor=0E1310&labelColor=131815" alt="GitHub Repositories" /></a>&nbsp;
+    <a href="https://github.com/FitzzXYZ?tab=repositories" target="_blank"><img height="26" src="https://img.shields.io/github/followers/FitzzXYZ?style=for-the-badge&label=Followers&color=9CC084&labelColor=131815&logo=github&logoColor=F4EFE6" alt="Live GitHub Followers" /></a>&nbsp;
     <a href="./graphify-out/GRAPH_REPORT.md"><img height="26" src="https://img.shields.io/badge/Graphify-Astral_Constellation-D4A843?style=for-the-badge&labelColor=131815" alt="Graphify Knowledge Graph" /></a>&nbsp;
-    <img height="26" src="https://img.shields.io/badge/Continental_Rank-First--Class_Mage-7DA8E6?style=for-the-badge&labelColor=131815" alt="First-Class Mage" />
+    <a href="https://github.com/FitzzXYZ/FitzzXYZ/commits/main"><img height="26" src="https://img.shields.io/github/last-commit/FitzzXYZ/FitzzXYZ?style=for-the-badge&label=Live_Sync&color=E5C068&labelColor=131815" alt="Live Last Sync" /></a>&nbsp;
+    <img height="26" src="https://komarev.com/ghpvc/?username=FitzzXYZ&label=GUILD%20VISITORS&color=7DA8E6&style=for-the-badge" alt="Live Profile Visitors" />
   </p>
 
   <!-- II. IMPERIAL CALENDAR & ASTROLABE ERA REGISTRY -->
@@ -77,7 +78,7 @@
 
   <!-- XIII. TOTAL KODE YANG SUDAH SAYA TULIS (DAILY AUTO-UPDATED LOC BREAKDOWN) -->
   <p align="center">
-    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 112.494 baris kode (575 file · 8 repo · 14 bahasa)" width="100%" />
+    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 112.534 baris kode (575 file · 8 repo · 14 bahasa)" width="100%" />
   </p>
   <p align="center">
     <sub>Dihitung dari semua repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar. Diperbarui otomatis setiap commit &amp; terjadwal.</sub>

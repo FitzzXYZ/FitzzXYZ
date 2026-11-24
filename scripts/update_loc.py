@@ -5,6 +5,7 @@
 """
 import base64
 from datetime import datetime, timezone, timedelta
+import html as html_lib
 import json
 import os
 import re
@@ -24,6 +25,7 @@ OUT_GRID_SVG = os.path.join(ASSETS_DIR, "mana-contribution-grid.svg")
 OUT_LEDGER_SVG = os.path.join(ASSETS_DIR, "frieren-telemetry-ledger.svg")
 OUT_GRAPH_SVG = os.path.join(ASSETS_DIR, "frieren-activity-graph.svg")
 OUT_ADV_SVG = os.path.join(ASSETS_DIR, "frieren-adventurer-card.svg")
+OUT_DASH_SVG = os.path.join(ASSETS_DIR, "developer-dashboard.svg")
 AUTHOR_PATTERN = os.environ.get("GIT_AUTHOR_PATTERN", r"FitzzXYZ\|achmadhafizmaulana290307")
 
 # Owned local repositories + parent folders scanned (1 level) for any FitzzXYZ/* repos
@@ -712,6 +714,9 @@ def update_live_github_widgets(loc_data: dict | None = None):
                 )
             if pub_repos is not None:
                 ledger = re.sub(r"\d+\s+public repos", f"{pub_repos} public repos", ledger)
+            wib = timezone(timedelta(hours=7))
+            live_date = datetime.now(wib).strftime("Live · %d %b %Y · GitHub")
+            ledger = re.sub(r"(?:May – Nov 2026|Live · \d{2} [A-Za-z]{3} \d{4}) · GitHub", live_date, ledger)
             if followers is not None and following is not None:
                 ledger = re.sub(
                     r'(<text x="936" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
@@ -746,8 +751,44 @@ def update_live_github_widgets(loc_data: dict | None = None):
             with open(OUT_ADV_SVG, "w", encoding="utf-8") as f:
                 f.write(adv)
             print(f"Updated {OUT_ADV_SVG} (contribs={total_contribs}, streak={best_streak}, commits={commits})")
+
+        # Live-sync most recently pushed public repository into developer-dashboard.svg
+        if os.path.exists(OUT_DASH_SVG):
+            pub_list = json.loads(
+                http_get(f"https://api.github.com/users/{USERNAME}/repos?sort=pushed&per_page=10", token=token)
+            )
+            latest = next((r for r in pub_list if not r.get("fork") and r.get("name", "").lower() != USERNAME.lower()), None)
+            if latest:
+                rname = html_lib.escape(latest["name"][:34])
+                rlang = html_lib.escape((latest.get("language") or "Full-Stack").upper())
+                rpush = (latest.get("pushed_at") or "")[:10]
+                rdesc = (latest.get("description") or f"Latest active quest · pushed {rpush}")[:48]
+                rdesc = html_lib.escape(rdesc)
+                with open(OUT_DASH_SVG, "r", encoding="utf-8") as f:
+                    dash = f.read()
+                dash = re.sub(
+                    r'(<text x="424" y="92" class="cinzel" font-size="11.5" fill="#9CC084" letter-spacing="1">)[^<]+(</text>)',
+                    rf"\g<1>LIVE LATEST QUEST · {rlang}\g<2>",
+                    dash,
+                    count=1,
+                )
+                dash = re.sub(
+                    r'(<text x="424" y="114" class="title">)[^<]+(</text>)',
+                    rf"\g<1>{rname}\g<2>",
+                    dash,
+                    count=1,
+                )
+                dash = re.sub(
+                    r'(<text x="424" y="136" class="body" font-size="14.5">)[^<]+(</text>)',
+                    rf"\g<1>{rdesc}\g<2>",
+                    dash,
+                    count=1,
+                )
+                with open(OUT_DASH_SVG, "w", encoding="utf-8") as f:
+                    f.write(dash)
+                print(f"Updated {OUT_DASH_SVG} (latest quest={latest['name']}, pushed={rpush})")
     except Exception as exc:
-        print(f"[warn] Telemetry/Adventurer live update skipped: {exc}")
+        print(f"[warn] Telemetry/Adventurer/Dashboard live update skipped: {exc}")
 
 
 def sync_readme_alt(data: dict) -> bool:
@@ -808,6 +849,7 @@ def auto_commit_and_push(include_readme: bool):
         "assets/frieren-telemetry-ledger.svg",
         "assets/frieren-activity-graph.svg",
         "assets/frieren-adventurer-card.svg",
+        "assets/developer-dashboard.svg",
     ]
     if include_readme:
         files.append("README.md")

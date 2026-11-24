@@ -86,9 +86,9 @@
     <text x="424" y="50" class="cinzel" font-size="16" fill="#F4EFE6" letter-spacing="0.8">ACTIVE GUILD QUESTS &amp; EXPEDITIONS</text>
     <line x1="424" y1="64" x2="796" y2="64" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
-    <text x="424" y="92" class="cinzel" font-size="11.5" fill="#9CC084" letter-spacing="1">S-RANK EXPEDITION · FULL-STACK WEB</text>
-    <text x="424" y="114" class="title">WEB-Gondrong-Rental</text>
-    <text x="424" y="136" class="body" font-size="14.5">End-to-end web rental and booking platform</text>
+    <text x="424" y="92" class="cinzel" font-size="11.5" fill="#9CC084" letter-spacing="1">LIVE LATEST QUEST · JAVASCRIPT</text>
+    <text x="424" y="114" class="title">Tugas-Kuliah-SPK</text>
+    <text x="424" y="136" class="body" font-size="14.5">Latest active quest · pushed 2026-11-23</text>
     <line x1="424" y1="150" x2="796" y2="150" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
 
     <text x="424" y="176" class="cinzel" font-size="11.5" fill="#B399EE" letter-spacing="1">A-RANK TRIAL · OBJECT-ORIENTED CORE</text>

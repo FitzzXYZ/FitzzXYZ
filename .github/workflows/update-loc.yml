@@ -9,8 +9,9 @@ on:
       - 'assets/frieren-telemetry-ledger.svg'
       - 'assets/frieren-activity-graph.svg'
       - 'assets/frieren-adventurer-card.svg'
+      - 'assets/developer-dashboard.svg'
   schedule:
-    - cron: '0 */3 * * *' # Runs automatically every 3 hours
+    - cron: '0 * * * *' # Runs automatically every hour (commits only when live data changes)
   repository_dispatch:
     types: [update-loc]
   workflow_dispatch:
@@ -42,5 +43,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md assets/frieren-total-loc.svg assets/mana-contribution-grid.svg assets/frieren-telemetry-ledger.svg assets/frieren-activity-graph.svg assets/frieren-adventurer-card.svg
+          git add README.md assets/frieren-total-loc.svg assets/mana-contribution-grid.svg assets/frieren-telemetry-ledger.svg assets/frieren-activity-graph.svg assets/frieren-adventurer-card.svg assets/developer-dashboard.svg
           git diff --staged --quiet || (git commit -m "chore(auto): update Total Kode & live profile stats [skip ci]" && git push)
