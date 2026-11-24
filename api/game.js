@@ -59,7 +59,7 @@ const GRIMOIRE_LOOT = [
     tier: "Folk Grimoire",
     tierCol: "#9CC084",
     relic: "Blue Moon Blossom (+8 MP/turn)",
-    effect: "Folk spell of quiet blossoms: restores 35 HP and +8 MP regeneration",
+    effect: "Quiet blossoms restore 35 HP and +8 MP regeneration",
     bonusDmg: 0,
     healHp: 35,
     healMp: 20,
@@ -70,7 +70,7 @@ const GRIMOIRE_LOOT = [
     tier: "Folk Grimoire",
     tierCol: "#E5C068",
     relic: "Vanguard Resolve (+40 HP)",
-    effect: "Dwarven expedition tonic: restores 40 HP and 15 MP",
+    effect: "Dwarven expedition tonic restores 40 HP and 15 MP",
     bonusDmg: 0,
     healHp: 40,
     healMp: 15,
@@ -81,7 +81,7 @@ const GRIMOIRE_LOOT = [
     tier: "Mythic Codex",
     tierCol: "#7DA8E6",
     relic: "First-Class Seal (45 True Dmg)",
-    effect: "Ancient privilege: inflicts 45 true damage to the Spiegel Replica",
+    effect: "Ancient privilege inflicts 45 true damage to the Replica",
     bonusDmg: 45,
     healHp: 10,
     healMp: 20,
@@ -92,7 +92,7 @@ const GRIMOIRE_LOOT = [
     tier: "First-Class Folio",
     tierCol: "#B399EE",
     relic: "Binding Gaze (2.2x Mark)",
-    effect: "Locks the Replica in sight and applies a 2.2x execution mark",
+    effect: "Locks the Replica in sight with a 2.2x execution mark",
     bonusDmg: 18,
     healHp: 12,
     healMp: 25,
@@ -107,7 +107,7 @@ const BOSS_ROSTER = [
     name: "Spiegel: Übel Replica",
     title: "Outer Tomb Corridor",
     maxHp: 160,
-    trait: "Mirrors slash angles unless sight-locked",
+    trait: "Mirrors unbound slashes",
     intentNormal: "Mirror Reelseiden (18 dmg)",
     intentCharge: "Severing Tempest (36 dmg)",
     armor: 0,
@@ -118,7 +118,7 @@ const BOSS_ROSTER = [
     name: "Spiegel: Sense Replica",
     title: "Hall of Crimson Wards",
     maxHp: 220,
-    trait: "Iron hair phalanx absorbs 20% of unbound slashes",
+    trait: "Hair phalanx (20% ward)",
     intentNormal: "Crimson Hair Lance (20 dmg)",
     intentCharge: "Phalanx Impale (38 dmg)",
     armor: 0.2,
@@ -129,7 +129,7 @@ const BOSS_ROSTER = [
     name: "Spiegel: Lernen Replica",
     title: "First-Class Sanctuary",
     maxHp: 260,
-    trait: "Fires concentrated black Zoltraak volleys",
+    trait: "Black Zoltraak volleys",
     intentNormal: "Golem Barrage (22 dmg)",
     intentCharge: "Black Zoltraak Volley (42 dmg)",
     armor: 0.1,
@@ -140,7 +140,7 @@ const BOSS_ROSTER = [
     name: "Spiegel: Frieren",
     title: "The King’s Inner Vault",
     maxHp: 340,
-    trait: "Commands Vollzanbel and Judradjim lightning",
+    trait: "Vollzanbel & Judradjim",
     intentNormal: "Judradjim Bolt (24 dmg)",
     intentCharge: "Height of Magic (48 dmg)",
     armor: 0.15,
@@ -207,21 +207,21 @@ function pushHistory(st, label) {
 
 function getTacticalTip(st, boss) {
   if (st.frierenTrapped) {
-    return "Frieren is stuck inside a Mimic! Appraise another coffer or cast Ward to pull her out (+25 MP).";
+    return "Frieren is stuck in a Mimic! Click Pull Frieren or cast Ward (+25 MP).";
   }
   if (st.bossBound && st.empathy >= 3) {
-    return "Maximum synergy ready: target is sight-locked and Empathy is 3/3. Cast Reelseiden for 2.2x + 35 True Cleave.";
+    return "Max synergy ready: sight-locked + Empathy 3/3. Cast Reelseiden now.";
   }
   if (st.bossBound) {
-    return `${boss.name} is paralyzed by Sorganeil. Cast Reelseiden now for a 2.2x execution strike.`;
+    return `${boss.name} is bound by Sorganeil. Cast Reelseiden for 2.2x damage.`;
   }
   if (st.bossCharging) {
-    return `Danger: ${boss.name} is charging ${boss.intentCharge}. Cast Sorganeil to stun or Ward to reflect 75% damage.`;
+    return `Danger: charging ${boss.intentCharge}. Cast Sorganeil or Ward.`;
   }
   if (st.empathy >= 3) {
-    return "Empathy Resonance is full (3/3). Your next Reelseiden ignores armor and inflicts +35 true severing damage.";
+    return "Empathy 3/3 full: next Reelseiden ignores armor (+35 true cleave).";
   }
-  return "Build Empathy to 3/3 or lock the Replica with Sorganeil before unleashing Reelseiden.";
+  return "Build Empathy to 3/3 or bind with Sorganeil before casting Reelseiden.";
 }
 
 function applyAction(st, act, isFocusCrit = false) {
@@ -286,15 +286,15 @@ function applyAction(st, act, isFocusCrit = false) {
         st.lastDmg = dmg;
         st.bossHp = Math.max(0, st.bossHp - dmg);
 
-        const critTag = isFocusCrit ? "Perfect Visualization: " : "";
+        const critTag = isFocusCrit ? "Perfect Sever: " : "";
         if (isEmpathyMax && st.bossBound) {
-          st.duelLog1 = `${critTag}Empathy Severance on sight-locked target cuts ${boss.name} for ${dmg} damage.`;
+          st.duelLog1 = `${critTag}Empathy Cleave on bound ${boss.name} deals ${dmg} damage.`;
         } else if (isEmpathyMax) {
-          st.duelLog1 = `${critTag}Empathy 3/3 complete. Reelseiden ignores armor and cleaves ${boss.name} for ${dmg} damage.`;
+          st.duelLog1 = `${critTag}Empathy 3/3 ignores armor and cleaves ${boss.name} for ${dmg} damage.`;
         } else if (st.bossBound) {
-          st.duelLog1 = `${critTag}Execution Cleave (2.2x) cuts the immobilized ${boss.name} for ${dmg} damage.`;
+          st.duelLog1 = `${critTag}Execution Cleave (2.2x) cuts bound ${boss.name} for ${dmg} damage.`;
         } else {
-          st.duelLog1 = `${critTag}Reelseiden invisible severing arc cuts ${boss.name} for ${dmg} damage (Combo x${st.combo}).`;
+          st.duelLog1 = `${critTag}Reelseiden severing arc cuts ${boss.name} for ${dmg} damage (x${st.combo}).`;
         }
         st.bossBound = false;
         st.empathy = isEmpathyMax ? 0 : Math.min(3, st.empathy + 1);
@@ -310,7 +310,7 @@ function applyAction(st, act, isFocusCrit = false) {
       const chip = (isFocusCrit ? 26 : 18) + (st.turn % 8);
       st.lastDmg = chip;
       st.bossHp = Math.max(0, st.bossHp - chip);
-      st.duelLog1 = `Sorganeil locks ${boss.name} in full view: target paralyzed (${chip} dmg, next slash deals 2.2x).`;
+      st.duelLog1 = `Sorganeil locks ${boss.name} in sight: paralyzed (${chip} dmg, next hit 2.2x).`;
     } else if (act === "ward") {
       pushHistory(st, "Zoltraak Ward");
       st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 32);
@@ -321,7 +321,7 @@ function applyAction(st, act, isFocusCrit = false) {
       const counter = isFocusCrit ? 30 : 22;
       st.lastDmg = counter;
       st.bossHp = Math.max(0, st.bossHp - counter);
-      st.duelLog1 = `Hexagonal Mana Ward refracts incoming fire: restored +22 HP, +32 MP and countered for ${counter} damage.`;
+      st.duelLog1 = `Hexagonal Mana Ward restores +22 HP, +32 MP and counters for ${counter} damage.`;
     }
 
     if (st.bossHp <= 0) {
@@ -335,15 +335,15 @@ function applyAction(st, act, isFocusCrit = false) {
       st.bossCharging = false;
       st.ubelHp = st.ubelMaxHp;
       st.ubelMp = st.ubelMaxMp;
-      st.duelLog2 = `${oldName} dissolves into golden mana particles. Chamber cleared; advancing to ${nextBoss.name}.`;
+      st.duelLog2 = `${oldName} dissolves into gold mana. Advancing to ${nextBoss.name}.`;
       return;
     }
 
     if (st.bossBound) {
-      st.duelLog2 = `${boss.name} is held motionless by Sorganeil’s binding gaze and cannot act this turn.`;
+      st.duelLog2 = `${boss.name} is immobilized by Sorganeil and cannot act this turn.`;
     } else if (!st.bossCharging && st.turn % 3 === 0) {
       st.bossCharging = true;
-      st.duelLog2 = `Alert: ${boss.name} elevates dense mana for ${boss.intentCharge}. Interrupt with Sorganeil or Ward.`;
+      st.duelLog2 = `Alert: ${boss.name} channels mana for ${boss.intentCharge}.`;
     } else {
       const rawAtk = st.bossCharging ? 34 + (st.turn % 10) : 16 + ((st.turn * 5) % 10);
       const taken = st.wardActive ? Math.floor(rawAtk * 0.25) : rawAtk;
@@ -353,11 +353,11 @@ function applyAction(st, act, isFocusCrit = false) {
       st.ubelHp = Math.max(1, st.ubelHp - taken);
       st.duelLog2 =
         taken < rawAtk
-          ? `Defensive lattice disperses ${boss.name}’s ${wasCharged ? boss.intentCharge : boss.intentNormal} (${taken} damage).`
+          ? `Ward lattice disperses ${wasCharged ? boss.intentCharge : boss.intentNormal} (${taken} damage).`
           : `${boss.name} casts ${wasCharged ? boss.intentCharge : boss.intentNormal} for ${taken} damage.`;
       if (st.ubelHp <= 15) {
         st.ubelHp = 68;
-        st.duelLog2 += " First-Class resolve triggers Second Wind (+53 HP).";
+        st.duelLog2 += " Second Wind restores +53 HP.";
       }
     }
     return;
@@ -401,7 +401,7 @@ function applyAction(st, act, isFocusCrit = false) {
         st.bossHp = Math.max(10, st.bossHp - loot.bonusDmg);
       }
       if (loot.bind) st.bossBound = true;
-      st.chestLog1 = `${label} appraised (${st.activeRelicTier}): discovered ${loot.title}.`;
+      st.chestLog1 = `${label} (${st.activeRelicTier}): found ${loot.title}.`;
       st.chestLog2 = `${loot.effect}.`;
     }
   }
@@ -599,7 +599,7 @@ export function buildGameSvg(st) {
     empathyRunes += `<polygon points="${rx},112 ${rx + 5},117 ${rx},122 ${rx - 5},117" fill="${col}"/>`;
   }
 
-  // Center Clash Visual & Animated Battle Trajectory (cx=332, cy=166)
+  // Center Clash Visual & Animated Battle Trajectory (cx=332, cy=166 — kept inside x=280..384 so it never crosses boss text)
   let clashArt = "";
   const dmgText = st.lastDmg ? `-${st.lastDmg} HP` : "READY";
   if (st.lastSpell === "reelseiden") {
@@ -621,22 +621,20 @@ export function buildGameSvg(st) {
         </g>
         <circle cx="0" cy="0" r="2.4" fill="#E5C068"/>
       </g>
-      <!-- High-Velocity Reelseiden Slash Waves Streaking Into Boss Portrait -->
-      <path d="M 284 188 Q 372 138 542 122" fill="none" stroke="#9CC084" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="280" stroke-dashoffset="280">
-        <animate attributeName="stroke-dashoffset" values="280;0;0" dur="1.1s" repeatCount="indefinite"/>
+      <!-- Bounded Reelseiden Severing Waves inside Clash Ring (x=284..382) -->
+      <path d="M 288 186 Q 332 148 378 136" fill="none" stroke="#9CC084" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="110" stroke-dashoffset="110">
+        <animate attributeName="stroke-dashoffset" values="110;0;0" dur="1.1s" repeatCount="indefinite"/>
         <animate attributeName="stroke-opacity" values="1;0.9;0.15" dur="1.1s" repeatCount="indefinite"/>
       </path>
-      <path d="M 294 196 Q 388 154 544 148" fill="none" stroke="#E5C068" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="270" stroke-dashoffset="270">
-        <animate attributeName="stroke-dashoffset" values="270;0;0" dur="1.1s" repeatCount="indefinite"/>
+      <path d="M 294 194 Q 338 160 382 148" fill="none" stroke="#E5C068" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="110" stroke-dashoffset="110">
+        <animate attributeName="stroke-dashoffset" values="110;0;0" dur="1.1s" repeatCount="indefinite"/>
         <animate attributeName="stroke-opacity" values="0.9;0.85;0.1" dur="1.1s" repeatCount="indefinite"/>
       </path>
-      <!-- Impact Slash Sparks on Boss Portrait Edge -->
-      <polygon points="546,120 552,126 544,128" fill="#9CC084">
-        <animate attributeName="fill-opacity" values="0;1;0" dur="1.1s" repeatCount="indefinite"/>
-      </polygon>
-      <polygon points="542,146 550,150 544,154" fill="#E5C068">
-        <animate attributeName="fill-opacity" values="0;1;0" dur="1.1s" repeatCount="indefinite"/>
-      </polygon>
+      <!-- Diagonal Severing Slash Overlay Directly Across Boss Portrait (x=548..612, y=104..168) -->
+      <path d="M 550 164 L 610 106" fill="none" stroke="#9CC084" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="90" stroke-dashoffset="90">
+        <animate attributeName="stroke-dashoffset" values="90;0;0" dur="1.1s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.95;0.85;0" dur="1.1s" repeatCount="indefinite"/>
+      </path>
       <g>
         <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="1.4s" repeatCount="indefinite"/>
         <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="12" fill="#9CC084">${dmgText}</text>
@@ -647,13 +645,6 @@ export function buildGameSvg(st) {
       <circle cx="332" cy="166" r="30" fill="none" stroke="#B399EE" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 3">
         <animateTransform attributeName="transform" type="rotate" from="360 332 166" to="0 332 166" dur="12s" repeatCount="indefinite"/>
       </circle>
-      <!-- Streaming Binding Gaze Leylines Locking onto Spiegel -->
-      <line x1="352" y1="162" x2="546" y2="126" stroke="#B399EE" stroke-opacity="0.65" stroke-width="1.5" stroke-dasharray="6 4">
-        <animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.8s" repeatCount="indefinite"/>
-      </line>
-      <line x1="352" y1="170" x2="546" y2="152" stroke="#E5C068" stroke-opacity="0.55" stroke-width="1.3" stroke-dasharray="6 4">
-        <animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.8s" repeatCount="indefinite"/>
-      </line>
       <ellipse cx="332" cy="166" rx="19" ry="10.5" fill="none" stroke="#B399EE" stroke-width="1.8">
         <animate attributeName="ry" values="10.5;3.2;10.5" dur="2.4s" repeatCount="indefinite"/>
       </ellipse>
@@ -673,11 +664,6 @@ export function buildGameSvg(st) {
       <polygon points="332,140 354,153 354,179 332,192 310,179 310,153" fill="#7DA8E6" fill-opacity="0.14" stroke="#7DA8E6" stroke-width="1.6">
         <animate attributeName="stroke-opacity" values="0.45;1;0.45" dur="1.5s" repeatCount="indefinite"/>
       </polygon>
-      <!-- Counter-Zoltraak Astral Lance Streaking Toward Boss -->
-      <line x1="354" y1="166" x2="546" y2="136" stroke="#7DA8E6" stroke-width="2.2" stroke-dasharray="210" stroke-dashoffset="210">
-        <animate attributeName="stroke-dashoffset" values="210;0;0" dur="1.2s" repeatCount="indefinite"/>
-        <animate attributeName="stroke-opacity" values="1;0.85;0.1" dur="1.2s" repeatCount="indefinite"/>
-      </line>
       <g>
         <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="1.4s" repeatCount="indefinite"/>
         <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="11.5" fill="#7DA8E6">+22 HP / +32 MP</text>
@@ -758,6 +744,8 @@ export function buildGameSvg(st) {
     <clipPath id="gm_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
     <clipPath id="ubel_av"><rect x="52" y="104" width="64" height="64" rx="8"/></clipPath>
     <clipPath id="spiegel_av"><rect x="548" y="104" width="64" height="64" rx="8"/></clipPath>
+    <clipPath id="duel_well_clip"><rect x="44" y="294" width="572" height="136" rx="6"/></clipPath>
+    <clipPath id="chest_well_clip"><rect x="676" y="294" width="480" height="136" rx="6"/></clipPath>
   </defs>
 
   <rect x="0.5" y="0.5" width="1199" height="455" rx="15.5" fill="url(#gm_bg)" stroke="url(#gm_border)" stroke-width="1.2"/>
@@ -849,13 +837,15 @@ export function buildGameSvg(st) {
     <line x1="510" y1="264" x2="510" y2="280" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     <text x="524" y="276" class="svg-body" font-size="13" fill="#E5C068">${xmlEsc(hist[3] || "")}</text>
 
-    <!-- Duel Chronicle Well (Borderless Recessed Surface #090C0A) -->
+    <!-- Duel Chronicle Well (Borderless Recessed Surface #090C0A, clipped so text never overflows) -->
     <rect x="40" y="292" width="584" height="140" rx="8" fill="#090C0A"/>
-    <text x="56" y="316" class="svg-body" font-size="14" fill="#E5C068">Combat Chronicle &amp; Tactical Advisor</text>
-    <text x="56" y="344" class="svg-body" font-size="15" fill="#F4EFE6">${xmlEsc(st.duelLog1)}</text>
-    <text x="56" y="372" class="svg-folio" font-size="14.5" fill="#9CC084">${xmlEsc(st.duelLog2)}</text>
-    <line x1="56" y1="388" x2="608" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-    <text x="56" y="412" class="svg-folio" font-size="14" fill="#E5C068">${xmlEsc(tipText)}</text>
+    <g clip-path="url(#duel_well_clip)">
+      <text x="56" y="316" class="svg-body" font-size="14" fill="#E5C068">Combat Chronicle &amp; Tactical Advisor</text>
+      <text x="56" y="344" class="svg-body" font-size="14" fill="#F4EFE6">${xmlEsc(st.duelLog1)}</text>
+      <text x="56" y="372" class="svg-folio" font-size="13.5" fill="#9CC084">${xmlEsc(st.duelLog2)}</text>
+      <line x1="56" y1="388" x2="608" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
+      <text x="56" y="412" class="svg-folio" font-size="13.5" fill="#E5C068">${xmlEsc(tipText)}</text>
+    </g>
 
     <!-- Master Vertical Hairline Divider -->
     <line x1="648" y1="70" x2="648" y2="432" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
@@ -878,13 +868,15 @@ export function buildGameSvg(st) {
     <text x="760" y="276" class="svg-body" font-size="14" fill="#E5C068">${xmlEsc(st.activeRelic || "Blue Moon Blossom (+8 MP/turn)")}</text>
     <text x="1164" y="276" text-anchor="end" class="svg-folio" font-size="13.5" fill="#9CC084">${st.relicCount || 3} Folios Collected</text>
 
-    <!-- Reliquary Appraisal Well (Borderless Recessed Surface #090C0A) -->
+    <!-- Reliquary Appraisal Well (Borderless Recessed Surface #090C0A, clipped so text never overflows) -->
     <rect x="672" y="292" width="492" height="140" rx="8" fill="#090C0A"/>
-    <text x="688" y="316" class="svg-body" font-size="14" fill="#B399EE">Reliquary Appraisal Ledger</text>
-    <text x="688" y="344" class="svg-body" font-size="15" fill="#F4EFE6">${xmlEsc(st.chestLog1)}</text>
-    <text x="688" y="372" class="svg-folio" font-size="14.5" fill="#C8C2B4">${xmlEsc(st.chestLog2)}</text>
-    <line x1="688" y1="388" x2="1148" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-    <text x="688" y="412" class="svg-folio" font-size="14" fill="#9CC084">Relic resonance: ${xmlEsc(st.activeRelicEffect || "Regenerates +8 MP after every turn.")}</text>
+    <g clip-path="url(#chest_well_clip)">
+      <text x="688" y="316" class="svg-body" font-size="14" fill="#B399EE">Reliquary Appraisal Ledger</text>
+      <text x="688" y="344" class="svg-body" font-size="14" fill="#F4EFE6">${xmlEsc(st.chestLog1)}</text>
+      <text x="688" y="372" class="svg-folio" font-size="13.5" fill="#C8C2B4">${xmlEsc(st.chestLog2)}</text>
+      <line x1="688" y1="388" x2="1148" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
+      <text x="688" y="412" class="svg-folio" font-size="13.5" fill="#9CC084">Resonance: ${xmlEsc(st.activeRelicEffect || "Regenerates +8 MP after every turn.")}</text>
+    </g>
   </g>
 </svg>`;
 }
