@@ -2,6 +2,9 @@
   "functions": {
     "api/clock.js": {
       "includeFiles": "assets/fonts/*.woff"
+    },
+    "api/game.js": {
+      "includeFiles": "assets/{fonts/*.woff,ubel-mini-b64.txt}"
     }
   }
 }
