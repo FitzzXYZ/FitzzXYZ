@@ -28,6 +28,7 @@ const CORMORANT_600 = loadFontB64("cormorant-600.woff");
 const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
 const UBEL_AVATAR = loadFileText("assets/ubel-mini-b64.txt");
 const SPIEGEL_AVATAR = loadFileText("assets/spiegel-mini-b64.txt");
+const FRIEREN_MIMIC_IMG = loadFileText("assets/game/frieren-mimic-b64.txt");
 const BOSS_PORTRAITS = [
   loadFileText("assets/game/boss-ubel-b64.txt") || SPIEGEL_AVATAR,
   loadFileText("assets/game/boss-sense-b64.txt") || SPIEGEL_AVATAR,
@@ -537,45 +538,19 @@ function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected, idx)
       <path d="M ${cx - 30} ${yTop + 76} L ${cx + 30} ${yTop + 76} L ${cx + 28} ${yTop + 98} L ${cx - 28} ${yTop + 98} Z" fill="#181512" stroke="#E5C068" stroke-width="1.1"/>
       <text x="${cx}" y="${yTop + 124}" text-anchor="middle" class="svg-body" font-size="13.5" fill="#9CC084">Authentic Grimoire</text>`;
   } else {
-    // Iconic Frieren trapped inside Mimic Chest (with chattering jaws, kicking boots & white twin-tails!)
+    // Authentic Episode 23 Anime Scene of Frieren trapped inside Mimic Chest (with fallback vector)
+    const mimicPhoto = FRIEREN_MIMIC_IMG
+      ? `<g>
+          <animateTransform attributeName="transform" type="rotate" values="-2.5 ${cx} ${yTop + 69}; 2.5 ${cx} ${yTop + 69}; -2.5 ${cx} ${yTop + 69}" dur="0.44s" repeatCount="indefinite"/>
+          <image href="${FRIEREN_MIMIC_IMG}" x="${cx - 38}" y="${yTop + 40}" width="76" height="58" preserveAspectRatio="xMidYMid slice" clip-path="url(#mimic_clip_${idx})"/>
+          <rect x="${cx - 38}" y="${yTop + 40}" width="76" height="58" rx="6" fill="none" stroke="#D4886A" stroke-width="1.4"/>
+        </g>`
+      : "";
     illustration = `
       <circle cx="${cx}" cy="${yTop + 68}" r="36" fill="#D4886A" fill-opacity="0.14">
         <animate attributeName="r" values="28;39;28" dur="1.1s" repeatCount="indefinite"/>
       </circle>
-      <!-- Chattering Mimic Upper Jaw -->
-      <g>
-        <animateTransform attributeName="transform" type="rotate" values="-2 ${cx} ${yTop + 62}; 4 ${cx} ${yTop + 62}; -2 ${cx} ${yTop + 62}" dur="0.46s" repeatCount="indefinite"/>
-        <path d="M ${cx - 32} ${yTop + 62} Q ${cx} ${yTop + 40} ${cx + 32} ${yTop + 62} Z" fill="#221215" stroke="#D4886A" stroke-width="1.2"/>
-        <ellipse cx="${cx - 12}" cy="${yTop + 53}" rx="3" ry="1.6" fill="#E5C068">
-          <animate attributeName="ry" values="1.6;0.4;1.6" dur="0.9s" repeatCount="indefinite"/>
-        </ellipse>
-        <ellipse cx="${cx + 12}" cy="${yTop + 53}" rx="3" ry="1.6" fill="#E5C068">
-          <animate attributeName="ry" values="1.6;0.4;1.6" dur="0.9s" repeatCount="indefinite"/>
-        </ellipse>
-      </g>
-      <!-- Frieren's Iconic White Twin-Tails & Alternating Kicking Boots Sticking Out of Mimic Maw -->
-      <path d="M ${cx - 18} ${yTop + 64} Q ${cx - 28} ${yTop + 52} ${cx - 34} ${yTop + 58}" fill="none" stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round">
-        <animateTransform attributeName="transform" type="rotate" values="-6 ${cx - 18} ${yTop + 64}; 6 ${cx - 18} ${yTop + 64}; -6 ${cx - 18} ${yTop + 64}" dur="0.52s" repeatCount="indefinite"/>
-      </path>
-      <path d="M ${cx + 18} ${yTop + 64} Q ${cx + 28} ${yTop + 52} ${cx + 34} ${yTop + 58}" fill="none" stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round">
-        <animateTransform attributeName="transform" type="rotate" values="6 ${cx + 18} ${yTop + 64}; -6 ${cx + 18} ${yTop + 64}; 6 ${cx + 18} ${yTop + 64}" dur="0.52s" repeatCount="indefinite"/>
-      </path>
-      <!-- Left Leg Kicking -->
-      <g>
-        <animateTransform attributeName="transform" type="rotate" values="-10 ${cx - 7} ${yTop + 70}; 8 ${cx - 7} ${yTop + 70}; -10 ${cx - 7} ${yTop + 70}" dur="0.38s" repeatCount="indefinite"/>
-        <line x1="${cx - 7}" y1="${yTop + 70}" x2="${cx - 13}" y2="${yTop + 46}" stroke="#F4EFE6" stroke-width="3.2" stroke-linecap="round"/>
-        <path d="M ${cx - 16} ${yTop + 46} L ${cx - 9} ${yTop + 46} L ${cx - 7} ${yTop + 39} L ${cx - 18} ${yTop + 41} Z" fill="#5C3D2E" stroke="#E5C068" stroke-width="0.8"/>
-      </g>
-      <!-- Right Leg Kicking (Counter-Phase) -->
-      <g>
-        <animateTransform attributeName="transform" type="rotate" values="9 ${cx + 7} ${yTop + 70}; -9 ${cx + 7} ${yTop + 70}; 9 ${cx + 7} ${yTop + 70}" dur="0.38s" repeatCount="indefinite"/>
-        <line x1="${cx + 7}" y1="${yTop + 70}" x2="${cx + 14}" y2="${yTop + 48}" stroke="#F4EFE6" stroke-width="3.2" stroke-linecap="round"/>
-        <path d="M ${cx + 10} ${yTop + 48} L ${cx + 17} ${yTop + 48} L ${cx + 19} ${yTop + 41} L ${cx + 9} ${yTop + 43} Z" fill="#5C3D2E" stroke="#E5C068" stroke-width="0.8"/>
-      </g>
-      <!-- Ivory Mimic Fangs -->
-      <polygon points="${cx - 24},${yTop + 62} ${cx - 19},${yTop + 70} ${cx - 14},${yTop + 62} ${cx - 8},${yTop + 71} ${cx - 3},${yTop + 62} ${cx + 3},${yTop + 62} ${cx + 8},${yTop + 71} ${cx + 14},${yTop + 62} ${cx + 19},${yTop + 70} ${cx + 24},${yTop + 62}" fill="#F4EFE6"/>
-      <!-- Mimic Lower Chest Body -->
-      <path d="M ${cx - 32} ${yTop + 74} L ${cx + 32} ${yTop + 74} L ${cx + 30} ${yTop + 98} L ${cx - 30} ${yTop + 98} Z" fill="#1B1012" stroke="#D4886A" stroke-width="1.2"/>
+      ${mimicPhoto}
       <text x="${cx}" y="${yTop + 124}" text-anchor="middle" class="svg-body" font-size="13.5" fill="#D4886A">Frieren Trapped! (-15 HP)</text>`;
   }
 
@@ -746,6 +721,9 @@ export function buildGameSvg(st) {
     <clipPath id="spiegel_av"><rect x="548" y="104" width="64" height="64" rx="8"/></clipPath>
     <clipPath id="duel_well_clip"><rect x="44" y="294" width="572" height="136" rx="6"/></clipPath>
     <clipPath id="chest_well_clip"><rect x="676" y="294" width="480" height="136" rx="6"/></clipPath>
+    <clipPath id="mimic_clip_0"><rect x="710" y="142" width="76" height="58" rx="6"/></clipPath>
+    <clipPath id="mimic_clip_1"><rect x="880" y="142" width="76" height="58" rx="6"/></clipPath>
+    <clipPath id="mimic_clip_2"><rect x="1048" y="142" width="76" height="58" rx="6"/></clipPath>
   </defs>
 
   <rect x="0.5" y="0.5" width="1199" height="455" rx="15.5" fill="url(#gm_bg)" stroke="url(#gm_border)" stroke-width="1.2"/>
