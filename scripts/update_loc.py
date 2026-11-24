@@ -26,6 +26,7 @@ OUT_LEDGER_SVG = os.path.join(ASSETS_DIR, "frieren-telemetry-ledger.svg")
 OUT_GRAPH_SVG = os.path.join(ASSETS_DIR, "frieren-activity-graph.svg")
 OUT_ADV_SVG = os.path.join(ASSETS_DIR, "frieren-adventurer-card.svg")
 OUT_DASH_SVG = os.path.join(ASSETS_DIR, "developer-dashboard.svg")
+OUT_CLOCK_SVG = os.path.join(ASSETS_DIR, "frieren-clock.svg")
 AUTHOR_PATTERN = os.environ.get("GIT_AUTHOR_PATTERN", r"FitzzXYZ\|achmadhafizmaulana290307")
 
 # Owned local repositories + parent folders scanned (1 level) for any FitzzXYZ/* repos
@@ -841,6 +842,149 @@ def install_post_commit_hooks(extra_repos: list[str] | None = None):
         print(f"Installed post-commit hook -> {hook_path}")
 
 
+def build_clock_svg() -> str:
+    """Build the animated Frieren x Ubel Celestial Astrolabe WIB Clock SVG (pure SMIL ticking)."""
+    import math
+    cinzel_600 = font_b64("cinzel-600.woff")
+    cinzel_800 = font_b64("cinzel-800.woff")
+    cormorant_500i = font_b64("cormorant-italic-500.woff")
+
+    wib = timezone(timedelta(hours=7))
+    now = datetime.now(wib)
+    h, m, s = now.hour, now.minute, now.second
+
+    sec_deg = s * 6.0
+    min_deg = m * 6.0 + s * 0.1
+    hour_deg = (h % 12) * 30.0 + m * 0.5 + s * (0.5 / 60.0)
+
+    if 5 <= h < 11:
+        phase, phase_col = "Dawn Expedition Watch", "#9CC084"
+    elif 11 <= h < 15:
+        phase, phase_col = "High Sun Meridian", "#E5C068"
+    elif 15 <= h < 19:
+        phase, phase_col = "Aureole Dusk Horizon", "#D4A843"
+    else:
+        phase, phase_col = "Nocturnal Grimoire Study", "#B399EE"
+
+    ticks = []
+    for i in range(12):
+        a = math.radians(i * 30 - 90)
+        r1 = 35 if i % 3 == 0 else 38
+        r2 = 43
+        x1, y1 = 84 + math.cos(a) * r1, 70 + math.sin(a) * r1
+        x2, y2 = 84 + math.cos(a) * r2, 70 + math.sin(a) * r2
+        col = "#E5C068" if i % 3 == 0 else "#8BA872"
+        sw = "1.8" if i % 3 == 0 else "1.1"
+        ticks.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="{sw}" stroke-linecap="round"/>')
+
+    tens_svg = "".join(
+        f'<text x="290" y="88" class="clock-sec" fill="#9CC084" opacity="0">{d}'
+        f'<animate attributeName="opacity" values="{";".join("1" if k == d else "0" for k in range(6))}" '
+        f'keyTimes="0;0.1667;0.3333;0.5;0.6667;0.8333" calcMode="discrete" dur="60s" begin="-{s}s" repeatCount="indefinite"/></text>'
+        for d in range(6)
+    )
+    ones_svg = "".join(
+        f'<text x="311" y="88" class="clock-sec" fill="#9CC084" opacity="0">{d}'
+        f'<animate attributeName="opacity" values="{";".join("1" if k == d else "0" for k in range(10))}" '
+        f'keyTimes="0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.9" calcMode="discrete" dur="10s" begin="-{s % 10}s" repeatCount="indefinite"/></text>'
+        for d in range(10)
+    )
+
+    day_pct = (h * 3600 + m * 60 + s) / 86400.0
+    sun_x = 820 + day_pct * 310
+    sun_y = 94 - math.sin(day_pct * math.pi) * 34
+    date_str = now.strftime("%A, %d %B %Y")
+
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 140" width="100%" height="100%">
+  <defs>
+    <linearGradient id="clk_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1310"/>
+      <stop offset="50%" stop-color="#131815"/>
+      <stop offset="100%" stop-color="#16131E"/>
+    </linearGradient>
+    <linearGradient id="clk_border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
+    </linearGradient>
+    <clipPath id="clk_clip"><rect x="0" y="0" width="1200" height="140" rx="16"/></clipPath>
+    <style>
+      @font-face {{
+        font-family: 'Cinzel';
+        font-style: normal;
+        font-weight: 600;
+        src: url("data:font/woff;base64,{cinzel_600}") format("woff");
+      }}
+      @font-face {{
+        font-family: 'Cinzel';
+        font-style: normal;
+        font-weight: 800;
+        src: url("data:font/woff;base64,{cinzel_800}") format("woff");
+      }}
+      @font-face {{
+        font-family: 'CormorantItalic';
+        font-style: italic;
+        font-weight: 500;
+        src: url("data:font/woff;base64,{cormorant_500i}") format("woff");
+      }}
+      .cinzel {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
+      .folio {{ font-family: 'CormorantItalic', Georgia, serif; font-style: italic; }}
+      .clock-main {{ font-family: 'Cinzel', Georgia, serif; font-size: 40px; font-weight: 800; letter-spacing: 2px; }}
+      .clock-sec {{ font-family: 'Cinzel', Georgia, serif; font-size: 30px; font-weight: 800; }}
+    </style>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="1199" height="139" rx="15.5" fill="url(#clk_bg)" stroke="url(#clk_border)" stroke-width="1.2"/>
+  <rect x="6.5" y="6.5" width="1187" height="127" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
+  <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="16,128 20,124 16,120 12,124" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="1184,128 1188,124 1184,120 1180,124" fill="#D4A843" fill-opacity="0.65"/>
+
+  <g clip-path="url(#clk_clip)">
+    <circle cx="84" cy="70" r="51" fill="none" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 5">
+      <animateTransform attributeName="transform" type="rotate" from="0 84 70" to="360 84 70" dur="60s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="84" cy="70" r="45" fill="#0B0F0D" stroke="#D4A843" stroke-opacity="0.6" stroke-width="1.2"/>
+    {"".join(ticks)}
+    <line x1="84" y1="70" x2="84" y2="46" stroke="#F4EFE6" stroke-width="2.6" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="{hour_deg:.2f} 84 70" to="{hour_deg + 360:.2f} 84 70" dur="43200s" repeatCount="indefinite"/>
+    </line>
+    <line x1="84" y1="70" x2="84" y2="36" stroke="#9CC084" stroke-width="2" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="{min_deg:.2f} 84 70" to="{min_deg + 360:.2f} 84 70" dur="3600s" repeatCount="indefinite"/>
+    </line>
+    <line x1="84" y1="78" x2="84" y2="32" stroke="#E5C068" stroke-width="1.2" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="{sec_deg:.2f} 84 70" to="{sec_deg + 360:.2f} 84 70" dur="60s" repeatCount="indefinite"/>
+    </line>
+    <circle cx="84" cy="70" r="3.4" fill="#E5C068"/>
+
+    <text x="166" y="42" class="cinzel" font-size="12" fill="#E5C068" letter-spacing="1.6">ASTRAL HOROLOGIUM  ·  ASIA / JAKARTA</text>
+    <text x="166" y="88" class="clock-main" fill="#F4EFE6">{h:02d}<tspan fill="#E5C068"><animate attributeName="opacity" values="1;0.25;1" dur="1s" repeatCount="indefinite"/>:</tspan>{m:02d}<tspan font-size="30" fill="#8E887A">:</tspan></text>
+    {tens_svg}
+    {ones_svg}
+    <text x="344" y="86" class="cinzel" font-size="13.5" fill="#D4A843" letter-spacing="1.2">WIB · UTC+7</text>
+    <text x="166" y="114" class="folio" font-size="16" fill="#C8C2B4">{date_str}  ·  <tspan fill="{phase_col}">{phase}</tspan></text>
+
+    <line x1="786" y1="24" x2="786" y2="116" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
+
+    <circle cx="826" cy="36" r="4" fill="#9CC084">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="838" y="40" class="cinzel" font-size="12" fill="#9CC084" letter-spacing="1.4">LIVE CELESTIAL MERIDIAN</text>
+    <path d="M 820 94 Q 975 30 1130 94" fill="none" stroke="#D4A843" stroke-opacity="0.32" stroke-width="1.4" stroke-dasharray="4 4"/>
+    <line x1="820" y1="94" x2="1130" y2="94" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+    <circle cx="{sun_x:.1f}" cy="{sun_y:.1f}" r="9" fill="{phase_col}" fill-opacity="0.24">
+      <animate attributeName="r" values="6;13;6" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="0.35;0.05;0.35" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="{sun_x:.1f}" cy="{sun_y:.1f}" r="4.5" fill="#F4EFE6" stroke="{phase_col}" stroke-width="1.5"/>
+    <text x="820" y="113" class="folio" font-size="12.5" fill="#8E887A">00:00</text>
+    <text x="975" y="113" text-anchor="middle" class="folio" font-size="12.5" fill="#E5C068">12:00</text>
+    <text x="1130" y="113" text-anchor="end" class="folio" font-size="12.5" fill="#8E887A">23:59</text>
+  </g>
+</svg>'''
+
+
 def auto_commit_and_push(include_readme: bool):
     """Stage only auto-generated profile assets, commit with [skip ci], and push (rebasing if bot pushed earlier)."""
     files = [
@@ -850,6 +994,7 @@ def auto_commit_and_push(include_readme: bool):
         "assets/frieren-activity-graph.svg",
         "assets/frieren-adventurer-card.svg",
         "assets/developer-dashboard.svg",
+        "assets/frieren-clock.svg",
     ]
     if include_readme:
         files.append("README.md")
@@ -928,6 +1073,10 @@ def run_update(auto_push: bool = False):
                 with open(OUT_LOC_SVG, "w", encoding="utf-8") as f:
                     f.write(new_svg)
             print(f"Preserved existing LOC counts in {OUT_LOC_SVG} (refreshed date -> {updated_str})")
+
+        with open(OUT_CLOCK_SVG, "w", encoding="utf-8") as f:
+            f.write(build_clock_svg())
+        print(f"Generated {OUT_CLOCK_SVG} ({os.path.getsize(OUT_CLOCK_SVG)/1024:.1f} KB)")
 
         update_live_github_widgets(data)
         if auto_push:

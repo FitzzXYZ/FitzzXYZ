@@ -19,6 +19,12 @@
     <img src="./assets/frieren-era-banner.svg" alt="Imperial Calendar — 29 Years After the Passing of Himmel the Hero" width="100%" />
   </p>
 
+  <!-- II-B. ASTRAL HOROLOGIUM — LIVE CELESTIAL CLOCK (WIB / UTC+7) -->
+  <!-- Tip: Deploy repo ini ke Vercel lalu ganti src ke https://<app-anda>.vercel.app/api/clock?tz=Asia/Jakarta untuk jam real-time presisi tiap detik! -->
+  <p align="center">
+    <img src="./assets/frieren-clock.svg" alt="Astral Horologium — Live WIB Celestial Astrolabe Clock" width="100%" />
+  </p>
+
   <!-- III. BARDIC RESONANCE & TAVERN GRAMOPHONE OST PLAYER -->
   <p align="center">
     <img src="./assets/frieren-ost-player.svg" alt="Zoltraak & Reelseiden — Evan Call (Sousou no Frieren Original Soundtrack)" width="100%" />
@@ -78,7 +84,7 @@
 
   <!-- XIII. TOTAL KODE YANG SUDAH SAYA TULIS (DAILY AUTO-UPDATED LOC BREAKDOWN) -->
   <p align="center">
-    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 112.534 baris kode (575 file · 8 repo · 14 bahasa)" width="100%" />
+    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 112.826 baris kode (576 file · 8 repo · 14 bahasa)" width="100%" />
   </p>
   <p align="center">
     <sub>Dihitung dari semua repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar. Diperbarui otomatis setiap commit &amp; terjadwal.</sub>
