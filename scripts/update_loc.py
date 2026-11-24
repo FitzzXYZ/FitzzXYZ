@@ -813,65 +813,76 @@ def update_live_github_widgets(loc_data: dict | None = None):
 
 
 def build_fantasy_badges(followers: int = 6, pub_repos: int = 3, active_repos: int = 8):
-    """Generate 4 self-hosted High-Fantasy SVG badges matching the Frieren x Ubel Grimoire palette."""
+    """Generate 4 minimal self-hosted badges with official brand logos (Instagram, GitHub) matching the theme."""
     wib = timezone(timedelta(hours=7))
-    sync_str = datetime.now(wib).strftime("%d %b %Y").upper()
+    sync_str = datetime.now(wib).strftime("%d %b %Y")
 
-    def pill(w, split_x, accent, label, value, icon_svg):
+    def simple_pill(w, border_col, text_svg, icon_svg):
         return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 32" width="{w}" height="32">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="100%" stop-color="#16131E"/>
-    </linearGradient>
-    <clipPath id="cp"><rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="7.5"/></clipPath>
-  </defs>
-  <g clip-path="url(#cp)">
-    <rect x="0" y="0" width="{w}" height="32" fill="url(#bg)"/>
-    <rect x="{split_x}" y="0" width="{w - split_x}" height="32" fill="{accent}" fill-opacity="0.16"/>
-    <line x1="{split_x}" y1="5" x2="{split_x}" y2="27" stroke="{accent}" stroke-opacity="0.45" stroke-width="1"/>
-  </g>
-  <rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="7.5" fill="none" stroke="{accent}" stroke-opacity="0.58" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="8" fill="#111613" stroke="{border_col}" stroke-opacity="0.45" stroke-width="1"/>
   {icon_svg}
-  <text x="32" y="20" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" font-weight="700" letter-spacing="1.1" fill="#C8C2B4">{label}</text>
-  <text x="{split_x + (w - split_x) / 2:.1f}" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="{accent}">{value}</text>
+  {text_svg}
 </svg>'''
 
+    # Official Instagram glyph (24x24 scaled to 16x16 at x=12, y=8)
     ig_icon = (
-        '<rect x="11" y="9" width="14" height="14" rx="4" fill="none" stroke="#B399EE" stroke-width="1.4"/>'
-        '<circle cx="18" cy="16" r="3.2" fill="none" stroke="#B399EE" stroke-width="1.3"/>'
-        '<circle cx="21.8" cy="12.2" r="0.9" fill="#B399EE"/>'
+        '<defs><linearGradient id="ig_g" x1="0%" y1="100%" x2="100%" y2="0%">'
+        '<stop offset="0%" stop-color="#FEDA75"/><stop offset="35%" stop-color="#FA7E1E"/>'
+        '<stop offset="68%" stop-color="#D62976"/><stop offset="100%" stop-color="#962FBF"/>'
+        '</linearGradient></defs>'
+        '<g transform="translate(12, 8) scale(0.6667)">'
+        '<path fill="url(#ig_g)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>'
+        '</g>'
     )
+    # Official GitHub Octocat logo (24x24 scaled to 16x16 at x=12, y=8)
     gh_icon = (
-        '<circle cx="18" cy="16" r="6.2" fill="none" stroke="#9CC084" stroke-width="1.3"/>'
-        '<polygon points="18,11.5 21.5,16 18,20.5 14.5,16" fill="#9CC084"/>'
+        '<g transform="translate(12, 8) scale(0.6667)">'
+        '<path fill="#F4EFE6" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>'
+        '</g>'
     )
     gfy_icon = (
-        '<circle cx="14" cy="13" r="1.8" fill="#E5C068"/>'
-        '<circle cx="22" cy="12.5" r="1.8" fill="#9CC084"/>'
-        '<circle cx="18.5" cy="20.5" r="1.8" fill="#B399EE"/>'
-        '<line x1="14" y1="13" x2="22" y2="12.5" stroke="#D4A843" stroke-width="1"/>'
-        '<line x1="14" y1="13" x2="18.5" y2="20.5" stroke="#D4A843" stroke-width="1"/>'
-        '<line x1="22" y1="12.5" x2="18.5" y2="20.5" stroke="#D4A843" stroke-width="1"/>'
+        '<line x1="15" y1="12" x2="23" y2="12" stroke="#D4A843" stroke-width="1.2"/>'
+        '<line x1="15" y1="12" x2="19" y2="20" stroke="#D4A843" stroke-width="1.2"/>'
+        '<line x1="23" y1="12" x2="19" y2="20" stroke="#D4A843" stroke-width="1.2"/>'
+        '<circle cx="15" cy="12" r="2.1" fill="#E5C068"/>'
+        '<circle cx="23" cy="12" r="2.1" fill="#9CC084"/>'
+        '<circle cx="19" cy="20" r="2.1" fill="#B399EE"/>'
     )
     sync_icon = (
-        '<circle cx="18" cy="16" r="4" fill="#9CC084">'
+        '<circle cx="19" cy="16" r="4" fill="#9CC084">'
         '<animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/></circle>'
-        '<circle cx="18" cy="16" r="7" fill="none" stroke="#9CC084" stroke-width="0.9">'
+        '<circle cx="19" cy="16" r="7" fill="none" stroke="#9CC084" stroke-width="1">'
         '<animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/>'
         '<animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/></circle>'
     )
 
+    f_sans = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif"
     badges = {
-        "badge-instagram.svg": pill(204, 114, "#B399EE", "INSTAGRAM", "@FITZZ_XYZ", ig_icon),
-        "badge-repos.svg": pill(242, 92, "#9CC084", "GITHUB", f"{followers} FOLLOWERS · {active_repos} REPOS", gh_icon),
-        "badge-graphify.svg": pill(216, 108, "#E5C068", "GRAPHIFY", "24 NODES · MAP", gfy_icon),
-        "badge-sync.svg": pill(202, 108, "#7DA8E6", "LIVE SYNC", sync_str, sync_icon),
+        "badge-instagram.svg": simple_pill(
+            114, "#B399EE",
+            f'<text x="36" y="20.5" font-family="{f_sans}" font-size="12.5" font-weight="600" fill="#F4EFE6">@fitzz_xyz</text>',
+            ig_icon,
+        ),
+        "badge-repos.svg": simple_pill(
+            158, "#9CC084",
+            f'<text x="36" y="20.5" font-family="{f_sans}" font-size="12.5" font-weight="600" fill="#F4EFE6">FitzzXYZ <tspan fill="#9CC084" font-weight="500">· {active_repos} repos</tspan></text>',
+            gh_icon,
+        ),
+        "badge-graphify.svg": simple_pill(
+            162, "#E5C068",
+            f'<text x="36" y="20.5" font-family="{f_sans}" font-size="12.5" font-weight="600" fill="#F4EFE6">Graphify <tspan fill="#E5C068" font-weight="500">· 24 nodes</tspan></text>',
+            gfy_icon,
+        ),
+        "badge-sync.svg": simple_pill(
+            148, "#7DA8E6",
+            f'<text x="34" y="20.5" font-family="{f_sans}" font-size="12.5" font-weight="600" fill="#F4EFE6">Live <tspan fill="#8E96AA" font-weight="500">· {sync_str}</tspan></text>',
+            sync_icon,
+        ),
     }
     for name, content in badges.items():
         with open(os.path.join(ASSETS_DIR, name), "w", encoding="utf-8") as f:
             f.write(content)
-    print(f"Generated 4 self-hosted fantasy badges (followers={followers}, active_repos={active_repos}, sync={sync_str})")
+    print(f"Generated 4 minimal official-logo badges (active_repos={active_repos}, sync={sync_str})")
 
 
 def sync_readme_alt(data: dict) -> bool:
