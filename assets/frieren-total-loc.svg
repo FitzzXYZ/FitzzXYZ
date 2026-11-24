@@ -22,6 +22,11 @@
     </radialGradient>
     <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
     <clipPath id="loc_bar_clip"><rect x="56.0" y="186" width="1088.0" height="16" rx="8"/></clipPath>
+    <linearGradient id="loc_sheen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F4EFE6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F4EFE6" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#F4EFE6" stop-opacity="0"/>
+    </linearGradient>
     <style>
       @font-face {
         font-family: 'Cinzel';
@@ -68,13 +73,13 @@
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="12" x2="21" y2="12" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="17" x2="21" y2="17" stroke="#8E887A" stroke-width="1.2"/>
-      <circle cx="7" cy="7" r="2" fill="#E05D53"/>
-      <circle cx="12" cy="7" r="2" fill="#E5C068"/>
+      <circle cx="7" cy="7" r="2" fill="#E05D53"><animate attributeName="cx" values="7;9;7" dur="5.2s" repeatCount="indefinite"/></circle>
+      <circle cx="12" cy="7" r="2" fill="#E5C068"><animate attributeName="opacity" values="0.7;1;0.7" dur="3.6s" repeatCount="indefinite"/></circle>
       <circle cx="17" cy="7" r="2" fill="#9CC084"/>
-      <circle cx="9" cy="12" r="2" fill="#4A90E2"/>
-      <circle cx="15" cy="12" r="2" fill="#B399EE"/>
+      <circle cx="9" cy="12" r="2" fill="#4A90E2"><animate attributeName="cx" values="9;7;9" dur="6.0s" repeatCount="indefinite"/></circle>
+      <circle cx="15" cy="12" r="2" fill="#B399EE"><animate attributeName="opacity" values="0.65;1;0.65" dur="4.0s" repeatCount="indefinite"/></circle>
       <circle cx="7" cy="17" r="2" fill="#E5C068"/>
-      <circle cx="13" cy="17" r="2" fill="#9CC084"/>
+      <circle cx="13" cy="17" r="2" fill="#9CC084"><animate attributeName="cx" values="13;16;13" dur="5.6s" repeatCount="indefinite"/></circle>
     </g>
     <text x="70" y="39" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">TOTAL KODE YANG SUDAH SAYA TULIS</text>
     <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned &amp; Contributed Repos · Verified LOC</text>
@@ -84,7 +89,7 @@
     <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_glow)"/>
 
     <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
-    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">112.464 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">112.494 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">575 file  ·  8 repo  ·  14 bahasa</text>
 
     <g clip-path="url(#loc_bar_clip)">
@@ -94,11 +99,14 @@
       <rect x="963.39" y="186" width="61.53" height="16" fill="#E5C068"/>
       <rect x="1024.32" y="186" width="50.65" height="16" fill="#B399EE"/>
       <rect x="1074.37" y="186" width="26.71" height="16" fill="#6BB5C9"/>
-      <rect x="1100.48" y="186" width="16.92" height="16" fill="#6EA8A6"/>
-      <rect x="1116.80" y="186" width="7.13" height="16" fill="#C98D6B"/>
-      <rect x="1123.33" y="186" width="6.04" height="16" fill="#7EA876"/>
-      <rect x="1128.77" y="186" width="6.04" height="16" fill="#C96D68"/>
-      <rect x="1134.21" y="186" width="10.39" height="16" fill="#6B7280"/>
+      <rect x="1100.48" y="186" width="18.01" height="16" fill="#6EA8A6"/>
+      <rect x="1117.89" y="186" width="7.13" height="16" fill="#C98D6B"/>
+      <rect x="1124.42" y="186" width="6.04" height="16" fill="#7EA876"/>
+      <rect x="1129.86" y="186" width="6.04" height="16" fill="#C96D68"/>
+      <rect x="1135.30" y="186" width="9.30" height="16" fill="#6B7280"/>
+      <rect x="-220" y="186" width="220" height="16" fill="url(#loc_sheen)">
+        <animate attributeName="x" values="-220;1320" dur="6.5s" repeatCount="indefinite"/>
+      </rect>
     </g>
 
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
@@ -129,7 +137,7 @@
 
       <circle cx="64" cy="345" r="6" fill="#6EA8A6"/>
       <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
-      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.721 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.5%</tspan></text>
+      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.751 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.6%</tspan></text>
 
       <circle cx="638" cy="345" r="6" fill="#C98D6B"/>
       <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Rust</text>

@@ -96,5 +96,22 @@
     <text x="936" y="160" class="body">Git, GitHub &amp; Docker</text>
     <text x="936" y="184" class="body">Linux Environment &amp; CLI</text>
     <text x="936" y="208" class="body">VS Code, Eclipse &amp; Vercel</text>
+  
+    <!-- ANIM_STACK_LIFE -->
+    <polygon points="24,78 28,82 24,86 20,82" fill="#9CC084">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="3.6s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="328,78 332,82 328,86 324,82" fill="#B399EE">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="3.6s" begin="0.9s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="636,78 640,82 636,86 632,82" fill="#E5C068">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="3.6s" begin="1.8s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="924,78 928,82 924,86 920,82" fill="#7DA8E6">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="3.6s" begin="2.7s" repeatCount="indefinite"/>
+    </polygon>
+    <rect x="-180" y="55.5" width="180" height="1.4" fill="#D4A843" fill-opacity="0.55">
+      <animate attributeName="x" values="-180;1260" dur="8.5s" repeatCount="indefinite"/>
+    </rect>
   </g>
 </svg>

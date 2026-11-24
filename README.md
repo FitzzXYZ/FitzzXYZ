@@ -77,7 +77,7 @@
 
   <!-- XIII. TOTAL KODE YANG SUDAH SAYA TULIS (DAILY AUTO-UPDATED LOC BREAKDOWN) -->
   <p align="center">
-    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 112.464 baris kode (575 file · 8 repo · 14 bahasa)" width="100%" />
+    <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 112.494 baris kode (575 file · 8 repo · 14 bahasa)" width="100%" />
   </p>
   <p align="center">
     <sub>Dihitung dari semua repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar. Diperbarui otomatis setiap commit &amp; terjadwal.</sub>

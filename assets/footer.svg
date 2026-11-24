@@ -59,9 +59,18 @@
     <polygon points="1184,68 1188,72 1184,76 1180,72" fill="#D4A843" fill-opacity="0.65"/>
     
   <g clip-path="url(#ftr_clip)">
-    <polygon points="40,36 48,44 40,52 32,44" fill="#D4A843"/>
+    <polygon points="40,36 48,44 40,52 32,44" fill="#D4A843"><animateTransform attributeName="transform" type="rotate" from="0 40 44" to="360 40 44" dur="18s" repeatCount="indefinite"/></polygon>
     <text x="64" y="42" class="cinzel" font-size="14" letter-spacing="1.2">FITZZXYZ  ·  FIRST-CLASS MAGE &amp; FULL-STACK ARCANIST</text>
     <text x="64" y="64" class="italic" font-size="16" fill="#9CC084">“On the road to Aureole — visualizing architectures and cutting through complexity with Übel’s Reelseiden.”</text>
     <text x="1164" y="48" text-anchor="end" class="folio" fill="#E5C068">instagram.com/fitzz_xyz  ·  github.com/FitzzXYZ</text>
+  
+    <!-- ANIM_FTR_LIFE -->
+    <circle cx="40" cy="44" r="11" fill="none" stroke="#D4A843" stroke-width="0.9">
+      <animate attributeName="r" values="8;16;8" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0;0.6" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="-180" y="79" width="180" height="1.4" fill="#D4A843" fill-opacity="0.45">
+      <animate attributeName="x" values="-180;1260" dur="10s" repeatCount="indefinite"/>
+    </rect>
   </g>
 </svg>

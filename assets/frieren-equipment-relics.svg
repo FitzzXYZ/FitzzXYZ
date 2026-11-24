@@ -101,5 +101,19 @@
     <text x="990" y="116" class="title" font-size="19">Graphify Astrolabe</text>
     <text x="936" y="152" class="body" font-size="14.5">Cartography &amp; deployment automation:</text>
     <text x="936" y="174" class="italic" font-size="14.5" fill="#7DA8E6">Graphify · Docker · Git · Linux CLI</text>
+  
+    <!-- ANIM_RELICS_LIFE -->
+    <circle cx="58" cy="102" r="24" fill="none" stroke="#9CC084" stroke-opacity="0.4" stroke-width="0.9" stroke-dasharray="4 5">
+      <animateTransform attributeName="transform" type="rotate" from="0 58 102" to="360 58 102" dur="22s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="362" cy="102" r="24" fill="none" stroke="#B399EE" stroke-opacity="0.4" stroke-width="0.9" stroke-dasharray="4 5">
+      <animateTransform attributeName="transform" type="rotate" from="360 362 102" to="0 362 102" dur="26s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="670" cy="102" r="24" fill="none" stroke="#E5C068" stroke-opacity="0.4" stroke-width="0.9" stroke-dasharray="4 5">
+      <animateTransform attributeName="transform" type="rotate" from="0 670 102" to="360 670 102" dur="28s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="958" cy="102" r="24" fill="none" stroke="#7DA8E6" stroke-opacity="0.4" stroke-width="0.9" stroke-dasharray="4 5">
+      <animateTransform attributeName="transform" type="rotate" from="360 958 102" to="0 958 102" dur="24s" repeatCount="indefinite"/>
+    </circle>
   </g>
 </svg>

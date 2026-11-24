@@ -362,6 +362,11 @@ def build_loc_svg(data: dict) -> str:
     </radialGradient>
     <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
     <clipPath id="loc_bar_clip"><rect x="{bar_x}" y="{bar_y}" width="{bar_w}" height="{bar_h}" rx="8"/></clipPath>
+    <linearGradient id="loc_sheen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F4EFE6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F4EFE6" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#F4EFE6" stop-opacity="0"/>
+    </linearGradient>
     <style>
       @font-face {{
         font-family: 'Cinzel';
@@ -408,13 +413,13 @@ def build_loc_svg(data: dict) -> str:
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="12" x2="21" y2="12" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="17" x2="21" y2="17" stroke="#8E887A" stroke-width="1.2"/>
-      <circle cx="7" cy="7" r="2" fill="#E05D53"/>
-      <circle cx="12" cy="7" r="2" fill="#E5C068"/>
+      <circle cx="7" cy="7" r="2" fill="#E05D53"><animate attributeName="cx" values="7;9;7" dur="5.2s" repeatCount="indefinite"/></circle>
+      <circle cx="12" cy="7" r="2" fill="#E5C068"><animate attributeName="opacity" values="0.7;1;0.7" dur="3.6s" repeatCount="indefinite"/></circle>
       <circle cx="17" cy="7" r="2" fill="#9CC084"/>
-      <circle cx="9" cy="12" r="2" fill="#4A90E2"/>
-      <circle cx="15" cy="12" r="2" fill="#B399EE"/>
+      <circle cx="9" cy="12" r="2" fill="#4A90E2"><animate attributeName="cx" values="9;7;9" dur="6.0s" repeatCount="indefinite"/></circle>
+      <circle cx="15" cy="12" r="2" fill="#B399EE"><animate attributeName="opacity" values="0.65;1;0.65" dur="4.0s" repeatCount="indefinite"/></circle>
       <circle cx="7" cy="17" r="2" fill="#E5C068"/>
-      <circle cx="13" cy="17" r="2" fill="#9CC084"/>
+      <circle cx="13" cy="17" r="2" fill="#9CC084"><animate attributeName="cx" values="13;16;13" dur="5.6s" repeatCount="indefinite"/></circle>
     </g>
     <text x="70" y="39" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">TOTAL KODE YANG SUDAH SAYA TULIS</text>
     <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned &amp; Contributed Repos · Verified LOC</text>
@@ -429,6 +434,9 @@ def build_loc_svg(data: dict) -> str:
 
     <g clip-path="url(#loc_bar_clip)">
       {bar_svg}
+      <rect x="-220" y="{bar_y}" width="220" height="{bar_h}" fill="url(#loc_sheen)">
+        <animate attributeName="x" values="-220;1320" dur="6.5s" repeatCount="indefinite"/>
+      </rect>
     </g>
 
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
@@ -527,7 +535,12 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
         )
         x_labels.append(f'<text x="{x:.1f}" y="{gy1 + 22:.1f}" text-anchor="middle" class="axis-num">{day_num}</text>')
         if v > 0 and v == peak_val:
-            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7.5" fill="#E5C068" fill-opacity="0.28"/>')
+            dots.append(
+                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" fill="#E5C068" fill-opacity="0.32">'
+                f'<animate attributeName="r" values="6;16;6" dur="3.4s" repeatCount="indefinite"/>'
+                f'<animate attributeName="fill-opacity" values="0.38;0.04;0.38" dur="3.4s" repeatCount="indefinite"/>'
+                f'</circle>'
+            )
             dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="#F4EFE6" stroke="#E5C068" stroke-width="1.8"/>')
         elif v > 0:
             dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/>')
@@ -597,7 +610,13 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
     {"".join(x_labels)}
 
     <path d="{area_d}" fill="url(#ag_area)"/>
-    <path d="{line_d}" fill="none" stroke="url(#ag_line)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="ag_curve_path" d="{line_d}" fill="none" stroke="url(#ag_line)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle r="5" fill="#E5C068" fill-opacity="0.35">
+      <animateMotion dur="8.5s" repeatCount="indefinite" path="{line_d}"/>
+    </circle>
+    <circle r="2.6" fill="#F4EFE6">
+      <animateMotion dur="8.5s" repeatCount="indefinite" path="{line_d}"/>
+    </circle>
     {"".join(dots)}
   </g>
 </svg>'''
@@ -619,13 +638,24 @@ def update_live_github_widgets(loc_data: dict | None = None):
         )
         if cells and os.path.exists(OUT_GRID_SVG):
             level_colors = {0: "#171D19", 1: "#35523A", 2: "#5F7A50", 3: "#8BA872", 4: "#E5C068"}
-            rects = "".join(
-                f'<rect x="{58 + int(c) * 21}" y="{72 + int(r) * 21}" width="15" height="15" rx="3" fill="{level_colors.get(int(lvl), "#171D19")}"/>'
-                for _, r, c, lvl in cells
-            )
+            rect_parts = []
+            for idx, (_, r, c, lvl) in enumerate(cells):
+                lv = int(lvl)
+                col = level_colors.get(lv, "#171D19")
+                rx, ry = 58 + int(c) * 21, 72 + int(r) * 21
+                if lv >= 3:
+                    dur = 3.2 + (idx % 4) * 0.6
+                    rect_parts.append(
+                        f'<rect x="{rx}" y="{ry}" width="15" height="15" rx="3" fill="{col}">'
+                        f'<animate attributeName="opacity" values="0.72;1;0.72" dur="{dur:.1f}s" repeatCount="indefinite"/>'
+                        f'</rect>'
+                    )
+                else:
+                    rect_parts.append(f'<rect x="{rx}" y="{ry}" width="15" height="15" rx="3" fill="{col}"/>')
+            rects = "".join(rect_parts)
             with open(OUT_GRID_SVG, "r", encoding="utf-8") as f:
                 grid_svg = f.read()
-            grid_svg = re.sub(r"<g>(<rect [^>]+/>)+</g>", f"<g>{rects}</g>", grid_svg, count=1)
+            grid_svg = re.sub(r"<g>(<rect [^>]+(?:/>|>.*?</rect>))+</g>", f"<g>{rects}</g>", grid_svg, count=1)
             if total_contribs is not None:
                 grid_svg = re.sub(
                     r"\d+\s+inscriptions recorded in the current cycle",

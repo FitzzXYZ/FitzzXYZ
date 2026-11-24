@@ -76,5 +76,18 @@
     <line x1="24" y1="194" x2="436" y2="194" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
     <text x="24" y="216" class="folio" fill="#9CC084">Vanguard Web  ·  Arcane Backend  ·  Graphify Astral Maps</text>
     <text x="24" y="236" class="body" font-size="14" fill="#8E887A">React, Next.js, TypeScript, Node.js, Java OOP &amp; PostgreSQL</text>
+  
+    <!-- ANIM_LORE_LIFE -->
+    <circle cx="422" cy="230" r="2" fill="#9CC084">
+      <animate attributeName="cy" values="236;58;236" dur="11s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.75;0" dur="11s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="404" cy="220" r="1.6" fill="#E5C068">
+      <animate attributeName="cy" values="232;68;232" dur="9s" begin="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.7;0" dur="9s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="-120" y="49.5" width="120" height="1.5" fill="#E5C068" fill-opacity="0.6">
+      <animate attributeName="x" values="-120;520" dur="7.5s" repeatCount="indefinite"/>
+    </rect>
   </g>
 </svg>

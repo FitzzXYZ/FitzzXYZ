@@ -62,8 +62,8 @@
     <!-- Subtle Background Astrolabe Rings -->
     <g stroke="#D4A843" stroke-opacity="0.08" fill="none">
       <circle cx="660" cy="200" r="280" stroke-width="1"/>
-      <circle cx="660" cy="200" r="240" stroke-width="0.8" stroke-dasharray="6 4"/>
-      <circle cx="660" cy="200" r="180" stroke-width="1"/>
+      <circle cx="660" cy="200" r="240" stroke-width="0.8" stroke-dasharray="6 4"><animateTransform attributeName="transform" type="rotate" from="0 660 200" to="360 660 200" dur="72s" repeatCount="indefinite"/></circle>
+      <circle cx="660" cy="200" r="180" stroke-width="1" stroke-dasharray="28 10"><animateTransform attributeName="transform" type="rotate" from="360 660 200" to="0 660 200" dur="96s" repeatCount="indefinite"/></circle>
       <line x1="380" y1="200" x2="940" y2="200" stroke-width="0.6"/>
     </g>
 
@@ -121,5 +121,34 @@
       <text x="958" y="357" class="cinzel" font-size="11.5" fill="#B399EE" letter-spacing="1">ÜBEL · SORGANEIL</text>
     </g>
     <rect x="942" y="28" width="222" height="344" rx="10" fill="none" stroke="#A78BFA" stroke-opacity="0.7" stroke-width="1.2"/>
+  
+    <!-- ANIM_HERO_LIFE -->
+    <g opacity="0.85">
+      <circle cx="96" cy="360" r="2.2" fill="#9CC084">
+        <animate attributeName="cy" values="370;42;370" dur="13s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.75;0" dur="13s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="245" cy="340" r="1.8" fill="#E5C068">
+        <animate attributeName="cy" values="355;60;355" dur="11s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.8;0" dur="11s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="430" cy="370" r="2.4" fill="#B399EE">
+        <animate attributeName="cy" values="375;48;375" dur="15s" begin="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="15s" begin="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="585" cy="350" r="1.9" fill="#9CC084">
+        <animate attributeName="cy" values="360;36;360" dur="12s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.75;0" dur="12s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="660" cy="200" r="115" fill="none" stroke="#9CC084" stroke-opacity="0.14" stroke-width="1" stroke-dasharray="3 12">
+        <animateTransform attributeName="transform" type="rotate" from="0 660 200" to="360 660 200" dur="48s" repeatCount="indefinite"/>
+      </circle>
+      <rect x="704" y="28" width="222" height="344" rx="10" fill="none" stroke="#9CC084" stroke-width="1.6">
+        <animate attributeName="stroke-opacity" values="0.35;0.9;0.35" dur="4.6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="942" y="28" width="222" height="344" rx="10" fill="none" stroke="#B399EE" stroke-width="1.6">
+        <animate attributeName="stroke-opacity" values="0.35;0.9;0.35" dur="4.6s" begin="2.3s" repeatCount="indefinite"/>
+      </rect>
+    </g>
   </g>
 </svg>

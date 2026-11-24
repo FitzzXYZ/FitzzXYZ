@@ -128,5 +128,20 @@
 
     <text x="828" y="420" class="caption">Instagram Chronicle</text>
     <text x="1168" y="420" text-anchor="end" class="title" font-size="17" fill="#B399EE">@fitzz_xyz</text>
+  
+    <!-- ANIM_DASH_LIFE -->
+    <rect x="74" y="395" width="7" height="13" rx="1" fill="#E5C068">
+      <animate attributeName="opacity" values="1;0;1" dur="1.15s" repeatCount="indefinite"/>
+    </rect>
+    <circle cx="788" cy="87" r="3.5" fill="#9CC084">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="788" cy="87" r="7" fill="none" stroke="#9CC084" stroke-width="0.9">
+      <animate attributeName="r" values="3.5;10;3.5" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0;0.7" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="824" y="28" width="348" height="248" rx="10" fill="none" stroke="#9CC084" stroke-width="1.5">
+      <animate attributeName="stroke-opacity" values="0.35;0.9;0.35" dur="4.5s" repeatCount="indefinite"/>
+    </rect>
   </g>
 </svg>

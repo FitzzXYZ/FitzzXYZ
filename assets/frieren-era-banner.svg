@@ -76,5 +76,17 @@
 
     <text x="922" y="34" class="caption" fill="#7DA8E6">Expedition Destination</text>
     <text x="922" y="58" class="title" font-size="17">Aureole · Land of Souls (Ende)</text>
+  
+    <!-- ANIM_ERA_LIFE -->
+    <circle cx="28" cy="49" r="3" fill="#E5C068">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="28" cy="49" r="6" fill="none" stroke="#E5C068" stroke-width="0.9">
+      <animate attributeName="r" values="3;9;3" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.65;0;0.65" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="-180" y="76" width="180" height="1.5" fill="#D4A843" fill-opacity="0.45">
+      <animate attributeName="x" values="-180;1260" dur="9s" repeatCount="indefinite"/>
+    </rect>
   </g>
 </svg>
