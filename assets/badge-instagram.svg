@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 32" width="204" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0E1310"/>
+      <stop offset="100%" stop-color="#16131E"/>
+    </linearGradient>
+    <clipPath id="cp"><rect x="0.5" y="0.5" width="203" height="31" rx="7.5"/></clipPath>
+  </defs>
+  <g clip-path="url(#cp)">
+    <rect x="0" y="0" width="204" height="32" fill="url(#bg)"/>
+    <rect x="114" y="0" width="90" height="32" fill="#B399EE" fill-opacity="0.16"/>
+    <line x1="114" y1="5" x2="114" y2="27" stroke="#B399EE" stroke-opacity="0.45" stroke-width="1"/>
+  </g>
+  <rect x="0.5" y="0.5" width="203" height="31" rx="7.5" fill="none" stroke="#B399EE" stroke-opacity="0.58" stroke-width="1"/>
+  <rect x="11" y="9" width="14" height="14" rx="4" fill="none" stroke="#B399EE" stroke-width="1.4"/><circle cx="18" cy="16" r="3.2" fill="none" stroke="#B399EE" stroke-width="1.3"/><circle cx="21.8" cy="12.2" r="0.9" fill="#B399EE"/>
+  <text x="32" y="20" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" font-weight="700" letter-spacing="1.1" fill="#C8C2B4">INSTAGRAM</text>
+  <text x="159.0" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#B399EE">@FITZZ_XYZ</text>
+</svg>

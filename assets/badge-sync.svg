@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202 32" width="202" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0E1310"/>
+      <stop offset="100%" stop-color="#16131E"/>
+    </linearGradient>
+    <clipPath id="cp"><rect x="0.5" y="0.5" width="201" height="31" rx="7.5"/></clipPath>
+  </defs>
+  <g clip-path="url(#cp)">
+    <rect x="0" y="0" width="202" height="32" fill="url(#bg)"/>
+    <rect x="108" y="0" width="94" height="32" fill="#7DA8E6" fill-opacity="0.16"/>
+    <line x1="108" y1="5" x2="108" y2="27" stroke="#7DA8E6" stroke-opacity="0.45" stroke-width="1"/>
+  </g>
+  <rect x="0.5" y="0.5" width="201" height="31" rx="7.5" fill="none" stroke="#7DA8E6" stroke-opacity="0.58" stroke-width="1"/>
+  <circle cx="18" cy="16" r="4" fill="#9CC084"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/></circle><circle cx="18" cy="16" r="7" fill="none" stroke="#9CC084" stroke-width="0.9"><animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/></circle>
+  <text x="32" y="20" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" font-weight="700" letter-spacing="1.1" fill="#C8C2B4">LIVE SYNC</text>
+  <text x="155.0" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="#7DA8E6">24 NOV 2026</text>
+</svg>

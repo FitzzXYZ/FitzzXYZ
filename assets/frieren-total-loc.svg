@@ -90,23 +90,23 @@
 
     <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
     <text x="1144" y="102" text-anchor="end" class="cinzel" font-size="11.5" fill="#D4A843" letter-spacing="1.4">LIVE VERIFIED CODEBASE</text>
-    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">112.931 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">113.005 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
     <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">8 <tspan class="folio" font-size="16" fill="#C8C2B4">active repos  ·  </tspan>14 <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">576 file  ·  8 repo  ·  14 bahasa</text>
     <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; hourly</text>
 
     <g clip-path="url(#loc_bar_clip)">
-      <rect x="56.00" y="186" width="570.71" height="16" fill="#7DA8E6"/>
-      <rect x="626.11" y="186" width="204.06" height="16" fill="#9CC084"/>
-      <rect x="829.57" y="186" width="131.16" height="16" fill="#8E96C8"/>
-      <rect x="960.13" y="186" width="63.70" height="16" fill="#E5C068"/>
-      <rect x="1023.23" y="186" width="49.56" height="16" fill="#B399EE"/>
-      <rect x="1072.19" y="186" width="26.71" height="16" fill="#6BB5C9"/>
-      <rect x="1098.30" y="186" width="20.18" height="16" fill="#6EA8A6"/>
-      <rect x="1117.89" y="186" width="7.13" height="16" fill="#C98D6B"/>
-      <rect x="1124.42" y="186" width="6.04" height="16" fill="#7EA876"/>
-      <rect x="1129.86" y="186" width="6.04" height="16" fill="#C96D68"/>
-      <rect x="1135.30" y="186" width="9.30" height="16" fill="#6B7280"/>
+      <rect x="56.00" y="186" width="569.62" height="16" fill="#7DA8E6"/>
+      <rect x="625.02" y="186" width="204.06" height="16" fill="#9CC084"/>
+      <rect x="828.48" y="186" width="131.16" height="16" fill="#8E96C8"/>
+      <rect x="959.04" y="186" width="63.70" height="16" fill="#E5C068"/>
+      <rect x="1022.14" y="186" width="49.56" height="16" fill="#B399EE"/>
+      <rect x="1071.10" y="186" width="26.71" height="16" fill="#6BB5C9"/>
+      <rect x="1097.22" y="186" width="20.18" height="16" fill="#6EA8A6"/>
+      <rect x="1116.80" y="186" width="7.13" height="16" fill="#C98D6B"/>
+      <rect x="1123.33" y="186" width="6.04" height="16" fill="#7EA876"/>
+      <rect x="1128.77" y="186" width="6.04" height="16" fill="#C96D68"/>
+      <rect x="1134.21" y="186" width="10.39" height="16" fill="#6B7280"/>
       <rect x="-220" y="186" width="220" height="16" fill="url(#loc_sheen)">
         <animate attributeName="x" values="-220;1320" dur="6.5s" repeatCount="indefinite"/>
       </rect>
@@ -116,7 +116,7 @@
     
       <circle cx="64" cy="237" r="6" fill="#7DA8E6"/>
       <text x="84" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">TypeScript</text>
-      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">59.146 baris  ·  <tspan fill="#7DA8E6" font-weight="600">52.4%</tspan></text>
+      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">59.146 baris  ·  <tspan fill="#7DA8E6" font-weight="600">52.3%</tspan></text>
 
       <circle cx="638" cy="237" r="6" fill="#9CC084"/>
       <text x="658" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">JSX</text>
@@ -140,7 +140,7 @@
 
       <circle cx="64" cy="345" r="6" fill="#6EA8A6"/>
       <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
-      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">2.004 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.8%</tspan></text>
+      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">2.078 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.8%</tspan></text>
 
       <circle cx="638" cy="345" r="6" fill="#C98D6B"/>
       <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Rust</text>

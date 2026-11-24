@@ -717,7 +717,15 @@ def update_live_github_widgets(loc_data: dict | None = None):
                     ledger,
                 )
             if pub_repos is not None:
-                ledger = re.sub(r"\d+\s+public repos", f"{pub_repos} public repos", ledger)
+                active_cnt = (loc_data or {}).get("total_repos")
+                if active_cnt:
+                    ledger = re.sub(
+                        r"\d+\s+public(?:\s+repos)?\s+·\s+(?:\d+\s+(?:Java modules|active repos))",
+                        f"{pub_repos} public · {active_cnt} active repos",
+                        ledger,
+                    )
+                else:
+                    ledger = re.sub(r"\d+\s+public repos", f"{pub_repos} public repos", ledger)
             wib = timezone(timedelta(hours=7))
             live_date = datetime.now(wib).strftime("Live · %d %b %Y · GitHub")
             ledger = re.sub(r"(?:May – Nov 2026|Live · \d{2} [A-Za-z]{3} \d{4}) · GitHub", live_date, ledger)
@@ -794,8 +802,76 @@ def update_live_github_widgets(loc_data: dict | None = None):
                 with open(OUT_DASH_SVG, "w", encoding="utf-8") as f:
                     f.write(dash)
                 print(f"Updated {OUT_DASH_SVG} (latest quest={latest['name']}, pushed={rpush})")
+        # Regenerate self-hosted High-Fantasy action badges (zero external rate-limit / broken icons)
+        build_fantasy_badges(
+            followers=followers if followers is not None else 6,
+            pub_repos=pub_repos if pub_repos is not None else 3,
+            active_repos=(loc_data or {}).get("total_repos", 8),
+        )
     except Exception as exc:
         print(f"[warn] Telemetry/Adventurer/Dashboard live update skipped: {exc}")
+
+
+def build_fantasy_badges(followers: int = 6, pub_repos: int = 3, active_repos: int = 8):
+    """Generate 4 self-hosted High-Fantasy SVG badges matching the Frieren x Ubel Grimoire palette."""
+    wib = timezone(timedelta(hours=7))
+    sync_str = datetime.now(wib).strftime("%d %b %Y").upper()
+
+    def pill(w, split_x, accent, label, value, icon_svg):
+        return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 32" width="{w}" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0E1310"/>
+      <stop offset="100%" stop-color="#16131E"/>
+    </linearGradient>
+    <clipPath id="cp"><rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="7.5"/></clipPath>
+  </defs>
+  <g clip-path="url(#cp)">
+    <rect x="0" y="0" width="{w}" height="32" fill="url(#bg)"/>
+    <rect x="{split_x}" y="0" width="{w - split_x}" height="32" fill="{accent}" fill-opacity="0.16"/>
+    <line x1="{split_x}" y1="5" x2="{split_x}" y2="27" stroke="{accent}" stroke-opacity="0.45" stroke-width="1"/>
+  </g>
+  <rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="7.5" fill="none" stroke="{accent}" stroke-opacity="0.58" stroke-width="1"/>
+  {icon_svg}
+  <text x="32" y="20" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" font-weight="700" letter-spacing="1.1" fill="#C8C2B4">{label}</text>
+  <text x="{split_x + (w - split_x) / 2:.1f}" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6" fill="{accent}">{value}</text>
+</svg>'''
+
+    ig_icon = (
+        '<rect x="11" y="9" width="14" height="14" rx="4" fill="none" stroke="#B399EE" stroke-width="1.4"/>'
+        '<circle cx="18" cy="16" r="3.2" fill="none" stroke="#B399EE" stroke-width="1.3"/>'
+        '<circle cx="21.8" cy="12.2" r="0.9" fill="#B399EE"/>'
+    )
+    gh_icon = (
+        '<circle cx="18" cy="16" r="6.2" fill="none" stroke="#9CC084" stroke-width="1.3"/>'
+        '<polygon points="18,11.5 21.5,16 18,20.5 14.5,16" fill="#9CC084"/>'
+    )
+    gfy_icon = (
+        '<circle cx="14" cy="13" r="1.8" fill="#E5C068"/>'
+        '<circle cx="22" cy="12.5" r="1.8" fill="#9CC084"/>'
+        '<circle cx="18.5" cy="20.5" r="1.8" fill="#B399EE"/>'
+        '<line x1="14" y1="13" x2="22" y2="12.5" stroke="#D4A843" stroke-width="1"/>'
+        '<line x1="14" y1="13" x2="18.5" y2="20.5" stroke="#D4A843" stroke-width="1"/>'
+        '<line x1="22" y1="12.5" x2="18.5" y2="20.5" stroke="#D4A843" stroke-width="1"/>'
+    )
+    sync_icon = (
+        '<circle cx="18" cy="16" r="4" fill="#9CC084">'
+        '<animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/></circle>'
+        '<circle cx="18" cy="16" r="7" fill="none" stroke="#9CC084" stroke-width="0.9">'
+        '<animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/>'
+        '<animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/></circle>'
+    )
+
+    badges = {
+        "badge-instagram.svg": pill(204, 114, "#B399EE", "INSTAGRAM", "@FITZZ_XYZ", ig_icon),
+        "badge-repos.svg": pill(242, 92, "#9CC084", "GITHUB", f"{followers} FOLLOWERS · {active_repos} REPOS", gh_icon),
+        "badge-graphify.svg": pill(216, 108, "#E5C068", "GRAPHIFY", "24 NODES · MAP", gfy_icon),
+        "badge-sync.svg": pill(202, 108, "#7DA8E6", "LIVE SYNC", sync_str, sync_icon),
+    }
+    for name, content in badges.items():
+        with open(os.path.join(ASSETS_DIR, name), "w", encoding="utf-8") as f:
+            f.write(content)
+    print(f"Generated 4 self-hosted fantasy badges (followers={followers}, active_repos={active_repos}, sync={sync_str})")
 
 
 def sync_readme_alt(data: dict) -> bool:
@@ -1110,6 +1186,10 @@ def auto_commit_and_push(include_readme: bool):
         "assets/frieren-adventurer-card.svg",
         "assets/developer-dashboard.svg",
         "assets/frieren-clock.svg",
+        "assets/badge-instagram.svg",
+        "assets/badge-repos.svg",
+        "assets/badge-graphify.svg",
+        "assets/badge-sync.svg",
     ]
     if include_readme:
         files.append("README.md")
