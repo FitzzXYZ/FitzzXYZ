@@ -4,7 +4,7 @@
       "includeFiles": "assets/fonts/*.woff"
     },
     "api/game.js": {
-      "includeFiles": "assets/{fonts/*.woff,ubel-mini-b64.txt}"
+      "includeFiles": "assets/{fonts/*.woff,ubel-mini-b64.txt,spiegel-mini-b64.txt}"
     }
   }
 }

@@ -1,13 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 34" width="144" height="34">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#111613"/>
-      <stop offset="100%" stop-color="#181424"/>
-    </linearGradient>
-  </defs>
-  <rect x="0.5" y="0.5" width="143" height="33" rx="8" fill="url(#g)" stroke="#B399EE" stroke-opacity="0.55" stroke-width="1.1"/>
-  <rect x="3" y="3" width="138" height="28" rx="6" fill="none" stroke="#B399EE" stroke-opacity="0.18" stroke-width="0.7"/>
-  <ellipse cx="17" cy="17" rx="7" ry="4.2" fill="none" stroke="#B399EE" stroke-width="1.5"/><circle cx="17" cy="17" r="2" fill="#B399EE"/>
-  <text x="32" y="15.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="11" font-weight="700" fill="#F4EFE6" letter-spacing="0.4">II · Sorganeil</text>
-  <text x="32" y="27" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#B399EE">Bind · 2x Next Hit</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 34" width="146" height="34">
+  <rect x="0.5" y="0.5" width="145" height="33" rx="7.5" fill="#101512" stroke="#B399EE" stroke-opacity="0.48" stroke-width="1"/>
+  <line x1="30" y1="6" x2="30" y2="28" stroke="#B399EE" stroke-opacity="0.22" stroke-width="1"/>
+  <ellipse cx="16" cy="17" rx="6.5" ry="3.8" fill="none" stroke="#B399EE" stroke-width="1.4"/><circle cx="16" cy="17" r="1.8" fill="#B399EE"/>
+  <text x="38" y="15" font-family="Georgia, 'Times New Roman', serif" font-size="11" font-weight="700" fill="#F4EFE6" letter-spacing="0.5"><tspan fill="#B399EE">II</tspan> · SORGANEIL</text>
+  <text x="38" y="26.5" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="10" fill="#9CA3AF">Bind · 2.2x Crit</text>
 </svg>

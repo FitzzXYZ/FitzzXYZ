@@ -1,13 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 34" width="146" height="34">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#111613"/>
-      <stop offset="100%" stop-color="#131A24"/>
-    </linearGradient>
-  </defs>
-  <rect x="0.5" y="0.5" width="145" height="33" rx="8" fill="url(#g)" stroke="#7DA8E6" stroke-opacity="0.55" stroke-width="1.1"/>
-  <rect x="3" y="3" width="140" height="28" rx="6" fill="none" stroke="#7DA8E6" stroke-opacity="0.18" stroke-width="0.7"/>
-  <polygon points="17,9 24,13 24,21 17,25 10,21 10,13" fill="none" stroke="#7DA8E6" stroke-width="1.4"/>
-  <text x="32" y="15.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="11" font-weight="700" fill="#F4EFE6" letter-spacing="0.4">III · Mana Ward</text>
-  <text x="32" y="27" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#7DA8E6">+35 MP · +20 HP</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 34" width="148" height="34">
+  <rect x="0.5" y="0.5" width="147" height="33" rx="7.5" fill="#101512" stroke="#7DA8E6" stroke-opacity="0.48" stroke-width="1"/>
+  <line x1="30" y1="6" x2="30" y2="28" stroke="#7DA8E6" stroke-opacity="0.22" stroke-width="1"/>
+  <polygon points="16,10 22,13.5 22,20.5 16,24 10,20.5 10,13.5" fill="none" stroke="#7DA8E6" stroke-width="1.3"/>
+  <text x="38" y="15" font-family="Georgia, 'Times New Roman', serif" font-size="11" font-weight="700" fill="#F4EFE6" letter-spacing="0.5"><tspan fill="#7DA8E6">III</tspan> · ZOLTRAAK WARD</text>
+  <text x="38" y="26.5" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="10" fill="#9CA3AF">Counter &amp; +30 MP</text>
 </svg>

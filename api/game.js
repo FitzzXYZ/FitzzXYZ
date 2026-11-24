@@ -2,14 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * Sousou no Frieren x Ubel — Dual Interactive README Mini-Game (Vercel Serverless)
- * Left Arena : First-Class Mage Exam — Ubel vs. Spiegel Clone (Turn-Based Spell Duel)
- * Right Trial: Frieren's Dungeon Roulette — Mimic or Grimoire? (3 Chests, "99% Accuracy!")
- *
- * Endpoints:
- *   GET /api/game                     -> Returns live 1200x430 High-Fantasy SVG screen for GitHub README <img>
- *   GET /api/game?act=<move>          -> Executes move & opens instant zero-latency playable Arena Console
- *   GET /api/game?act=<move>&json=1   -> Executes move & returns updated SVG + state JSON for in-page play
+ * Sousou no Frieren x Ubel — Editorial Illuminated Grimoire Mini-Game (Anti-AI-Slop Edition)
+ * Crafted following hallmark/references/craft.md:
+ * - Zero system emojis anywhere (100% bespoke vector sigils, runes, and classical typography)
+ * - Hairline surface ladder (1px antique gold rules instead of nested card-in-card boxes)
+ * - Matched 4x HD portraits for Ubel & Spiegel Mirror-Replica Boss across a 4-stage Gauntlet
+ * - 3 Reliquary Coffers separated by fine hairlines (Sealed, Illuminated Grimoire, or Mimic Ambush)
  */
 
 function loadFileText(relPath) {
@@ -33,6 +31,7 @@ const CINZEL_800 = loadFontB64("cinzel-800.woff");
 const CORMORANT_600 = loadFontB64("cormorant-600.woff");
 const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
 const UBEL_AVATAR = loadFileText("assets/ubel-mini-b64.txt");
+const SPIEGEL_AVATAR = loadFileText("assets/spiegel-mini-b64.txt");
 
 const FONT_FACE_CSS = [
   CINZEL_600 && `@font-face{font-family:'Cinzel';font-style:normal;font-weight:600;src:url("data:font/woff;base64,${CINZEL_600}") format("woff");}`,
@@ -42,49 +41,53 @@ const FONT_FACE_CSS = [
 ].filter(Boolean).join("\n      ");
 
 const GRIMOIRE_LOOT = [
-  { title: "Reelseiden Secret Folio", desc: "+25 Mana & permanent +5 Slash Power!" },
-  { title: "Flamme’s Blue Moon Seed", desc: "Folk spell of eternal flowers · +30 HP restored!" },
-  { title: "Spell to Make Sweet Grapes", desc: "Eisen’s favorite folk magic · +25 HP & +20 MP!" },
-  { title: "Serie’s Ancient Scroll", desc: "First-Class privilege · Instant 35 DMG to Boss!" },
-  { title: "Sorganeil Binding Treatise", desc: "Gaze locks the Clone · Next slash deals 2x CRIT!" },
+  { title: "Reelseiden Severing Treatise", effect: "+30 Mana & permanent +6 Slash Affinity", bonusDmg: 0, healHp: 15, healMp: 30, bind: false },
+  { title: "Flamme’s Blue Moon Folio", effect: "Folk spell of eternal blossoms · +35 HP & +20 MP", bonusDmg: 0, healHp: 35, healMp: 20, bind: false },
+  { title: "Eisen’s Sour Grapes Scroll", effect: "Ancient dwarven refreshment · +40 HP restored", bonusDmg: 0, healHp: 40, healMp: 15, bind: false },
+  { title: "Serie’s Living Grimoire", effect: "First-Class privilege · Inflicts 45 True Damage to Spiegel", bonusDmg: 45, healHp: 10, healMp: 20, bind: false },
+  { title: "Sorganeil Ocular Apocrypha", effect: "Locks the Replica in sight · Applies 2.2x Execution Mark", bonusDmg: 15, healHp: 10, healMp: 25, bind: true },
 ];
 
 const BOSS_ROSTER = [
-  { name: "SPIEGEL · UBEL CLONE", title: "Ruins of the King’s Tomb · Floor I", maxHp: 160 },
-  { name: "SPIEGEL · SENSE CLONE", title: "Hair-Magic Warder · Floor II", maxHp: 220 },
-  { name: "SPIEGEL · FRIEREN CLONE", title: "Pinnacle of Magic · Inner Sanctum", maxHp: 300 },
+  { stage: "STAGE I / IV", name: "SPIEGEL · ÜBEL REPLICA", title: "King’s Tomb · Outer Corridor", maxHp: 160, trait: "Reflects 20% slash unless bound" },
+  { stage: "STAGE II / IV", name: "SPIEGEL · SENSE REPLICA", title: "Crimson Hair Warder · Hall II", maxHp: 220, trait: "Iron Hair Phalanx · High Defense" },
+  { stage: "STAGE III / IV", name: "SPIEGEL · LERNEN REPLICA", title: "First-Class Veteran · Hall III", maxHp: 260, trait: "Fires concentrated Zoltraak volleys" },
+  { stage: "FINAL STAGE", name: "SPIEGEL · FRIEREN", title: "The Pinnacle of Magic · Sanctum", maxHp: 340, trait: "Casts Vollzanbel & Judradjim" },
 ];
 
 function createInitialState() {
   return {
     ubelHp: 100,
     ubelMaxHp: 100,
-    ubelMp: 85,
+    ubelMp: 88,
     ubelMaxMp: 100,
+    slashBonus: 0,
+    combo: 2,
     stageIdx: 0,
-    bossHp: 118,
+    bossHp: 114,
     bossMaxHp: 160,
     bossBound: false,
+    bossCharging: false,
     wardActive: false,
     lastSpell: "reelseiden",
-    duelLog1: "✦ Übel casts REELSEIDEN! Twin emerald arc slices Spiegel Clone for 42 DMG!",
-    duelLog2: "⚡ Spiegel Clone prepares a defensive hair-magic counterattack...",
+    duelLog1: "Übel visualizes shears through silk — Reelseiden severs the Replica for 46 damage.",
+    duelLog2: "The mirror guardian gathers dense amethyst mana along the corridor walls...",
     chests: ["closed", "grimoire", "closed"],
     lastChestIdx: 1,
-    chestLog1: "✦ Chest II opened: Found [Flamme’s Blue Moon Seed]! (+30 HP restored)",
-    chestLog2: "“Frieren’s detection spell says 99% of chests are grimoires... dare to open another?”",
+    chestLog1: "Sanctum Coffer II appraised: Flamme’s Blue Moon Folio (+35 HP, +20 MP).",
+    chestLog2: "“My detection spell says 99% of these coffers hold authentic grimoires.” — Frieren",
     wins: 14,
-    grimoiresFound: 23,
+    grimoiresFound: 24,
     mimicsTriggered: 9,
     turn: 12,
   };
 }
 
 function getArenaState() {
-  if (!globalThis.__FITZZ_ARENA__) {
-    globalThis.__FITZZ_ARENA__ = createInitialState();
+  if (!globalThis.__FITZZ_ARENA_V2__) {
+    globalThis.__FITZZ_ARENA_V2__ = createInitialState();
   }
-  return globalThis.__FITZZ_ARENA__;
+  return globalThis.__FITZZ_ARENA_V2__;
 }
 
 function xmlEsc(s) {
@@ -97,13 +100,13 @@ function xmlEsc(s) {
 
 function applyAction(st, act) {
   if (!act) return;
-  st.turn += 1;
-  const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
-
   if (act === "reset") {
     Object.assign(st, createInitialState());
     return;
   }
+
+  st.turn += 1;
+  const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
 
   if (act === "reelseiden" || act === "sorganeil" || act === "ward") {
     st.lastSpell = act;
@@ -111,34 +114,40 @@ function applyAction(st, act) {
     if (act === "reelseiden") {
       const cost = 15;
       if (st.ubelMp < cost) {
-        st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 25);
-        st.duelLog1 = "✧ Mana too low for Reelseiden! Übel channels 25 MP recovery.";
+        st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 28);
+        st.combo = 1;
+        st.duelLog1 = "Insufficient mana for Reelseiden — Übel steadies her breathing and recovers +28 MP.";
       } else {
         st.ubelMp -= cost;
-        const base = 36 + ((st.turn * 7) % 18);
-        const mult = st.bossBound ? 2 : 1;
-        const dmg = base * mult;
+        st.combo += 1;
+        const base = 38 + st.slashBonus + ((st.turn * 7) % 16);
+        const mult = st.bossBound ? 2.2 : 1.0;
+        const dmg = Math.round(base * mult);
         st.bossHp = Math.max(0, st.bossHp - dmg);
         st.duelLog1 = st.bossBound
-          ? `✦ SORGANEIL CRIT! Übel’s Reelseiden cleaves through the bound Clone for ${dmg} DMG!`
-          : `✦ Übel visualizes cloth being cut — REELSEIDEN slashes for ${dmg} DMG!`;
+          ? `Execution Cleave (2.2x Crit) — Reelseiden bisects the sight-locked ${boss.name} for ${dmg} damage.`
+          : `Reelseiden activates — invisible severing arc cuts ${boss.name} for ${dmg} damage (Combo x${st.combo}).`;
         st.bossBound = false;
       }
     } else if (act === "sorganeil") {
-      const cost = 20;
+      const cost = 18;
       st.ubelMp = Math.max(0, st.ubelMp - cost);
       st.bossBound = true;
-      const chip = 16 + (st.turn % 9);
+      st.bossCharging = false;
+      st.combo += 1;
+      const chip = 18 + (st.turn % 8);
       st.bossHp = Math.max(0, st.bossHp - chip);
-      st.duelLog1 = `👁️ SORGANEIL! Full body in sight — Clone is paralyzed (${chip} DMG, 2x next hit & stunned)!`;
+      st.duelLog1 = `Sorganeil locks ${boss.name} entirely within sight — target paralyzed (${chip} dmg, next Reelseiden deals 2.2x).`;
     } else if (act === "ward") {
-      st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 35);
+      st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 32);
       st.ubelHp = Math.min(st.ubelMaxHp, st.ubelHp + 22);
       st.wardActive = true;
-      st.duelLog1 = "🛡️ Defensive Mana Ward deployed! Restored +22 HP and +35 MP.";
+      const counter = 22;
+      st.bossHp = Math.max(0, st.bossHp - counter);
+      st.duelLog1 = `Hexagonal Mana Ward refracts incoming Zoltraak — restored +22 HP, +32 MP & countered for ${counter} damage.`;
     }
 
-    // Check Boss defeat -> advance stage
+    // Check Boss defeat -> advance gauntlet stage
     if (st.bossHp <= 0) {
       st.wins += 1;
       const oldName = boss.name;
@@ -147,162 +156,205 @@ function applyAction(st, act) {
       st.bossMaxHp = nextBoss.maxHp;
       st.bossHp = nextBoss.maxHp;
       st.bossBound = false;
+      st.bossCharging = false;
       st.ubelHp = st.ubelMaxHp;
       st.ubelMp = st.ubelMaxMp;
-      st.duelLog2 = `🏆 ${oldName} shattered! Trial Cleared (#${st.wins})! Next guardian: ${nextBoss.name}!`;
+      st.duelLog2 = `${oldName} dissolves into mana particles. Trial #${st.wins} cleared — advancing to ${nextBoss.name}.`;
       return;
     }
 
-    // Boss counterattack
+    // Boss turn
     if (st.bossBound) {
-      st.duelLog2 = "⛓️ Spiegel Clone is immobilized by Sorganeil and cannot counterattack!";
+      st.duelLog2 = `${boss.name} is immobilized by Sorganeil’s binding gaze and cannot act this turn.`;
+    } else if (!st.bossCharging && (st.turn % 3 === 0)) {
+      st.bossCharging = true;
+      st.duelLog2 = `Warning: ${boss.name} elevates dense mana for a lethal strike — cast Sorganeil to interrupt or Ward to block.`;
     } else {
-      const rawAtk = 14 + ((st.turn * 5) % 12);
-      const taken = st.wardActive ? Math.floor(rawAtk * 0.3) : rawAtk;
+      const rawAtk = st.bossCharging ? 34 + (st.turn % 10) : 15 + ((st.turn * 5) % 11);
+      const taken = st.wardActive ? Math.floor(rawAtk * 0.25) : rawAtk;
+      const wasCharged = st.bossCharging;
+      st.bossCharging = false;
       st.wardActive = false;
       st.ubelHp = Math.max(1, st.ubelHp - taken);
       st.duelLog2 = taken < rawAtk
-        ? `⚡ Clone fires Zoltraak! Hexagonal Ward absorbs the blast (${taken} chip DMG).`
-        : `⚡ ${boss.name} strikes back with dense mana for ${taken} DMG!`;
-      if (st.ubelHp <= 12) {
-        st.ubelHp = 65;
-        st.duelLog2 += " ✦ Second Wind surge restores Übel to 65 HP!";
+        ? `Defensive lattice disperses ${boss.name}’s ${wasCharged ? "charged barrage" : "strike"} (only ${taken} residual damage).`
+        : `${boss.name} unleashes ${wasCharged ? "Cataclysmic Zoltraak" : "mirror spellcraft"} for ${taken} damage.`;
+      if (st.ubelHp <= 15) {
+        st.ubelHp = 68;
+        st.duelLog2 += " First-Class resolve triggers Second Wind (+53 HP).";
       }
     }
     return;
   }
 
-  // Chest roulette actions: chest1, chest2, chest3
+  // Reliquary Coffer Appraisal: chest1, chest2, chest3
   if (act === "chest1" || act === "chest2" || act === "chest3") {
     const idx = act === "chest1" ? 0 : act === "chest2" ? 1 : 2;
+    const label = ["West Reliquary I", "Sanctum Coffer II", "East Reliquary III"][idx];
     st.lastChestIdx = idx;
-    // Reset other chests to closed so player can keep opening
     st.chests = ["closed", "closed", "closed"];
 
-    // 1 of 3 chests is a Mimic based on deterministic turn + index mix
     const isMimic = ((st.turn + idx * 2) % 3) === 0;
     if (isMimic) {
       st.chests[idx] = "mimic";
       st.mimicsTriggered += 1;
-      st.ubelHp = Math.max(15, st.ubelHp - 15);
-      st.chestLog1 = `🦷 IT’S A MIMIC in Chest ${["I", "II", "III"][idx]}!! “Kurai yo! Kowai yo!!” (-15 HP, hair ruined!)`;
-      st.chestLog2 = "Frieren: “Wait... the grimoire detection spell said 99% accuracy! Pull me out, Fern!”";
+      st.ubelHp = Math.max(18, st.ubelHp - 15);
+      st.chestLog1 = `${label} was a Mimic ambush (-15 HP). “It’s dark and scary! Pull me out!”`;
+      st.chestLog2 = "Frieren’s 99% appraisal missed the final 1% margin of dungeon error.";
     } else {
       st.chests[idx] = "grimoire";
       st.grimoiresFound += 1;
       const loot = GRIMOIRE_LOOT[(st.turn + idx) % GRIMOIRE_LOOT.length];
-      st.ubelHp = Math.min(st.ubelMaxHp, st.ubelHp + 25);
-      st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 25);
-      if (loot.title.includes("Serie")) {
-        st.bossHp = Math.max(10, st.bossHp - 35);
-      } else if (loot.title.includes("Sorganeil")) {
-        st.bossBound = true;
-      }
-      st.chestLog1 = `✨ Chest ${["I", "II", "III"][idx]} opened: Found [${loot.title}]!`;
-      st.chestLog2 = `✦ ${loot.desc}`;
+      st.ubelHp = Math.min(st.ubelMaxHp, st.ubelHp + loot.healHp);
+      st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + loot.healMp);
+      if (loot.title.includes("Reelseiden")) st.slashBonus = Math.min(24, st.slashBonus + 6);
+      if (loot.bonusDmg > 0) st.bossHp = Math.max(10, st.bossHp - loot.bonusDmg);
+      if (loot.bind) st.bossBound = true;
+      st.chestLog1 = `${label} appraised: ${loot.title}.`;
+      st.chestLog2 = `${loot.effect}.`;
     }
   }
 }
 
-function renderChest(x, y, label, state, isSelected) {
-  const borderCol = state === "mimic" ? "#E05D53" : state === "grimoire" ? "#E5C068" : "#D4A843";
-  const bgCol = state === "mimic" ? "#1E1215" : state === "grimoire" ? "#181A12" : "#111613";
-  const glowOp = isSelected ? "0.75" : "0.28";
+function renderSegmentedBar(x, y, w, h, val, maxVal, fillGrad, bgCol, segments = 12) {
+  const pct = Math.max(0, Math.min(1, val / Math.max(1, maxVal)));
+  const fillW = Math.round(pct * w);
+  let ticks = "";
+  for (let i = 1; i < segments; i++) {
+    const tx = (x + (w / segments) * i).toFixed(1);
+    ticks += `<line x1="${tx}" y1="${y}" x2="${tx}" y2="${y + h}" stroke="#0E1310" stroke-opacity="0.55" stroke-width="1"/>`;
+  }
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${bgCol}"/>
+    <rect x="${x}" y="${y}" width="${fillW}" height="${h}" rx="3" fill="url(#${fillGrad})"/>
+    ${ticks}
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="none" stroke="#D4A843" stroke-opacity="0.24" stroke-width="0.7"/>`;
+}
 
-  let art = "";
+function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected) {
+  const accent = state === "mimic" ? "#D4886A" : state === "grimoire" ? "#E5C068" : "#C8C2B4";
+  const subCol = state === "mimic" ? "#D4886A" : state === "grimoire" ? "#9CC084" : "#8E887A";
+  const ringOp = isSelected ? "0.45" : "0.14";
+
+  let illustration = "";
   if (state === "closed") {
-    art = `
+    illustration = `
+      <circle cx="${cx}" cy="${yTop + 72}" r="36" fill="none" stroke="#D4A843" stroke-opacity="${ringOp}" stroke-width="0.9" stroke-dasharray="3 4"/>
       <g>
-        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="3.4s" repeatCount="indefinite"/>
-        <!-- Ornate Closed Dungeon Chest -->
-        <path d="M ${x + 30} ${y + 52} Q ${x + 70} ${y + 34} ${x + 110} ${y + 52} L ${x + 110} ${y + 64} L ${x + 30} ${y + 64} Z" fill="#2A211B" stroke="#D4A843" stroke-width="1.4"/>
-        <rect x="${x + 30}" y="${y + 64}" width="80" height="36" rx="4" fill="#1F1815" stroke="#D4A843" stroke-width="1.4"/>
-        <line x1="${x + 48}" y1="${y + 46}" x2="${x + 48}" y2="${y + 100}" stroke="#D4A843" stroke-width="2.2"/>
-        <line x1="${x + 92}" y1="${y + 46}" x2="${x + 92}" y2="${y + 100}" stroke="#D4A843" stroke-width="2.2"/>
-        <rect x="${x + 64}" y="${y + 58}" width="12" height="14" rx="2" fill="#E5C068"/>
-        <circle cx="${x + 70}" cy="${y + 65}" r="2.2" fill="#0E1310"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2; 0,0" dur="3.8s" repeatCount="indefinite"/>
+        <!-- Gothic Arch Reliquary Lid -->
+        <path d="M ${cx - 34} ${yTop + 64} Q ${cx} ${yTop + 46} ${cx + 34} ${yTop + 64} L ${cx + 34} ${yTop + 72} L ${cx - 34} ${yTop + 72} Z" fill="#1B1714" stroke="#D4A843" stroke-width="1.2"/>
+        <!-- Coffer Body -->
+        <rect x="${cx - 34}" y="${yTop + 72}" width="68" height="28" rx="2.5" fill="#141210" stroke="#D4A843" stroke-width="1.2"/>
+        <!-- Filigree Iron-Gold Straps -->
+        <line x1="${cx - 20}" y1="${yTop + 57}" x2="${cx - 20}" y2="${yTop + 100}" stroke="#D4A843" stroke-opacity="0.75" stroke-width="1.6"/>
+        <line x1="${cx + 20}" y1="${yTop + 57}" x2="${cx + 20}" y2="${yTop + 100}" stroke="#D4A843" stroke-opacity="0.75" stroke-width="1.6"/>
+        <line x1="${cx - 34}" y1="${yTop + 86}" x2="${cx + 34}" y2="${yTop + 86}" stroke="#D4A843" stroke-opacity="0.3" stroke-width="0.8"/>
+        <!-- Diamond Lock Escutcheon -->
+        <polygon points="${cx},${yTop + 65} ${cx + 6},${yTop + 72} ${cx},${yTop + 79} ${cx - 6},${yTop + 72}" fill="#E5C068" stroke="#0E1310" stroke-width="0.8"/>
+        <circle cx="${cx}" cy="${yTop + 72}" r="1.4" fill="#0E1310"/>
       </g>
-      <text x="${x + 70}" y="${y + 124}" text-anchor="middle" class="folio" font-size="13" fill="#8E887A">Click below to open</text>`;
+      <text x="${cx}" y="${yTop + 128}" text-anchor="middle" class="folio" font-size="13" fill="#8E887A">Unappraised · 99% Seal</text>`;
   } else if (state === "grimoire") {
-    art = `
-      <!-- Open Chest + Floating Golden Grimoire -->
-      <circle cx="${x + 70}" cy="${y + 54}" r="28" fill="#E5C068" fill-opacity="0.18">
-        <animate attributeName="r" values="22;32;22" dur="2.8s" repeatCount="indefinite"/>
+    illustration = `
+      <circle cx="${cx}" cy="${yTop + 68}" r="38" fill="#E5C068" fill-opacity="0.1">
+        <animate attributeName="r" values="30;40;30" dur="3.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="${cx}" cy="${yTop + 68}" r="34" fill="none" stroke="#E5C068" stroke-opacity="0.5" stroke-width="0.9" stroke-dasharray="4 3">
+        <animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${yTop + 68}" to="360 ${cx} ${yTop + 68}" dur="24s" repeatCount="indefinite"/>
       </circle>
       <g>
-        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-4; 0,0" dur="2.4s" repeatCount="indefinite"/>
-        <!-- Open Illuminated Grimoire Book -->
-        <path d="M ${x + 46} ${y + 56} Q ${x + 58} ${y + 50} ${x + 70} ${y + 56} Q ${x + 82} ${y + 50} ${x + 94} ${y + 56} L ${x + 94} ${y + 34} Q ${x + 82} ${y + 28} ${x + 70} ${y + 34} Q ${x + 58} ${y + 28} ${x + 46} ${y + 34} Z" fill="#F4EFE6" stroke="#E5C068" stroke-width="1.5"/>
-        <line x1="${x + 70}" y1="${y + 34}" x2="${x + 70}" y2="${y + 56}" stroke="#D4A843" stroke-width="1.4"/>
-        <polygon points="${x + 70},${y + 20} ${x + 73},${y + 26} ${x + 70},${y + 30} ${x + 67},${y + 26}" fill="#9CC084"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3.5; 0,0" dur="2.6s" repeatCount="indefinite"/>
+        <!-- Open Illuminated Manuscript Pages -->
+        <path d="M ${cx - 26} ${yTop + 68} Q ${cx - 13} ${yTop + 62} ${cx} ${yTop + 68} Q ${cx + 13} ${yTop + 62} ${cx + 26} ${yTop + 68} L ${cx + 26} ${yTop + 44} Q ${cx + 13} ${yTop + 38} ${cx} ${yTop + 44} Q ${cx - 13} ${yTop + 38} ${cx - 26} ${yTop + 44} Z" fill="#F4EFE6" stroke="#D4A843" stroke-width="1.3"/>
+        <line x1="${cx}" y1="${yTop + 44}" x2="${cx}" y2="${yTop + 68}" stroke="#D4A843" stroke-width="1.2"/>
+        <!-- Manuscript Ink Lines & Rune -->
+        <line x1="${cx - 20}" y1="${yTop + 51}" x2="${cx - 6}" y2="${yTop + 49}" stroke="#8E887A" stroke-width="1"/>
+        <line x1="${cx - 20}" y1="${yTop + 57}" x2="${cx - 6}" y2="${yTop + 55}" stroke="#8E887A" stroke-width="1"/>
+        <polygon points="${cx + 13},${yTop + 49} ${cx + 17},${yTop + 54} ${cx + 13},${yTop + 59} ${cx + 9},${yTop + 54}" fill="none" stroke="#9CC084" stroke-width="1.2"/>
       </g>
-      <rect x="${x + 32}" y="${y + 72}" width="76" height="28" rx="3" fill="#1F1815" stroke="#E5C068" stroke-width="1.4"/>
-      <text x="${x + 70}" y="${y + 124}" text-anchor="middle" class="cinzel" font-size="10.5" fill="#9CC084" letter-spacing="0.8">✦ RARE GRIMOIRE!</text>`;
+      <!-- Open Coffer Base -->
+      <rect x="${cx - 32}" y="${yTop + 78}" width="64" height="22" rx="2" fill="#181512" stroke="#E5C068" stroke-width="1.2"/>
+      <line x1="${cx - 18}" y1="${yTop + 78}" x2="${cx - 18}" y2="${yTop + 100}" stroke="#E5C068" stroke-width="1.4"/>
+      <line x1="${cx + 18}" y1="${yTop + 78}" x2="${cx + 18}" y2="${yTop + 100}" stroke="#E5C068" stroke-width="1.4"/>
+      <text x="${cx}" y="${yTop + 128}" text-anchor="middle" class="cinzel" font-size="10" fill="#9CC084" letter-spacing="1">GRIMOIRE DISCOVERED</text>`;
   } else {
-    art = `
-      <!-- Open Fanged Mimic Trap! -->
-      <circle cx="${x + 70}" cy="${y + 62}" r="28" fill="#E05D53" fill-opacity="0.2">
-        <animate attributeName="r" values="20;30;20" dur="1.4s" repeatCount="indefinite"/>
+    illustration = `
+      <circle cx="${cx}" cy="${yTop + 70}" r="36" fill="#D4886A" fill-opacity="0.12">
+        <animate attributeName="r" values="28;38;28" dur="1.8s" repeatCount="indefinite"/>
       </circle>
-      <!-- Upper Jaw -->
-      <path d="M ${x + 28} ${y + 54} Q ${x + 70} ${y + 30} ${x + 112} ${y + 54} Z" fill="#2B1418" stroke="#E05D53" stroke-width="1.5"/>
-      <!-- Sharp White Fangs -->
-      <polygon points="${x + 38},${y + 54} ${x + 43},${y + 64} ${x + 48},${y + 54} ${x + 54},${y + 66} ${x + 60},${y + 54} ${x + 70},${y + 67} ${x + 80},${y + 54} ${x + 86},${y + 66} ${x + 92},${y + 54} ${x + 97},${y + 64} ${x + 102},${y + 54}" fill="#F4EFE6"/>
-      <!-- Glowing Mimic Eyes & Tongue -->
-      <circle cx="${x + 54}" cy="${y + 45}" r="2.6" fill="#E05D53"/>
-      <circle cx="${x + 86}" cy="${y + 45}" r="2.6" fill="#E05D53"/>
-      <path d="M ${x + 64} ${y + 72} Q ${x + 70} ${y + 56} ${x + 84} ${y + 62}" fill="none" stroke="#E05D53" stroke-width="3.2" stroke-linecap="round"/>
-      <!-- Lower Box -->
-      <rect x="${x + 30}" y="${y + 72}" width="80" height="28" rx="3" fill="#231216" stroke="#E05D53" stroke-width="1.5"/>
-      <text x="${x + 70}" y="${y + 124}" text-anchor="middle" class="cinzel" font-size="10.5" fill="#E05D53" letter-spacing="0.6">🦷 MIMIC! KURAI YO!</text>`;
+      <!-- Eldritch Mimic Maw (Geometric Ivory Fangs & Abyssal Eye) -->
+      <path d="M ${cx - 34} ${yTop + 62} Q ${cx} ${yTop + 40} ${cx + 34} ${yTop + 62} Z" fill="#221215" stroke="#D4886A" stroke-width="1.3"/>
+      <polygon points="${cx - 26},${yTop + 62} ${cx - 21},${yTop + 71} ${cx - 16},${yTop + 62} ${cx - 10},${yTop + 73} ${cx - 4},${yTop + 62} ${cx},${yTop + 74} ${cx + 4},${yTop + 62} ${cx + 10},${yTop + 73} ${cx + 16},${yTop + 62} ${cx + 21},${yTop + 71} ${cx + 26},${yTop + 62}" fill="#F4EFE6"/>
+      <ellipse cx="${cx - 12}" cy="${yTop + 53}" rx="3.2" ry="1.8" fill="#E5C068"/>
+      <ellipse cx="${cx + 12}" cy="${yTop + 53}" rx="3.2" ry="1.8" fill="#E5C068"/>
+      <rect x="${cx - 34}" y="${yTop + 76}" width="68" height="24" rx="2" fill="#1B1012" stroke="#D4886A" stroke-width="1.3"/>
+      <polygon points="${cx - 20},${yTop + 76} ${cx - 15},${yTop + 69} ${cx - 10},${yTop + 76} ${cx + 10},${yTop + 76} ${cx + 15},${yTop + 69} ${cx + 20},${yTop + 76}" fill="#F4EFE6"/>
+      <text x="${cx}" y="${yTop + 128}" text-anchor="middle" class="cinzel" font-size="10" fill="#D4886A" letter-spacing="1">1% MIMIC AMBUSH</text>`;
   }
 
   return `
-    <rect x="${x}" y="${y}" width="140" height="138" rx="10" fill="${bgCol}" stroke="${borderCol}" stroke-opacity="${glowOp}" stroke-width="1.2"/>
-    <text x="${x + 70}" y="${y + 21}" text-anchor="middle" class="cinzel" font-size="11" fill="${borderCol}" letter-spacing="1.2">${label}</text>
-    ${art}`;
+    <text x="${cx}" y="${yTop + 16}" text-anchor="middle" class="cinzel" font-size="10.5" fill="${accent}" letter-spacing="1.2">${numeral} · ${title}</text>
+    ${illustration}`;
 }
 
 export function buildGameSvg(st) {
   const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
-  const hpW = Math.round((st.ubelHp / st.ubelMaxHp) * 204);
-  const mpW = Math.round((st.ubelMp / st.ubelMaxMp) * 204);
-  const bossHpW = Math.round((st.bossHp / st.bossMaxHp) * 204);
 
-  // Center spell clash effect (x=316, y=172)
+  // Center Astrolabe Spell Diagram (cx=332, cy=164)
   let clashArt = "";
   if (st.lastSpell === "reelseiden") {
     clashArt = `
-      <circle cx="334" cy="176" r="34" fill="#9CC084" fill-opacity="0.12">
-        <animate attributeName="r" values="24;38;24" dur="2.2s" repeatCount="indefinite"/>
+      <circle cx="332" cy="164" r="32" fill="none" stroke="#9CC084" stroke-opacity="0.32" stroke-width="0.9" stroke-dasharray="4 4">
+        <animateTransform attributeName="transform" type="rotate" from="0 332 164" to="360 332 164" dur="22s" repeatCount="indefinite"/>
       </circle>
-      <path d="M 304 204 L 364 146 M 314 210 L 372 154" stroke="#9CC084" stroke-width="3.2" stroke-linecap="round">
-        <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.4s" repeatCount="indefinite"/>
+      <circle cx="332" cy="164" r="23" fill="#9CC084" fill-opacity="0.08"/>
+      <path d="M 308 186 L 356 142 M 316 192 L 362 148" stroke="#9CC084" stroke-width="2.2" stroke-linecap="round">
+        <animate attributeName="stroke-opacity" values="0.45;1;0.45" dur="1.6s" repeatCount="indefinite"/>
       </path>
-      <text x="334" y="228" text-anchor="middle" class="cinzel" font-size="10" fill="#9CC084" letter-spacing="1">REELSEIDEN</text>`;
+      <text x="332" y="216" text-anchor="middle" class="cinzel" font-size="9.5" fill="#9CC084" letter-spacing="1.4">REELSEIDEN</text>
+      <text x="332" y="231" text-anchor="middle" class="folio" font-size="12.5" fill="#C8C2B4">Combo x${st.combo}</text>`;
   } else if (st.lastSpell === "sorganeil") {
     clashArt = `
-      <circle cx="334" cy="176" r="34" fill="#B399EE" fill-opacity="0.16">
-        <animate attributeName="r" values="24;38;24" dur="2.4s" repeatCount="indefinite"/>
+      <circle cx="332" cy="164" r="32" fill="none" stroke="#B399EE" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="6 3">
+        <animateTransform attributeName="transform" type="rotate" from="360 332 164" to="0 332 164" dur="18s" repeatCount="indefinite"/>
       </circle>
-      <ellipse cx="334" cy="176" rx="22" ry="12" fill="none" stroke="#B399EE" stroke-width="2.2"/>
-      <circle cx="334" cy="176" r="6" fill="#B399EE">
-        <animate attributeName="r" values="4;7.5;4" dur="1.6s" repeatCount="indefinite"/>
+      <ellipse cx="332" cy="164" rx="20" ry="11" fill="none" stroke="#B399EE" stroke-width="1.8"/>
+      <circle cx="332" cy="164" r="5" fill="#B399EE">
+        <animate attributeName="r" values="3.8;6.5;3.8" dur="1.8s" repeatCount="indefinite"/>
       </circle>
-      <text x="334" y="228" text-anchor="middle" class="cinzel" font-size="10" fill="#B399EE" letter-spacing="1">SORGANEIL</text>`;
+      <text x="332" y="216" text-anchor="middle" class="cinzel" font-size="9.5" fill="#B399EE" letter-spacing="1.4">SORGANEIL</text>
+      <text x="332" y="231" text-anchor="middle" class="folio" font-size="12.5" fill="#E5C068">2.2x Execution</text>`;
   } else {
     clashArt = `
-      <polygon points="334,144 362,160 362,192 334,208 306,192 306,160" fill="#7DA8E6" fill-opacity="0.15" stroke="#7DA8E6" stroke-width="2">
-        <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/>
+      <circle cx="332" cy="164" r="32" fill="none" stroke="#7DA8E6" stroke-opacity="0.35" stroke-width="0.9" stroke-dasharray="3 3"/>
+      <polygon points="332,137 355,150 355,178 332,191 309,178 309,150" fill="#7DA8E6" fill-opacity="0.1" stroke="#7DA8E6" stroke-width="1.6">
+        <animate attributeName="stroke-opacity" values="0.45;1;0.45" dur="2s" repeatCount="indefinite"/>
       </polygon>
-      <text x="334" y="228" text-anchor="middle" class="cinzel" font-size="10" fill="#7DA8E6" letter-spacing="1">MANA WARD</text>`;
+      <text x="332" y="216" text-anchor="middle" class="cinzel" font-size="9.5" fill="#7DA8E6" letter-spacing="1.4">ZOLTRAAK WARD</text>
+      <text x="332" y="231" text-anchor="middle" class="folio" font-size="12.5" fill="#C8C2B4">Refraction Active</text>`;
   }
 
-  const avatarImg = UBEL_AVATAR
-    ? `<image href="${UBEL_AVATAR}" x="46" y="106" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#ubel_av_clip)"/>`
-    : `<circle cx="78" cy="138" r="30" fill="#18221B"/>`;
+  const ubelImg = UBEL_AVATAR
+    ? `<image href="${UBEL_AVATAR}" x="40" y="100" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#ubel_av)"/>`
+    : `<rect x="40" y="100" width="64" height="64" rx="8" fill="#161E18"/>`;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 424" width="100%" height="100%">
+  const spiegelImg = SPIEGEL_AVATAR
+    ? `<image href="${SPIEGEL_AVATAR}" x="560" y="100" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#spiegel_av)"/>`
+    : `<rect x="560" y="100" width="64" height="64" rx="8" fill="#1C1422"/>`;
+
+  const ubelHpBar = renderSegmentedBar(40, 198, 224, 9, st.ubelHp, st.ubelMaxHp, "hp_g", "#171E19", 10);
+  const ubelMpBar = renderSegmentedBar(40, 236, 224, 9, st.ubelMp, st.ubelMaxMp, "mp_g", "#181624", 10);
+  const bossHpBar = renderSegmentedBar(400, 198, 224, 9, st.bossHp, st.bossMaxHp, "boss_g", "#221417", 10);
+
+  const bossStateLabel = st.bossBound
+    ? "SIGHT-LOCKED · 2.2X DMG"
+    : st.bossCharging
+    ? "MANA SURGE · CHARGING"
+    : "MIRROR GUARDIAN · ACTIVE";
+  const bossStateCol = st.bossBound ? "#B399EE" : st.bossCharging ? "#E5C068" : "#D4886A";
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="100%" height="100%">
   <defs>
     <linearGradient id="gm_bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0E1310"/>
@@ -310,124 +362,118 @@ export function buildGameSvg(st) {
       <stop offset="100%" stop-color="#16131E"/>
     </linearGradient>
     <linearGradient id="gm_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.62"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.62"/>
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.68"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.6"/>
     </linearGradient>
-    <linearGradient id="hp_grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#4E7A52"/>
+    <linearGradient id="hp_g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#527A56"/>
       <stop offset="100%" stop-color="#9CC084"/>
     </linearGradient>
-    <linearGradient id="mp_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="mp_g" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#6E56AF"/>
       <stop offset="100%" stop-color="#B399EE"/>
     </linearGradient>
-    <linearGradient id="boss_grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#C95B55"/>
+    <linearGradient id="boss_g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B85650"/>
       <stop offset="100%" stop-color="#E5C068"/>
     </linearGradient>
-    <clipPath id="gm_clip"><rect x="0" y="0" width="1200" height="424" rx="16"/></clipPath>
-    <clipPath id="ubel_av_clip"><rect x="46" y="106" width="64" height="64" rx="10"/></clipPath>
+    <clipPath id="gm_clip"><rect x="0" y="0" width="1200" height="420" rx="16"/></clipPath>
+    <clipPath id="ubel_av"><rect x="40" y="100" width="64" height="64" rx="8"/></clipPath>
+    <clipPath id="spiegel_av"><rect x="560" y="100" width="64" height="64" rx="8"/></clipPath>
     <style>
       ${FONT_FACE_CSS}
       .cinzel { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
       .cinzel-b { font-family: 'Cinzel', Georgia, serif; font-weight: 800; }
       .serif { font-family: 'Cormorant', Georgia, serif; font-weight: 600; }
       .folio { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-weight: 500; }
-      .mono { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; font-variant-numeric: tabular-nums; font-weight: 700; }
+      .num { font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="423" rx="15.5" fill="url(#gm_bg)" stroke="url(#gm_border)" stroke-width="1.2"/>
-  <rect x="6.5" y="6.5" width="1187" height="411" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
+  <rect x="0.5" y="0.5" width="1199" height="419" rx="15.5" fill="url(#gm_bg)" stroke="url(#gm_border)" stroke-width="1.2"/>
+  <rect x="6.5" y="6.5" width="1187" height="407" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
   <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
   <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="16,412 20,408 16,404 12,408" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,412 1188,408 1184,404 1180,408" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="16,408 20,404 16,400 12,404" fill="#D4A843" fill-opacity="0.65"/>
+  <polygon points="1184,408 1188,404 1184,400 1180,404" fill="#D4A843" fill-opacity="0.65"/>
 
   <g clip-path="url(#gm_clip)">
-    <!-- TOP HEADER -->
-    <circle cx="42" cy="36" r="4" fill="#9CC084">
-      <animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <text x="56" y="41" class="cinzel" font-size="18" fill="#F4EFE6" letter-spacing="0.8">ARCANE TRIAL ARENA  ·  INTERACTIVE GRIMOIRE MINI-GAME</text>
-    <text x="1164" y="41" text-anchor="end" class="folio" font-size="15" fill="#E5C068">Trials Cleared: ${st.wins}  ·  Grimoires Found: ${st.grimoiresFound}  ·  Mimic Traps: ${st.mimicsTriggered}</text>
+    <!-- RUNNING FOLIO HEADER -->
+    <polygon points="40,32 45,37 40,42 35,37" fill="#D4A843"/>
+    <text x="56" y="42" class="cinzel" font-size="18" fill="#F4EFE6" letter-spacing="0.8">THE KING’S TOMB  ·  FIRST-CLASS EXAM &amp; RELIQUARY TRIAL</text>
+    <text x="1164" y="42" text-anchor="end" class="folio" font-size="15" fill="#E5C068">Sanctuaries Cleared: ${st.wins}  ·  Grimoires Appraised: ${st.grimoiresFound}  ·  Mimic Encounters: ${st.mimicsTriggered}</text>
     <line x1="36" y1="56" x2="1164" y2="56" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <!-- ================================================================== -->
-    <!-- LEFT PANEL: TRIAL I · UBEL VS SPIEGEL CLONE (x=28..640)            -->
+    <!-- COLUMN I: SPIEGEL SANCTUARY DUEL (x=36..624) — Hairline Architecture -->
     <!-- ================================================================== -->
-    <rect x="28" y="70" width="612" height="328" rx="12" fill="#0C110E" stroke="#9CC084" stroke-opacity="0.28" stroke-width="1"/>
-    <text x="46" y="94" class="cinzel" font-size="12" fill="#9CC084" letter-spacing="1.4">TRIAL I · FIRST-CLASS MAGE DUEL (KING’S TOMB)</text>
-    <text x="622" y="94" text-anchor="end" class="folio" font-size="13.5" fill="#C8C2B4">Turn #${st.turn} · Interactive</text>
+    <text x="40" y="82" class="cinzel" font-size="11.5" fill="#9CC084" letter-spacing="1.4">I · SPIEGEL SANCTUARY DUEL</text>
+    <text x="624" y="82" text-anchor="end" class="folio" font-size="14" fill="#C8C2B4">${xmlEsc(boss.stage)}  ·  Turn ${st.turn}</text>
 
-    <!-- Player Side: Ubel (x=46..280) -->
-    ${avatarImg}
-    <rect x="46" y="106" width="64" height="64" rx="10" fill="none" stroke="#9CC084" stroke-width="1.5"/>
-    <text x="122" y="124" class="cinzel-b" font-size="15.5" fill="#F4EFE6">ÜBEL · FITZZXYZ</text>
-    <text x="122" y="143" class="folio" font-size="13.5" fill="#9CC084">First-Class Mage · Reelseiden</text>
-    <text x="122" y="162" class="cinzel" font-size="10.5" fill="#E5C068">${st.wardActive ? "🛡️ WARD ACTIVE" : "⚔️ OFFENSIVE STANCE"}</text>
+    <!-- Left Combatant: Ubel -->
+    ${ubelImg}
+    <rect x="40" y="100" width="64" height="64" rx="8" fill="none" stroke="#9CC084" stroke-opacity="0.8" stroke-width="1.3"/>
+    <rect x="43" y="103" width="58" height="58" rx="6" fill="none" stroke="#D4A843" stroke-opacity="0.35" stroke-width="0.7"/>
+    <text x="116" y="117" class="cinzel-b" font-size="14" fill="#F4EFE6">ÜBEL · FITZZXYZ</text>
+    <text x="116" y="136" class="folio" font-size="13.5" fill="#9CC084">First-Class · +${st.slashBonus} Sever</text>
+    <text x="116" y="154" class="cinzel" font-size="9.5" fill="#E5C068" letter-spacing="0.8">${st.wardActive ? "WARD LATTICE ACTIVE" : "REELSEIDEN STANCE"}</text>
 
-    <!-- Ubel HP Bar -->
-    <text x="46" y="196" class="cinzel" font-size="10.5" fill="#9CC084" letter-spacing="1">HP</text>
-    <text x="250" y="196" text-anchor="end" class="mono" font-size="11.5" fill="#F4EFE6">${st.ubelHp} / ${st.ubelMaxHp}</text>
-    <rect x="46" y="203" width="204" height="11" rx="4" fill="#1A221D"/>
-    <rect x="46" y="203" width="${hpW}" height="11" rx="4" fill="url(#hp_grad)"/>
+    <text x="40" y="191" class="cinzel" font-size="10" fill="#9CC084" letter-spacing="1.2">VITALITY</text>
+    <text x="264" y="191" text-anchor="end" class="num" font-size="11" fill="#F4EFE6">${st.ubelHp} / ${st.ubelMaxHp}</text>
+    ${ubelHpBar}
 
-    <!-- Ubel MP Bar -->
-    <text x="46" y="236" class="cinzel" font-size="10.5" fill="#B399EE" letter-spacing="1">MANA</text>
-    <text x="250" y="236" text-anchor="end" class="mono" font-size="11.5" fill="#F4EFE6">${st.ubelMp} / ${st.ubelMaxMp}</text>
-    <rect x="46" y="243" width="204" height="11" rx="4" fill="#1A1826"/>
-    <rect x="46" y="243" width="${mpW}" height="11" rx="4" fill="url(#mp_grad)"/>
+    <text x="40" y="229" class="cinzel" font-size="10" fill="#B399EE" letter-spacing="1.2">MANA POOL</text>
+    <text x="264" y="229" text-anchor="end" class="num" font-size="11" fill="#F4EFE6">${st.ubelMp} / ${st.ubelMaxMp}</text>
+    ${ubelMpBar}
 
-    <!-- Center Clash FX -->
+    <!-- Center Astrolabe Spell Diagram -->
     ${clashArt}
 
-    <!-- Boss Side: Spiegel Clone (x=418..622) -->
-    <g transform="translate(590, 138)">
-      <circle cx="0" cy="0" r="30" fill="#171222" stroke="#E05D53" stroke-width="1.4"/>
-      <circle cx="0" cy="0" r="23" fill="none" stroke="#E5C068" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="4 3">
-        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
-      </circle>
-      <polygon points="0,-13 11,0 0,13 -11,0" fill="none" stroke="#B399EE" stroke-width="1.6"/>
-      <circle cx="0" cy="0" r="3.5" fill="#E05D53"/>
-    </g>
-    <text x="546" y="124" text-anchor="end" class="cinzel-b" font-size="14.5" fill="#F4EFE6">${xmlEsc(boss.name)}</text>
-    <text x="546" y="143" text-anchor="end" class="folio" font-size="13.5" fill="#E5C068">${xmlEsc(boss.title)}</text>
-    <text x="546" y="162" text-anchor="end" class="cinzel" font-size="10.5" fill="${st.bossBound ? "#B399EE" : "#E05D53"}">${st.bossBound ? "⛓️ BOUND BY SORGANEIL (2X)" : "⚡ ACTIVE GUARDIAN"}</text>
+    <!-- Right Combatant: Spiegel Replica -->
+    ${spiegelImg}
+    <rect x="560" y="100" width="64" height="64" rx="8" fill="none" stroke="${bossStateCol}" stroke-opacity="0.85" stroke-width="1.3"/>
+    <rect x="563" y="103" width="58" height="58" rx="6" fill="none" stroke="#D4A843" stroke-opacity="0.35" stroke-width="0.7"/>
+    <text x="548" y="117" text-anchor="end" class="cinzel-b" font-size="13.5" fill="#F4EFE6">${xmlEsc(boss.name)}</text>
+    <text x="548" y="136" text-anchor="end" class="folio" font-size="13.5" fill="#E5C068">${xmlEsc(boss.title)}</text>
+    <text x="548" y="154" text-anchor="end" class="cinzel" font-size="9.5" fill="${bossStateCol}" letter-spacing="0.6">${bossStateLabel}</text>
 
-    <!-- Boss HP Bar -->
-    <text x="418" y="196" class="cinzel" font-size="10.5" fill="#E5C068" letter-spacing="1">BOSS HP</text>
-    <text x="622" y="196" text-anchor="end" class="mono" font-size="11.5" fill="#F4EFE6">${st.bossHp} / ${st.bossMaxHp}</text>
-    <rect x="418" y="203" width="204" height="11" rx="4" fill="#241618"/>
-    <rect x="418" y="203" width="${bossHpW}" height="11" rx="4" fill="url(#boss_grad)"/>
+    <text x="400" y="191" class="cinzel" font-size="10" fill="#E5C068" letter-spacing="1.2">REPLICA INTEGRITY</text>
+    <text x="624" y="191" text-anchor="end" class="num" font-size="11" fill="#F4EFE6">${st.bossHp} / ${st.bossMaxHp}</text>
+    ${bossHpBar}
 
-    <text x="418" y="236" class="cinzel" font-size="10.5" fill="#8E887A" letter-spacing="1">WEAKNESS</text>
-    <text x="622" y="236" text-anchor="end" class="folio" font-size="13.5" fill="#B399EE">Sorganeil → Reelseiden</text>
-    <line x1="418" y1="248" x2="622" y2="248" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <text x="400" y="229" class="cinzel" font-size="10" fill="#8E887A" letter-spacing="1.2">TRAIT</text>
+    <text x="624" y="229" text-anchor="end" class="folio" font-size="13.5" fill="#C8C2B4">${xmlEsc(boss.trait)}</text>
+    <line x1="400" y1="242" x2="624" y2="242" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
-    <!-- Battle Chronicle Log Well -->
-    <rect x="46" y="276" width="576" height="106" rx="8" fill="#080B09" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
-    <text x="62" y="298" class="cinzel" font-size="10.5" fill="#E5C068" letter-spacing="1.4">BATTLE CHRONICLE LOG</text>
-    <text x="62" y="328" class="serif" font-size="15" fill="#F4EFE6">${xmlEsc(st.duelLog1)}</text>
-    <text x="62" y="356" class="folio" font-size="14.5" fill="#C8C2B4">${xmlEsc(st.duelLog2)}</text>
+    <!-- Duel Chronicle Well (Borderless Recessed Surface #0A0D0B) -->
+    <line x1="40" y1="268" x2="624" y2="268" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+    <rect x="40" y="280" width="584" height="112" rx="8" fill="#090C0A"/>
+    <text x="56" y="304" class="cinzel" font-size="10.5" fill="#E5C068" letter-spacing="1.4">COMBAT CHRONICLE INSCRIPTION</text>
+    <text x="56" y="334" class="serif" font-size="15.5" fill="#F4EFE6">${xmlEsc(st.duelLog1)}</text>
+    <text x="56" y="364" class="folio" font-size="15" fill="#9CC084">${xmlEsc(st.duelLog2)}</text>
+
+    <!-- Master Vertical Hairline Divider -->
+    <line x1="648" y1="70" x2="648" y2="394" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <!-- ================================================================== -->
-    <!-- RIGHT PANEL: TRIAL II · MIMIC OR GRIMOIRE? (x=656..1172)           -->
+    <!-- COLUMN II: RELIQUARY APPRAISAL (x=672..1164) — Hairline Columns     -->
     <!-- ================================================================== -->
-    <rect x="656" y="70" width="516" height="328" rx="12" fill="#0C110E" stroke="#E5C068" stroke-opacity="0.28" stroke-width="1"/>
-    <text x="676" y="94" class="cinzel" font-size="12" fill="#E5C068" letter-spacing="1.4">TRIAL II · FRIEREN’S DUNGEON CHEST ROULETTE</text>
-    <text x="1152" y="94" text-anchor="end" class="folio" font-size="13.5" fill="#9CC084">“99% Grimoire!”</text>
+    <text x="672" y="82" class="cinzel" font-size="11.5" fill="#E5C068" letter-spacing="1.4">II · DUNGEON RELIQUARY APPRAISAL</text>
+    <text x="1164" y="82" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Frieren’s 99% Detection Theorem</text>
 
-    ${renderChest(676, 114, "CHEST I", st.chests[0], st.lastChestIdx === 0)}
-    ${renderChest(844, 114, "CHEST II", st.chests[1], st.lastChestIdx === 1)}
-    ${renderChest(1012, 114, "CHEST III", st.chests[2], st.lastChestIdx === 2)}
+    ${renderReliquaryColumn(748, 104, "I", "WEST COFFER", st.chests[0], st.lastChestIdx === 0)}
+    <line x1="832" y1="108" x2="832" y2="246" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+    ${renderReliquaryColumn(918, 104, "II", "SANCTUM", st.chests[1], st.lastChestIdx === 1)}
+    <line x1="1002" y1="108" x2="1002" y2="246" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+    ${renderReliquaryColumn(1086, 104, "III", "EAST COFFER", st.chests[2], st.lastChestIdx === 2)}
 
-    <!-- Dungeon Roulette Log Well -->
-    <rect x="676" y="276" width="476" height="106" rx="8" fill="#080B09" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
-    <text x="692" y="298" class="cinzel" font-size="10.5" fill="#B399EE" letter-spacing="1.4">DUNGEON APPRAISAL LOG</text>
-    <text x="692" y="328" class="serif" font-size="14.5" fill="#F4EFE6">${xmlEsc(st.chestLog1)}</text>
-    <text x="692" y="356" class="folio" font-size="14" fill="#C8C2B4">${xmlEsc(st.chestLog2)}</text>
+    <!-- Reliquary Appraisal Well (Borderless Recessed Surface #0A0D0B) -->
+    <line x1="672" y1="268" x2="1164" y2="268" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+    <rect x="672" y="280" width="492" height="112" rx="8" fill="#090C0A"/>
+    <text x="688" y="304" class="cinzel" font-size="10.5" fill="#B399EE" letter-spacing="1.4">RELIQUARY APPRAISAL LEDGER</text>
+    <text x="688" y="334" class="serif" font-size="15.5" fill="#F4EFE6">${xmlEsc(st.chestLog1)}</text>
+    <text x="688" y="364" class="folio" font-size="14.5" fill="#C8C2B4">${xmlEsc(st.chestLog2)}</text>
   </g>
 </svg>`;
 }
@@ -438,57 +484,94 @@ function buildInteractiveConsoleHtml(svgContent) {
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>FitzzXYZ · Arcane Trial Arena (Sousou no Frieren × Übel)</title>
+  <title>FitzzXYZ · The King’s Tomb & Reliquary Trial (Sousou no Frieren × Übel)</title>
   <style>
+    ${FONT_FACE_CSS}
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 24px 16px; min-height: 100vh;
-      background: radial-gradient(circle at 50% 10%, #171E19 0%, #0B0E0C 75%);
-      color: #F4EFE6; font-family: Georgia, 'Times New Roman', serif;
+      margin: 0; padding: 28px 18px; min-height: 100vh;
+      background: radial-gradient(circle at 50% 0%, #161D18 0%, #0A0D0B 72%);
+      color: #F4EFE6; font-family: 'Cormorant', Georgia, serif;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-    .wrap { width: 100%; max-width: 1120px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
-    .top-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 9px 18px; border-radius: 9px; text-decoration: none;
-      background: #121815; color: #F4EFE6; border: 1px solid rgba(212,168,67,0.55);
-      font-size: 13.5px; font-weight: 600; letter-spacing: 0.4px; transition: all 0.18s ease;
+    .wrap { width: 100%; max-width: 1160px; display: flex; flex-direction: column; gap: 18px; align-items: center; }
+    .top-bar {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px; padding-bottom: 12px;
+      border-bottom: 1px solid rgba(212,168,67,0.24);
     }
-    .back-btn:hover { border-color: #9CC084; background: #18211C; transform: translateY(-1px); }
-    .badge { font-style: italic; color: #9CC084; font-size: 14px; }
-    #arena-box { width: 100%; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.65); overflow: hidden; }
-    .controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
-    button.act-btn {
-      cursor: pointer; padding: 11px 18px; border-radius: 10px;
-      background: linear-gradient(135deg, #121714, #181522);
-      color: #F4EFE6; border: 1px solid rgba(212,168,67,0.5);
-      font-family: Georgia, serif; font-size: 13.5px; font-weight: 700;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-      min-width: 158px; transition: all 0.15s ease;
+    .back-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 9px 18px; border-radius: 8px; text-decoration: none;
+      background: #101512; color: #F4EFE6; border: 1px solid rgba(212,168,67,0.45);
+      font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: 0.8px;
+      transition: border-color 0.18s ease, background 0.18s ease;
     }
-    button.act-btn:hover { transform: translateY(-2px); border-color: #E5C068; box-shadow: 0 6px 18px rgba(212,168,67,0.18); }
-    button.act-btn:active { transform: translateY(0); }
-    button.act-btn span.sub { font-size: 11.5px; font-weight: 400; font-style: italic; color: #9CC084; }
-    button.act-btn.purple span.sub { color: #B399EE; }
-    button.act-btn.blue span.sub { color: #7DA8E6; }
-    button.act-btn.gold span.sub { color: #E5C068; }
+    .back-link:hover { border-color: #9CC084; background: #151C18; }
+    .folio-note { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; color: #C8C2B4; font-size: 15.5px; }
+    #arena-box { width: 100%; border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.72); overflow: hidden; }
+    .control-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; width: 100%;
+    }
+    @media (max-width: 920px) { .control-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 520px) { .control-grid { grid-template-columns: repeat(2, 1fr); } }
+    button.grimoire-btn {
+      cursor: pointer; padding: 12px 14px; border-radius: 9px;
+      background: #101512; color: #F4EFE6;
+      border: 1px solid rgba(212,168,67,0.38);
+      text-align: left; display: flex; flex-direction: column; gap: 4px;
+      transition: border-color 0.16s ease, transform 0.14s ease, background 0.16s ease;
+    }
+    button.grimoire-btn:hover { transform: translateY(-2px); background: #151B17; border-color: #E5C068; }
+    button.grimoire-btn:active { transform: translateY(0); }
+    .btn-head { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .btn-title { font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.8px; }
+    .btn-key {
+      font-family: 'Cinzel', Georgia, serif; font-size: 10px; color: #8E887A;
+      border: 1px solid rgba(212,168,67,0.25); border-radius: 4px; padding: 1px 6px;
+    }
+    .btn-sub { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-size: 14px; color: #9CA3AF; }
+    .moss { color: #9CC084; }
+    .amethyst { color: #B399EE; }
+    .azure { color: #7DA8E6; }
+    .gold { color: #E5C068; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="top-bar">
-      <a class="back-btn" href="https://github.com/FitzzXYZ">↩ Kembali ke Profil GitHub FitzzXYZ (State Tersimpan Live)</a>
-      <span class="badge">✦ Setiap aksi Anda di sini juga langsung memperbarui gambar SVG di README GitHub!</span>
+      <a class="back-link" href="https://github.com/FitzzXYZ">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5C068" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        RETURN TO FITZZXYZ GITHUB CHRONICLE
+      </a>
+      <span class="folio-note">Live Grimoire Sanctum — every spell cast here updates the SVG state on the GitHub README (Keys 1–6)</span>
     </div>
     <div id="arena-box">${svgContent}</div>
-    <div class="controls">
-      <button class="act-btn" onclick="play('reelseiden')">⚔️ I · Cast Reelseiden<span class="sub">Slash · 35–55 DMG</span></button>
-      <button class="act-btn purple" onclick="play('sorganeil')">👁️ II · Cast Sorganeil<span class="sub">Bind · 2x Next Hit</span></button>
-      <button class="act-btn blue" onclick="play('ward')">🛡️ III · Mana Ward<span class="sub">+35 MP · +22 HP</span></button>
-      <button class="act-btn gold" onclick="play('chest1')">📦 Open Chest I<span class="sub">99% Grimoire?</span></button>
-      <button class="act-btn gold" onclick="play('chest2')">📦 Open Chest II<span class="sub">99% Grimoire?</span></button>
-      <button class="act-btn gold" onclick="play('chest3')">📦 Open Chest III<span class="sub">99% Grimoire?</span></button>
+    <div class="control-grid">
+      <button class="grimoire-btn" onclick="play('reelseiden')">
+        <div class="btn-head"><span class="btn-title"><span class="moss">I</span> · REELSEIDEN</span><span class="btn-key">1</span></div>
+        <span class="btn-sub">Severing Slash · 38–54 Dmg</span>
+      </button>
+      <button class="grimoire-btn" onclick="play('sorganeil')">
+        <div class="btn-head"><span class="btn-title"><span class="amethyst">II</span> · SORGANEIL</span><span class="btn-key">2</span></div>
+        <span class="btn-sub">Sight-Lock · 2.2x Next Hit</span>
+      </button>
+      <button class="grimoire-btn" onclick="play('ward')">
+        <div class="btn-head"><span class="btn-title"><span class="azure">III</span> · ZOLTRAAK WARD</span><span class="btn-key">3</span></div>
+        <span class="btn-sub">Counter &amp; +32 MP / +22 HP</span>
+      </button>
+      <button class="grimoire-btn" onclick="play('chest1')">
+        <div class="btn-head"><span class="btn-title"><span class="gold">I</span> · WEST COFFER</span><span class="btn-key">4</span></div>
+        <span class="btn-sub">Appraise Reliquary (99%)</span>
+      </button>
+      <button class="grimoire-btn" onclick="play('chest2')">
+        <div class="btn-head"><span class="btn-title"><span class="gold">II</span> · SANCTUM COFFER</span><span class="btn-key">5</span></div>
+        <span class="btn-sub">Appraise Reliquary (99%)</span>
+      </button>
+      <button class="grimoire-btn" onclick="play('chest3')">
+        <div class="btn-head"><span class="btn-title"><span class="gold">III</span> · EAST COFFER</span><span class="btn-key">6</span></div>
+        <span class="btn-sub">Appraise Reliquary (99%)</span>
+      </button>
     </div>
   </div>
   <script>
@@ -497,6 +580,10 @@ function buildInteractiveConsoleHtml(svgContent) {
       const data = await r.json();
       document.getElementById('arena-box').innerHTML = data.svg;
     }
+    window.addEventListener('keydown', (e) => {
+      const map = { '1': 'reelseiden', '2': 'sorganeil', '3': 'ward', '4': 'chest1', '5': 'chest2', '6': 'chest3', 'r': 'reset' };
+      if (map[e.key]) play(map[e.key]);
+    });
   </script>
 </body>
 </html>`;
