@@ -23,6 +23,8 @@ OUT_LOC_SVG = os.path.join(ASSETS_DIR, "frieren-total-loc.svg")
 OUT_GRID_SVG = os.path.join(ASSETS_DIR, "mana-contribution-grid.svg")
 OUT_LEDGER_SVG = os.path.join(ASSETS_DIR, "frieren-telemetry-ledger.svg")
 OUT_GRAPH_SVG = os.path.join(ASSETS_DIR, "frieren-activity-graph.svg")
+OUT_ADV_SVG = os.path.join(ASSETS_DIR, "frieren-adventurer-card.svg")
+AUTHOR_PATTERN = os.environ.get("GIT_AUTHOR_PATTERN", r"FitzzXYZ\|achmadhafizmaulana290307")
 
 # Owned local repositories + parent folders scanned (1 level) for any FitzzXYZ/* repos
 LOCAL_OWNED_REPOS = [
@@ -199,8 +201,19 @@ def summarize_dirs(repo_dirs: list[str]) -> dict | None:
     }
 
 
+def count_author_commits(repo_dir: str) -> int:
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", repo_dir, "rev-list", "--count", f"--author={AUTHOR_PATTERN}", "HEAD"],
+            stderr=subprocess.DEVNULL, text=True,
+        ).strip()
+        return int(out) if out.isdigit() else 0
+    except Exception:
+        return 0
+
+
 def discover_local_owned_repos() -> list[str]:
-    """Discover all local Git repositories owned by USERNAME (1-level fast scan + known local paths)."""
+    """Discover all local Git repos owned by OR contributed to by USERNAME (1-level fast scan)."""
     found = [os.path.normpath(p) for p in LOCAL_OWNED_REPOS if os.path.isdir(os.path.join(p, ".git"))]
     owner_needle = f"github.com/{USERNAME.lower()}/"
     for parent in SCAN_PARENTS:
@@ -221,21 +234,24 @@ def discover_local_owned_repos() -> list[str]:
                 ).strip().lower()
             except Exception:
                 url = ""
-            if owner_needle in url:
+            if owner_needle in url or count_author_commits(p) > 0:
                 found.append(p)
     return found
 
 
 def try_count_local_repos() -> dict | None:
-    """When running locally on the developer's machine, recount live across all discovered owned repos."""
+    """When running locally on the developer's machine, recount live across all owned & contributed repos."""
     existing = discover_local_owned_repos()
     if len(existing) < 2:
         return None
-    return summarize_dirs(existing)
+    data = summarize_dirs(existing)
+    if data:
+        data["total_commits"] = sum(count_author_commits(p) for p in existing)
+    return data
 
 
 def try_count_from_github() -> dict | None:
-    """When LOC_TOKEN or GH_TOKEN (PAT with repo scope) is configured in CI, count across all owned non-fork repos."""
+    """When LOC_TOKEN or GH_TOKEN (PAT with repo scope) is configured in CI, count across owned & contributed non-fork repos."""
     token = (os.environ.get("LOC_TOKEN") or os.environ.get("GH_TOKEN") or "").strip()
     if not token:
         return None
@@ -244,7 +260,7 @@ def try_count_from_github() -> dict | None:
         page = 1
         while True:
             raw = http_get(
-                f"https://api.github.com/user/repos?per_page=100&affiliation=owner&page={page}",
+                f"https://api.github.com/user/repos?per_page=100&affiliation=owner,collaborator&page={page}",
                 token=token,
             )
             batch = json.loads(raw)
@@ -401,7 +417,7 @@ def build_loc_svg(data: dict) -> str:
       <circle cx="13" cy="17" r="2" fill="#9CC084"/>
     </g>
     <text x="70" y="39" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">TOTAL KODE YANG SUDAH SAYA TULIS</text>
-    <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned Repositories · Verified LOC</text>
+    <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned &amp; Contributed Repos · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_card_bg)" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
@@ -418,7 +434,7 @@ def build_loc_svg(data: dict) -> str:
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     {rows_svg}
 
-    <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
+    <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
     <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#D4A843">{updated_str}</text>
   </g>
 </svg>'''
@@ -587,10 +603,11 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
 </svg>'''
 
 
-def update_live_github_widgets():
-    """Update mana-contribution-grid.svg, frieren-activity-graph.svg, and frieren-telemetry-ledger.svg directly from GitHub."""
+def update_live_github_widgets(loc_data: dict | None = None):
+    """Update contribution grid, 31-day activity graph, telemetry ledger, and adventurer card directly from GitHub."""
     token = (os.environ.get("LOC_TOKEN") or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or "").strip()
     total_contribs = None
+    best_streak = None
     try:
         html = http_get(f"https://github.com/users/{USERNAME}/contributions")
         m_tot = re.search(r"([\d,]+)\s+contributions?\s+in\s+the\s+last\s+year", html)
@@ -619,18 +636,26 @@ def update_live_github_widgets():
                 f.write(grid_svg)
             print(f"Updated {OUT_GRID_SVG} ({total_contribs} contributions, {len(cells)} cells)")
 
-        # Build 31-day live contribution spline graph
+        # Build 31-day live contribution spline graph + compute annual best streak
         day_ids = dict(re.findall(r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*id="(contribution-day-component-\d+-\d+)"', html))
         tips = dict(re.findall(r'for="(contribution-day-component-\d+-\d+)"[^>]*>([^<]+)<', html))
-        daily_points = []
-        for dt, cid in sorted(day_ids.items())[-31:]:
+        all_daily = []
+        best_streak = cur = 0
+        for dt, cid in sorted(day_ids.items()):
             m_day = re.match(r"(\d+)\s+contribution", tips.get(cid, "").strip())
-            daily_points.append((dt, int(m_day.group(1)) if m_day else 0))
+            cnt = int(m_day.group(1)) if m_day else 0
+            all_daily.append((dt, cnt))
+            if cnt > 0:
+                cur += 1
+                best_streak = max(best_streak, cur)
+            else:
+                cur = 0
+        daily_points = all_daily[-31:]
         if daily_points:
             graph_svg = build_activity_graph_svg(daily_points)
             with open(OUT_GRAPH_SVG, "w", encoding="utf-8") as f:
                 f.write(graph_svg)
-            print(f"Generated {OUT_GRAPH_SVG} ({os.path.getsize(OUT_GRAPH_SVG)/1024:.1f} KB, 31-day sum={sum(c for _, c in daily_points)})")
+            print(f"Generated {OUT_GRAPH_SVG} ({os.path.getsize(OUT_GRAPH_SVG)/1024:.1f} KB, 31-day sum={sum(c for _, c in daily_points)}, streak={best_streak})")
     except Exception as exc:
         print(f"[warn] Contribution grid/graph live update skipped: {exc}")
 
@@ -639,6 +664,7 @@ def update_live_github_widgets():
         followers = profile.get("followers")
         following = profile.get("following")
         pub_repos = profile.get("public_repos")
+        commits = (loc_data or {}).get("total_commits")
         if os.path.exists(OUT_LEDGER_SVG):
             with open(OUT_LEDGER_SVG, "r", encoding="utf-8") as f:
                 ledger = f.read()
@@ -646,6 +672,12 @@ def update_live_github_widgets():
                 ledger = re.sub(
                     r'(<text x="36" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
                     rf"\g<1>{total_contribs}\g<2>",
+                    ledger,
+                )
+            if commits:
+                ledger = re.sub(
+                    r'(<text x="340" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
+                    rf"\g<1>{commits}\g<2>",
                     ledger,
                 )
             if pub_repos is not None:
@@ -659,9 +691,33 @@ def update_live_github_widgets():
                 ledger = re.sub(r"followers · \d+ following", f"followers · {following} following", ledger)
             with open(OUT_LEDGER_SVG, "w", encoding="utf-8") as f:
                 f.write(ledger)
-            print(f"Updated {OUT_LEDGER_SVG} (contribs={total_contribs}, followers={followers}, repos={pub_repos})")
+            print(f"Updated {OUT_LEDGER_SVG} (contribs={total_contribs}, commits={commits}, followers={followers}, repos={pub_repos})")
+
+        if os.path.exists(OUT_ADV_SVG):
+            with open(OUT_ADV_SVG, "r", encoding="utf-8") as f:
+                adv = f.read()
+            if commits:
+                adv = re.sub(r"\d+\s+repository commits", f"{commits} repository commits", adv)
+            if followers is not None and following is not None:
+                adv = re.sub(r"\d+\s+guild followers · \d+\s+following", f"{followers} guild followers · {following} following", adv)
+            if best_streak is not None and total_contribs is not None:
+                adv = re.sub(r"\d+\s+day best streak · \d+\s+contributions", f"{best_streak} day best streak · {total_contribs} contributions", adv)
+            if total_contribs is not None:
+                lv = 2 + (total_contribs // 50)
+                xp = total_contribs % 50
+                bar_w = max(24, int(round((xp / 50.0) * 686)))
+                adv = re.sub(r"LV \d+  &gt;  \d+", f"LV {lv}  &gt;  {lv + 1}", adv)
+                adv = re.sub(r"\d+ / 50 mana xp", f"{xp} / 50 mana xp", adv)
+                adv = re.sub(
+                    r'(<rect x="418" y="470" width=")\d+(" height="14" rx="5" fill="url\(#manaXpGrad\)"/>)',
+                    rf"\g<1>{bar_w}\g<2>",
+                    adv,
+                )
+            with open(OUT_ADV_SVG, "w", encoding="utf-8") as f:
+                f.write(adv)
+            print(f"Updated {OUT_ADV_SVG} (contribs={total_contribs}, streak={best_streak}, commits={commits})")
     except Exception as exc:
-        print(f"[warn] Telemetry ledger live update skipped: {exc}")
+        print(f"[warn] Telemetry/Adventurer live update skipped: {exc}")
 
 
 def sync_readme_alt(data: dict) -> bool:
@@ -721,6 +777,7 @@ def auto_commit_and_push(include_readme: bool):
         "assets/mana-contribution-grid.svg",
         "assets/frieren-telemetry-ledger.svg",
         "assets/frieren-activity-graph.svg",
+        "assets/frieren-adventurer-card.svg",
     ]
     if include_readme:
         files.append("README.md")
@@ -800,7 +857,7 @@ def run_update(auto_push: bool = False):
                     f.write(new_svg)
             print(f"Preserved existing LOC counts in {OUT_LOC_SVG} (refreshed date -> {updated_str})")
 
-        update_live_github_widgets()
+        update_live_github_widgets(data)
         if auto_push:
             auto_commit_and_push(include_readme=readme_changed)
     finally:

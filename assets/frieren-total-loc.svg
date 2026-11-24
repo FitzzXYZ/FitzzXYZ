@@ -77,73 +77,73 @@
       <circle cx="13" cy="17" r="2" fill="#9CC084"/>
     </g>
     <text x="70" y="39" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">TOTAL KODE YANG SUDAH SAYA TULIS</text>
-    <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned Repositories · Verified LOC</text>
+    <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned &amp; Contributed Repos · Verified LOC</text>
     <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_card_bg)" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
     <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_glow)"/>
 
     <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
-    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">35.636 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
-    <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">183 file  ·  6 repo  ·  10 bahasa</text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">112.464 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">575 file  ·  8 repo  ·  14 bahasa</text>
 
     <g clip-path="url(#loc_bar_clip)">
-      <rect x="56.00" y="186" width="444.50" height="16" fill="#7DA8E6"/>
-      <rect x="499.90" y="186" width="243.22" height="16" fill="#9CC084"/>
-      <rect x="742.53" y="186" width="136.60" height="16" fill="#B399EE"/>
-      <rect x="878.53" y="186" width="120.28" height="16" fill="#E5C068"/>
-      <rect x="998.21" y="186" width="51.74" height="16" fill="#8E96C8"/>
-      <rect x="1049.34" y="186" width="41.94" height="16" fill="#6EA8A6"/>
-      <rect x="1090.69" y="186" width="21.27" height="16" fill="#C98D6B"/>
-      <rect x="1111.36" y="186" width="14.74" height="16" fill="#D4886A"/>
-      <rect x="1125.50" y="186" width="11.48" height="16" fill="#C8A252"/>
-      <rect x="1136.38" y="186" width="7.13" height="16" fill="#C96D68"/>
-      <rect x="1142.91" y="186" width="1.69" height="16" fill="#6B7280"/>
+      <rect x="56.00" y="186" width="572.89" height="16" fill="#7DA8E6"/>
+      <rect x="628.29" y="186" width="205.14" height="16" fill="#9CC084"/>
+      <rect x="832.83" y="186" width="131.16" height="16" fill="#8E96C8"/>
+      <rect x="963.39" y="186" width="61.53" height="16" fill="#E5C068"/>
+      <rect x="1024.32" y="186" width="50.65" height="16" fill="#B399EE"/>
+      <rect x="1074.37" y="186" width="26.71" height="16" fill="#6BB5C9"/>
+      <rect x="1100.48" y="186" width="16.92" height="16" fill="#6EA8A6"/>
+      <rect x="1116.80" y="186" width="7.13" height="16" fill="#C98D6B"/>
+      <rect x="1123.33" y="186" width="6.04" height="16" fill="#7EA876"/>
+      <rect x="1128.77" y="186" width="6.04" height="16" fill="#C96D68"/>
+      <rect x="1134.21" y="186" width="10.39" height="16" fill="#6B7280"/>
     </g>
 
     <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     
       <circle cx="64" cy="237" r="6" fill="#7DA8E6"/>
       <text x="84" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">TypeScript</text>
-      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">14.551 baris  ·  <tspan fill="#7DA8E6" font-weight="600">40.8%</tspan></text>
+      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">59.169 baris  ·  <tspan fill="#7DA8E6" font-weight="600">52.6%</tspan></text>
 
       <circle cx="638" cy="237" r="6" fill="#9CC084"/>
       <text x="658" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">JSX</text>
-      <text x="1144" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">7.943 baris  ·  <tspan fill="#9CC084" font-weight="600">22.3%</tspan></text>
+      <text x="1144" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">21.094 baris  ·  <tspan fill="#9CC084" font-weight="600">18.8%</tspan></text>
 
-      <circle cx="64" cy="273" r="6" fill="#B399EE"/>
-      <text x="84" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">CSS</text>
-      <text x="562" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">4.455 baris  ·  <tspan fill="#B399EE" font-weight="600">12.5%</tspan></text>
+      <circle cx="64" cy="273" r="6" fill="#8E96C8"/>
+      <text x="84" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">PHP</text>
+      <text x="562" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">13.549 baris  ·  <tspan fill="#8E96C8" font-weight="600">12.0%</tspan></text>
 
       <circle cx="638" cy="273" r="6" fill="#E5C068"/>
       <text x="658" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">JavaScript</text>
-      <text x="1144" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">3.934 baris  ·  <tspan fill="#E5C068" font-weight="600">11.0%</tspan></text>
+      <text x="1144" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">6.322 baris  ·  <tspan fill="#E5C068" font-weight="600">5.6%</tspan></text>
 
-      <circle cx="64" cy="309" r="6" fill="#8E96C8"/>
-      <text x="84" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">PHP</text>
-      <text x="562" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.678 baris  ·  <tspan fill="#8E96C8" font-weight="600">4.7%</tspan></text>
+      <circle cx="64" cy="309" r="6" fill="#B399EE"/>
+      <text x="84" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">CSS</text>
+      <text x="562" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">5.138 baris  ·  <tspan fill="#B399EE" font-weight="600">4.6%</tspan></text>
 
-      <circle cx="638" cy="309" r="6" fill="#6EA8A6"/>
-      <text x="658" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
-      <text x="1144" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.370 baris  ·  <tspan fill="#6EA8A6" font-weight="600">3.8%</tspan></text>
+      <circle cx="638" cy="309" r="6" fill="#6BB5C9"/>
+      <text x="658" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">Go</text>
+      <text x="1144" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">2.743 baris  ·  <tspan fill="#6BB5C9" font-weight="600">2.4%</tspan></text>
 
-      <circle cx="64" cy="345" r="6" fill="#C98D6B"/>
-      <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Rust</text>
-      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">673 baris  ·  <tspan fill="#C98D6B" font-weight="600">1.9%</tspan></text>
+      <circle cx="64" cy="345" r="6" fill="#6EA8A6"/>
+      <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
+      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.721 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.5%</tspan></text>
 
-      <circle cx="638" cy="345" r="6" fill="#D4886A"/>
-      <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">HTML</text>
-      <text x="1144" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">450 baris  ·  <tspan fill="#D4886A" font-weight="600">1.3%</tspan></text>
+      <circle cx="638" cy="345" r="6" fill="#C98D6B"/>
+      <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Rust</text>
+      <text x="1144" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">673 baris  ·  <tspan fill="#C98D6B" font-weight="600">0.6%</tspan></text>
 
-      <circle cx="64" cy="381" r="6" fill="#C8A252"/>
-      <text x="84" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">SQL</text>
-      <text x="562" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">372 baris  ·  <tspan fill="#C8A252" font-weight="600">1.0%</tspan></text>
+      <circle cx="64" cy="381" r="6" fill="#7EA876"/>
+      <text x="84" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">Bourne Shell</text>
+      <text x="562" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">537 baris  ·  <tspan fill="#7EA876" font-weight="600">0.5%</tspan></text>
 
       <circle cx="638" cy="381" r="6" fill="#C96D68"/>
       <text x="658" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">Blade</text>
-      <text x="1144" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">210 baris  ·  <tspan fill="#C96D68" font-weight="600">0.6%</tspan></text>
+      <text x="1144" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">523 baris  ·  <tspan fill="#C96D68" font-weight="600">0.5%</tspan></text>
 
-    <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari semua repo milik sendiri (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
+    <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
     <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#D4A843">Diperbarui 24-11-2026</text>
   </g>
 </svg>
