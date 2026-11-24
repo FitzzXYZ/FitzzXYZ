@@ -156,6 +156,13 @@ function buildClockSvg(tz = "Asia/Jakarta") {
     <text x="358" y="88" class="serif" font-size="14" fill="#D4A843" letter-spacing="1.2">${tzLabel}</text>
     <text x="166" y="114" class="serif" font-style="italic" font-size="14.5" fill="#C8C2B4">${weekday}, ${day} ${month} ${year}  ·  <tspan fill="${phaseColor}">${phase}</tspan></text>
 
+    <line x1="504" y1="24" x2="504" y2="116" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
+
+    <!-- Center-Right: Imperial Era & First-Class Registry -->
+    <text x="530" y="42" class="serif" font-size="11.5" fill="#B399EE" letter-spacing="1.4">IMPERIAL ERA REGISTRY</text>
+    <text x="530" y="76" class="serif" font-size="19" font-weight="700" fill="#F4EFE6">29 Years Post-Himmel</text>
+    <text x="530" y="106" class="serif" font-style="italic" font-size="15" fill="#C8C2B4">Äußerst · <tspan fill="#9CC084">First-Class Mage</tspan> · Aureole</text>
+
     <line x1="786" y1="24" x2="786" y2="116" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
 
     <!-- Right: 24-Hour Celestial Arc & Live Pulse -->

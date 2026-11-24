@@ -89,8 +89,11 @@
     <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_glow)"/>
 
     <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
-    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">112.826 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="1144" y="102" text-anchor="end" class="cinzel" font-size="11.5" fill="#D4A843" letter-spacing="1.4">LIVE VERIFIED CODEBASE</text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">112.840 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">8 <tspan class="folio" font-size="16" fill="#C8C2B4">active repos  ·  </tspan>14 <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">576 file  ·  8 repo  ·  14 bahasa</text>
+    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; hourly</text>
 
     <g clip-path="url(#loc_bar_clip)">
       <rect x="56.00" y="186" width="570.71" height="16" fill="#7DA8E6"/>
@@ -125,7 +128,7 @@
 
       <circle cx="638" cy="273" r="6" fill="#E5C068"/>
       <text x="658" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">JavaScript</text>
-      <text x="1144" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">6.480 baris  ·  <tspan fill="#E5C068" font-weight="600">5.7%</tspan></text>
+      <text x="1144" y="278" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">6.484 baris  ·  <tspan fill="#E5C068" font-weight="600">5.7%</tspan></text>
 
       <circle cx="64" cy="309" r="6" fill="#B399EE"/>
       <text x="84" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">CSS</text>
@@ -137,7 +140,7 @@
 
       <circle cx="64" cy="345" r="6" fill="#6EA8A6"/>
       <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
-      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.925 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.7%</tspan></text>
+      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.935 baris  ·  <tspan fill="#6EA8A6" font-weight="600">1.7%</tspan></text>
 
       <circle cx="638" cy="345" r="6" fill="#C98D6B"/>
       <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Rust</text>

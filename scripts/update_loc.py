@@ -432,8 +432,11 @@ def build_loc_svg(data: dict) -> str:
     <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_glow)"/>
 
     <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
+    <text x="1144" y="102" text-anchor="end" class="cinzel" font-size="11.5" fill="#D4A843" letter-spacing="1.4">LIVE VERIFIED CODEBASE</text>
     <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">{total_lines_str} <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">{data["total_repos"]} <tspan class="folio" font-size="16" fill="#C8C2B4">active repos  ·  </tspan>{data["total_langs"]} <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">{meta_str}</text>
+    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; hourly</text>
 
     <g clip-path="url(#loc_bar_clip)">
       {bar_svg}
@@ -739,11 +742,14 @@ def update_live_github_widgets(loc_data: dict | None = None):
             if best_streak is not None and total_contribs is not None:
                 adv = re.sub(r"\d+\s+day best streak · \d+\s+contributions", f"{best_streak} day best streak · {total_contribs} contributions", adv)
             if total_contribs is not None:
-                lv = 2 + (total_contribs // 50)
-                xp = total_contribs % 50
-                bar_w = max(24, int(round((xp / 50.0) * 686)))
+                lv = 3 if total_contribs >= 50 else 2
+                cap = 100 if total_contribs >= 50 else 50
+                xp = min(total_contribs, cap) if total_contribs < 100 else (total_contribs % 100)
+                if total_contribs >= 100:
+                    lv = 3 + (total_contribs // 100)
+                bar_w = max(36, int(round((xp / float(cap)) * 686)))
                 adv = re.sub(r"LV \d+  &gt;  \d+", f"LV {lv}  &gt;  {lv + 1}", adv)
-                adv = re.sub(r"\d+ / 50 mana xp", f"{xp} / 50 mana xp", adv)
+                adv = re.sub(r"\d+ / \d+ mana xp", f"{xp} / {cap} mana xp", adv)
                 adv = re.sub(
                     r'(<rect x="418" y="470" width=")\d+(" height="14" rx="5" fill="url\(#manaXpGrad\)"/>)',
                     rf"\g<1>{bar_w}\g<2>",
@@ -964,6 +970,13 @@ def build_clock_svg() -> str:
     {ones_svg}
     <text x="344" y="86" class="cinzel" font-size="13.5" fill="#D4A843" letter-spacing="1.2">WIB · UTC+7</text>
     <text x="166" y="114" class="folio" font-size="16" fill="#C8C2B4">{date_str}  ·  <tspan fill="{phase_col}">{phase}</tspan></text>
+
+    <line x1="504" y1="24" x2="504" y2="116" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
+
+    <!-- Center-Right: Imperial Era & First-Class Registry -->
+    <text x="530" y="42" class="cinzel" font-size="11.5" fill="#B399EE" letter-spacing="1.4">IMPERIAL ERA REGISTRY</text>
+    <text x="530" y="76" class="cinzel" font-size="19" fill="#F4EFE6">29 Years Post-Himmel</text>
+    <text x="530" y="106" class="folio" font-size="15.5" fill="#C8C2B4">Äußerst · <tspan fill="#9CC084">First-Class Mage</tspan> · Aureole</text>
 
     <line x1="786" y1="24" x2="786" y2="116" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
 
