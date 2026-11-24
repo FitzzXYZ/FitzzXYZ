@@ -6,14 +6,28 @@
     </radialGradient>
   </defs>
   <rect x="2" y="2" width="92" height="92" rx="10" fill="url(#sgBg)" stroke="#B399EE" stroke-width="1.6"/>
-  <circle cx="48" cy="48" r="36" fill="none" stroke="#D4A843" stroke-width="0.9" stroke-dasharray="4 3" stroke-opacity="0.65"/>
-  <line x1="10" y1="10" x2="34" y2="34" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3"/>
-  <line x1="86" y1="10" x2="62" y2="34" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3"/>
-  <line x1="10" y1="86" x2="34" y2="62" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3"/>
-  <line x1="86" y1="86" x2="62" y2="62" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3"/>
+  <circle cx="48" cy="48" r="36" fill="none" stroke="#D4A843" stroke-width="0.9" stroke-dasharray="4 3" stroke-opacity="0.65">
+    <animateTransform attributeName="transform" type="rotate" from="0 48 48" to="360 48 48" dur="14s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="10" y1="10" x2="34" y2="34" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3">
+    <animate attributeName="stroke-dashoffset" from="16" to="0" dur="1.2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="86" y1="10" x2="62" y2="34" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3">
+    <animate attributeName="stroke-dashoffset" from="16" to="0" dur="1.2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="10" y1="86" x2="34" y2="62" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3">
+    <animate attributeName="stroke-dashoffset" from="16" to="0" dur="1.2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="86" y1="86" x2="62" y2="62" stroke="#E5C068" stroke-width="2.2" stroke-dasharray="5 3">
+    <animate attributeName="stroke-dashoffset" from="16" to="0" dur="1.2s" repeatCount="indefinite"/>
+  </line>
   <path d="M 14 48 Q 48 20 82 48 Q 48 76 14 48 Z" fill="#120E1A" stroke="#B399EE" stroke-width="2.2"/>
-  <circle cx="48" cy="48" r="14" fill="#B399EE" opacity="0.28"/>
+  <circle cx="48" cy="48" r="14" fill="#B399EE" opacity="0.28">
+    <animate attributeName="r" values="12;16;12" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
   <circle cx="48" cy="48" r="10" fill="none" stroke="#E5C068" stroke-width="1.8"/>
-  <ellipse cx="48" cy="48" rx="3.5" ry="10" fill="#F4EFE6"/>
+  <ellipse cx="48" cy="48" rx="3.5" ry="10" fill="#F4EFE6">
+    <animate attributeName="rx" values="3.5;1.6;3.5" dur="1.8s" repeatCount="indefinite"/>
+  </ellipse>
   <circle cx="44" cy="43" r="2.2" fill="#9CC084"/>
 </svg>

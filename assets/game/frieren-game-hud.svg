@@ -24,29 +24,41 @@
   <text x="40" y="28" class="h-head">I. ÜBEL’S EQUIPPED LOADOUT</text>
   <line x1="24" y1="38" x2="412" y2="38" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
-  <!-- Slot 1: Twin Shears -->
-  <circle cx="40" cy="64" r="14" fill="#090C0A" stroke="#9CC084" stroke-width="1.2"/>
-  <path d="M 33 71 L 47 57 M 35 57 L 47 69" stroke="#9CC084" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Slot 1: Twin Shears (Animated Scissoring Idle) -->
+  <circle cx="40" cy="64" r="14" fill="#090C0A" stroke="#9CC084" stroke-width="1.2">
+    <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-8 40 64; 8 40 64; -8 40 64" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M 33 71 L 47 57 M 35 57 L 47 69" stroke="#9CC084" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
   <text x="62" y="60" class="h-title">Tailor’s Shears</text>
   <text x="62" y="78" class="h-sub" fill="#9CC084">+6 Sever, 5m Reach</text>
   <text x="62" y="96" class="h-sub">Weapon Slot</text>
 
   <line x1="164" y1="48" x2="164" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
 
-  <!-- Slot 2: Sorganeil Lens -->
+  <!-- Slot 2: Sorganeil Lens (Animated Pupil Pulse) -->
   <circle cx="188" cy="64" r="14" fill="#090C0A" stroke="#B399EE" stroke-width="1.2"/>
-  <ellipse cx="188" cy="64" rx="8" ry="5" fill="none" stroke="#B399EE" stroke-width="1.5"/>
-  <circle cx="188" cy="64" r="2.2" fill="#E5C068"/>
+  <ellipse cx="188" cy="64" rx="8" ry="5" fill="none" stroke="#B399EE" stroke-width="1.5">
+    <animate attributeName="ry" values="5;2;5" dur="2.8s" repeatCount="indefinite"/>
+  </ellipse>
+  <circle cx="188" cy="64" r="2.2" fill="#E5C068">
+    <animate attributeName="r" values="1.6;3;1.6" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
   <text x="210" y="60" class="h-title">Sorganeil Gaze</text>
   <text x="210" y="78" class="h-sub" fill="#B399EE">2.2x Sight-Lock Mark</text>
   <text x="210" y="96" class="h-sub">Ocular Slot</text>
 
   <line x1="306" y1="48" x2="306" y2="102" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
 
-  <!-- Slot 3: Flamme's Folio -->
+  <!-- Slot 3: Flamme's Folio (Animated Levitation) -->
   <circle cx="330" cy="64" r="14" fill="#090C0A" stroke="#E5C068" stroke-width="1.2"/>
-  <rect x="323" y="57" width="14" height="14" rx="2" fill="none" stroke="#E5C068" stroke-width="1.4"/>
-  <line x1="330" y1="57" x2="330" y2="71" stroke="#E5C068" stroke-width="1.2"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2; 0,0" dur="2.2s" repeatCount="indefinite"/>
+    <rect x="323" y="57" width="14" height="14" rx="2" fill="none" stroke="#E5C068" stroke-width="1.4"/>
+    <line x1="330" y1="57" x2="330" y2="71" stroke="#E5C068" stroke-width="1.2"/>
+  </g>
   <text x="352" y="60" class="h-title">Flamme Folio</text>
   <text x="352" y="78" class="h-sub" fill="#E5C068">+8 MP/Turn Sync</text>
   <text x="352" y="96" class="h-sub">Relic Slot</text>

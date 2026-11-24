@@ -417,8 +417,32 @@ function renderSegmentedBar(x, y, w, h, val, maxVal, fillGrad, bgCol, segments =
   }
   return `
     <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${bgCol}"/>
-    <rect x="${x}" y="${y}" width="${fillW}" height="${h}" rx="3" fill="url(#${fillGrad})"/>
+    <rect x="${x}" y="${y}" width="${fillW}" height="${h}" rx="3" fill="url(#${fillGrad})">
+      <animate attributeName="fill-opacity" values="0.82;1;0.82" dur="2.2s" repeatCount="indefinite"/>
+    </rect>
     ${ticks}`;
+}
+
+function renderAmbientParticles() {
+  const motes = [
+    { cx: 92, cy: 174, r: 1.8, col: "#9CC084", dur: "3.4s", dy: -18 },
+    { cx: 224, cy: 152, r: 1.5, col: "#E5C068", dur: "4.1s", dy: -22 },
+    { cx: 304, cy: 204, r: 2.0, col: "#9CC084", dur: "2.9s", dy: -16 },
+    { cx: 368, cy: 138, r: 1.6, col: "#B399EE", dur: "3.7s", dy: -20 },
+    { cx: 472, cy: 168, r: 1.8, col: "#E5C068", dur: "3.2s", dy: -19 },
+    { cx: 586, cy: 180, r: 1.7, col: "#D4886A", dur: "2.7s", dy: -15 },
+    { cx: 786, cy: 196, r: 1.6, col: "#E5C068", dur: "3.8s", dy: -18 },
+    { cx: 1044, cy: 192, r: 1.8, col: "#9CC084", dur: "3.5s", dy: -20 },
+  ];
+  return motes
+    .map(
+      (m) => `
+      <circle cx="${m.cx}" cy="${m.cy}" r="${m.r}" fill="${m.col}" fill-opacity="0.6">
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,${m.dy}; 0,0" dur="${m.dur}" repeatCount="indefinite"/>
+        <animate attributeName="fill-opacity" values="0.15;0.75;0.15" dur="${m.dur}" repeatCount="indefinite"/>
+      </circle>`
+    )
+    .join("");
 }
 
 function renderDungeonMapBar(stageIdx) {
@@ -462,11 +486,14 @@ function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected, idx)
   let illustration = "";
   if (state === "closed") {
     illustration = `
-      <circle cx="${cx}" cy="${yTop + 72}" r="36" fill="none" stroke="#D4A843" stroke-opacity="${ringOp}" stroke-width="0.9" stroke-dasharray="3 4"/>
+      <circle cx="${cx}" cy="${yTop + 72}" r="36" fill="none" stroke="#D4A843" stroke-opacity="${ringOp}" stroke-width="0.9" stroke-dasharray="3 4">
+        <animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${yTop + 72}" to="360 ${cx} ${yTop + 72}" dur="26s" repeatCount="indefinite"/>
+      </circle>
+      <ellipse cx="${cx}" cy="${yTop + 102}" rx="34" ry="4" fill="#050706">
+        <animate attributeName="rx" values="34;29;34" dur="3.2s" repeatCount="indefinite"/>
+      </ellipse>
       <g>
-        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="3.6s" repeatCount="indefinite"/>
-        <!-- Ornate Stone Pedestal Shadow -->
-        <ellipse cx="${cx}" cy="${yTop + 102}" rx="34" ry="4" fill="#050706"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3.5; 0,0" dur="3.2s" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1" repeatCount="indefinite"/>
         <!-- Gothic Arch Reliquary Lid -->
         <path d="M ${cx - 32} ${yTop + 64} Q ${cx} ${yTop + 46} ${cx + 32} ${yTop + 64} L ${cx + 32} ${yTop + 72} L ${cx - 32} ${yTop + 72} Z" fill="#1B1714" stroke="#D4A843" stroke-width="1.2"/>
         <!-- Coffer Body -->
@@ -474,47 +501,74 @@ function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected, idx)
         <line x1="${cx - 18}" y1="${yTop + 57}" x2="${cx - 18}" y2="${yTop + 98}" stroke="#D4A843" stroke-opacity="0.75" stroke-width="1.5"/>
         <line x1="${cx + 18}" y1="${yTop + 57}" x2="${cx + 18}" y2="${yTop + 98}" stroke="#D4A843" stroke-opacity="0.75" stroke-width="1.5"/>
         <line x1="${cx - 32}" y1="${yTop + 85}" x2="${cx + 32}" y2="${yTop + 85}" stroke="#D4A843" stroke-opacity="0.3" stroke-width="0.8"/>
-        <polygon points="${cx},${yTop + 66} ${cx + 5.5},${yTop + 72} ${cx},${yTop + 78} ${cx - 5.5},${yTop + 72}" fill="#E5C068" stroke="#0E1310" stroke-width="0.8"/>
+        <polygon points="${cx},${yTop + 66} ${cx + 5.5},${yTop + 72} ${cx},${yTop + 78} ${cx - 5.5},${yTop + 72}" fill="#E5C068" stroke="#0E1310" stroke-width="0.8">
+          <animate attributeName="fill-opacity" values="0.65;1;0.65" dur="1.8s" repeatCount="indefinite"/>
+        </polygon>
       </g>
       <text x="${cx}" y="${yTop + 124}" text-anchor="middle" class="svg-folio" font-size="13.5" fill="#8E887A">Unappraised (99% seal)</text>`;
   } else if (state === "grimoire") {
     illustration = `
       <circle cx="${cx}" cy="${yTop + 66}" r="36" fill="#E5C068" fill-opacity="0.11">
-        <animate attributeName="r" values="28;38;28" dur="3.2s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="28;39;28" dur="2.6s" repeatCount="indefinite"/>
       </circle>
       <circle cx="${cx}" cy="${yTop + 66}" r="33" fill="none" stroke="#E5C068" stroke-opacity="0.55" stroke-width="0.9" stroke-dasharray="4 3">
-        <animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${yTop + 66}" to="360 ${cx} ${yTop + 66}" dur="22s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${yTop + 66}" to="360 ${cx} ${yTop + 66}" dur="18s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Rising Loot Rarity Sparkles -->
+      <circle cx="${cx - 18}" cy="${yTop + 48}" r="1.8" fill="#9CC084">
+        <animateTransform attributeName="transform" type="translate" values="0,8; 0,-14; 0,8" dur="2.1s" repeatCount="indefinite"/>
+        <animate attributeName="fill-opacity" values="0.2;0.95;0.2" dur="2.1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="${cx + 20}" cy="${yTop + 44}" r="1.6" fill="#E5C068">
+        <animateTransform attributeName="transform" type="translate" values="0,6; 0,-16; 0,6" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="fill-opacity" values="0.2;0.95;0.2" dur="2.5s" repeatCount="indefinite"/>
       </circle>
       <g>
-        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3.5; 0,0" dur="2.4s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-4.5; 0,0" dur="2.2s" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1" repeatCount="indefinite"/>
         <!-- Illuminated Grimoire Open Pages -->
         <path d="M ${cx - 26} ${yTop + 66} Q ${cx - 13} ${yTop + 60} ${cx} ${yTop + 66} Q ${cx + 13} ${yTop + 60} ${cx + 26} ${yTop + 66} L ${cx + 26} ${yTop + 42} Q ${cx + 13} ${yTop + 36} ${cx} ${yTop + 42} Q ${cx - 13} ${yTop + 36} ${cx - 26} ${yTop + 42} Z" fill="#F4EFE6" stroke="#D4A843" stroke-width="1.2"/>
         <line x1="${cx}" y1="${yTop + 42}" x2="${cx}" y2="${yTop + 66}" stroke="#D4A843" stroke-width="1.1"/>
         <line x1="${cx - 20}" y1="${yTop + 49}" x2="${cx - 6}" y2="${yTop + 47}" stroke="#8E887A" stroke-width="1"/>
         <line x1="${cx - 20}" y1="${yTop + 55}" x2="${cx - 6}" y2="${yTop + 53}" stroke="#8E887A" stroke-width="1"/>
-        <polygon points="${cx + 13},${yTop + 47} ${cx + 17},${yTop + 52} ${cx + 13},${yTop + 57} ${cx + 9},${yTop + 52}" fill="none" stroke="#9CC084" stroke-width="1.2"/>
+        <polygon points="${cx + 13},${yTop + 47} ${cx + 17},${yTop + 52} ${cx + 13},${yTop + 57} ${cx + 9},${yTop + 52}" fill="none" stroke="#9CC084" stroke-width="1.2">
+          <animateTransform attributeName="transform" type="rotate" from="0 ${cx + 13} ${yTop + 52}" to="360 ${cx + 13} ${yTop + 52}" dur="6s" repeatCount="indefinite"/>
+        </polygon>
       </g>
       <path d="M ${cx - 30} ${yTop + 76} L ${cx + 30} ${yTop + 76} L ${cx + 28} ${yTop + 98} L ${cx - 28} ${yTop + 98} Z" fill="#181512" stroke="#E5C068" stroke-width="1.1"/>
       <text x="${cx}" y="${yTop + 124}" text-anchor="middle" class="svg-body" font-size="13.5" fill="#9CC084">Authentic Grimoire</text>`;
   } else {
-    // Iconic Frieren trapped inside Mimic Chest (with kicking boots & white twin-tails!)
+    // Iconic Frieren trapped inside Mimic Chest (with chattering jaws, kicking boots & white twin-tails!)
     illustration = `
       <circle cx="${cx}" cy="${yTop + 68}" r="36" fill="#D4886A" fill-opacity="0.14">
-        <animate attributeName="r" values="28;38;28" dur="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="28;39;28" dur="1.1s" repeatCount="indefinite"/>
       </circle>
-      <!-- Mimic Upper Jaw -->
-      <path d="M ${cx - 32} ${yTop + 62} Q ${cx} ${yTop + 40} ${cx + 32} ${yTop + 62} Z" fill="#221215" stroke="#D4886A" stroke-width="1.2"/>
-      <ellipse cx="${cx - 12}" cy="${yTop + 53}" rx="3" ry="1.6" fill="#E5C068"/>
-      <ellipse cx="${cx + 12}" cy="${yTop + 53}" rx="3" ry="1.6" fill="#E5C068"/>
-      <!-- Frieren's Iconic White Twin-Tails & Kicking Boots Sticking Out of Mimic Maw -->
+      <!-- Chattering Mimic Upper Jaw -->
       <g>
-        <animateTransform attributeName="transform" type="rotate" values="-4 ${cx} ${yTop + 66}; 5 ${cx} ${yTop + 66}; -4 ${cx} ${yTop + 66}" dur="0.7s" repeatCount="indefinite"/>
-        <!-- White Twin-Tail Ribbons -->
-        <path d="M ${cx - 18} ${yTop + 64} Q ${cx - 28} ${yTop + 52} ${cx - 34} ${yTop + 58}" fill="none" stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round"/>
-        <path d="M ${cx + 18} ${yTop + 64} Q ${cx + 28} ${yTop + 52} ${cx + 34} ${yTop + 58}" fill="none" stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round"/>
-        <!-- Left & Right Legs + Adventurer Boots Kicking -->
+        <animateTransform attributeName="transform" type="rotate" values="-2 ${cx} ${yTop + 62}; 4 ${cx} ${yTop + 62}; -2 ${cx} ${yTop + 62}" dur="0.46s" repeatCount="indefinite"/>
+        <path d="M ${cx - 32} ${yTop + 62} Q ${cx} ${yTop + 40} ${cx + 32} ${yTop + 62} Z" fill="#221215" stroke="#D4886A" stroke-width="1.2"/>
+        <ellipse cx="${cx - 12}" cy="${yTop + 53}" rx="3" ry="1.6" fill="#E5C068">
+          <animate attributeName="ry" values="1.6;0.4;1.6" dur="0.9s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="${cx + 12}" cy="${yTop + 53}" rx="3" ry="1.6" fill="#E5C068">
+          <animate attributeName="ry" values="1.6;0.4;1.6" dur="0.9s" repeatCount="indefinite"/>
+        </ellipse>
+      </g>
+      <!-- Frieren's Iconic White Twin-Tails & Alternating Kicking Boots Sticking Out of Mimic Maw -->
+      <path d="M ${cx - 18} ${yTop + 64} Q ${cx - 28} ${yTop + 52} ${cx - 34} ${yTop + 58}" fill="none" stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="-6 ${cx - 18} ${yTop + 64}; 6 ${cx - 18} ${yTop + 64}; -6 ${cx - 18} ${yTop + 64}" dur="0.52s" repeatCount="indefinite"/>
+      </path>
+      <path d="M ${cx + 18} ${yTop + 64} Q ${cx + 28} ${yTop + 52} ${cx + 34} ${yTop + 58}" fill="none" stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="6 ${cx + 18} ${yTop + 64}; -6 ${cx + 18} ${yTop + 64}; 6 ${cx + 18} ${yTop + 64}" dur="0.52s" repeatCount="indefinite"/>
+      </path>
+      <!-- Left Leg Kicking -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="-10 ${cx - 7} ${yTop + 70}; 8 ${cx - 7} ${yTop + 70}; -10 ${cx - 7} ${yTop + 70}" dur="0.38s" repeatCount="indefinite"/>
         <line x1="${cx - 7}" y1="${yTop + 70}" x2="${cx - 13}" y2="${yTop + 46}" stroke="#F4EFE6" stroke-width="3.2" stroke-linecap="round"/>
         <path d="M ${cx - 16} ${yTop + 46} L ${cx - 9} ${yTop + 46} L ${cx - 7} ${yTop + 39} L ${cx - 18} ${yTop + 41} Z" fill="#5C3D2E" stroke="#E5C068" stroke-width="0.8"/>
+      </g>
+      <!-- Right Leg Kicking (Counter-Phase) -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="9 ${cx + 7} ${yTop + 70}; -9 ${cx + 7} ${yTop + 70}; 9 ${cx + 7} ${yTop + 70}" dur="0.38s" repeatCount="indefinite"/>
         <line x1="${cx + 7}" y1="${yTop + 70}" x2="${cx + 14}" y2="${yTop + 48}" stroke="#F4EFE6" stroke-width="3.2" stroke-linecap="round"/>
         <path d="M ${cx + 10} ${yTop + 48} L ${cx + 17} ${yTop + 48} L ${cx + 19} ${yTop + 41} L ${cx + 9} ${yTop + 43} Z" fill="#5C3D2E" stroke="#E5C068" stroke-width="0.8"/>
       </g>
@@ -551,38 +605,83 @@ export function buildGameSvg(st) {
   if (st.lastSpell === "reelseiden") {
     clashArt = `
       <circle cx="332" cy="166" r="30" fill="none" stroke="#9CC084" stroke-opacity="0.36" stroke-width="0.9" stroke-dasharray="4 4">
-        <animateTransform attributeName="transform" type="rotate" from="0 332 166" to="360 332 166" dur="20s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 332 166" to="360 332 166" dur="16s" repeatCount="indefinite"/>
       </circle>
-      <!-- Dynamic Severing Slash Arcs Extending Toward Boss -->
-      <path d="M 284 188 Q 332 152 388 132" fill="none" stroke="#9CC084" stroke-width="2.2" stroke-linecap="round">
-        <animate attributeName="stroke-opacity" values="0.3;1;0.3" dur="1.4s" repeatCount="indefinite"/>
+      <!-- Animated Tailor's Shears Scissoring at Center -->
+      <g transform="translate(332,166) rotate(-25)">
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="-14 0 0; 4 0 0; -14 0 0" dur="0.95s" repeatCount="indefinite"/>
+          <path d="M -4 -2 L 22 -8 L 16 -1 L -2 2 Z" fill="#F4EFE6"/>
+          <circle cx="-11" cy="-5" r="4.5" fill="none" stroke="#E5C068" stroke-width="1.5"/>
+        </g>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="14 0 0; -4 0 0; 14 0 0" dur="0.95s" repeatCount="indefinite"/>
+          <path d="M -4 2 L 22 8 L 16 1 L -2 -2 Z" fill="#9CC084"/>
+          <circle cx="-11" cy="5" r="4.5" fill="none" stroke="#E5C068" stroke-width="1.5"/>
+        </g>
+        <circle cx="0" cy="0" r="2.4" fill="#E5C068"/>
+      </g>
+      <!-- High-Velocity Reelseiden Slash Waves Streaking Into Boss Portrait -->
+      <path d="M 284 188 Q 372 138 542 122" fill="none" stroke="#9CC084" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="280" stroke-dashoffset="280">
+        <animate attributeName="stroke-dashoffset" values="280;0;0" dur="1.1s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="1;0.9;0.15" dur="1.1s" repeatCount="indefinite"/>
       </path>
-      <path d="M 292 196 Q 340 164 394 146" fill="none" stroke="#E5C068" stroke-width="1.5" stroke-linecap="round">
-        <animate attributeName="stroke-opacity" values="0.9;0.25;0.9" dur="1.4s" repeatCount="indefinite"/>
+      <path d="M 294 196 Q 388 154 544 148" fill="none" stroke="#E5C068" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="270" stroke-dashoffset="270">
+        <animate attributeName="stroke-dashoffset" values="270;0;0" dur="1.1s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.9;0.85;0.1" dur="1.1s" repeatCount="indefinite"/>
       </path>
-      <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="12" fill="#9CC084">${dmgText}</text>
+      <!-- Impact Slash Sparks on Boss Portrait Edge -->
+      <polygon points="546,120 552,126 544,128" fill="#9CC084">
+        <animate attributeName="fill-opacity" values="0;1;0" dur="1.1s" repeatCount="indefinite"/>
+      </polygon>
+      <polygon points="542,146 550,150 544,154" fill="#E5C068">
+        <animate attributeName="fill-opacity" values="0;1;0" dur="1.1s" repeatCount="indefinite"/>
+      </polygon>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="1.4s" repeatCount="indefinite"/>
+        <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="12" fill="#9CC084">${dmgText}</text>
+      </g>
       <text x="332" y="228" text-anchor="middle" class="svg-folio" font-size="12.5" fill="#C8C2B4">Reelseiden x${st.combo}</text>`;
   } else if (st.lastSpell === "sorganeil") {
     clashArt = `
       <circle cx="332" cy="166" r="30" fill="none" stroke="#B399EE" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 3">
-        <animateTransform attributeName="transform" type="rotate" from="360 332 166" to="0 332 166" dur="16s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" from="360 332 166" to="0 332 166" dur="12s" repeatCount="indefinite"/>
       </circle>
-      <!-- Binding Gaze Leylines Locking onto Spiegel -->
-      <line x1="352" y1="162" x2="532" y2="132" stroke="#B399EE" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 3"/>
-      <line x1="352" y1="170" x2="532" y2="152" stroke="#B399EE" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 3"/>
-      <ellipse cx="332" cy="166" rx="19" ry="10.5" fill="none" stroke="#B399EE" stroke-width="1.8"/>
+      <!-- Streaming Binding Gaze Leylines Locking onto Spiegel -->
+      <line x1="352" y1="162" x2="546" y2="126" stroke="#B399EE" stroke-opacity="0.65" stroke-width="1.5" stroke-dasharray="6 4">
+        <animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.8s" repeatCount="indefinite"/>
+      </line>
+      <line x1="352" y1="170" x2="546" y2="152" stroke="#E5C068" stroke-opacity="0.55" stroke-width="1.3" stroke-dasharray="6 4">
+        <animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.8s" repeatCount="indefinite"/>
+      </line>
+      <ellipse cx="332" cy="166" rx="19" ry="10.5" fill="none" stroke="#B399EE" stroke-width="1.8">
+        <animate attributeName="ry" values="10.5;3.2;10.5" dur="2.4s" repeatCount="indefinite"/>
+      </ellipse>
       <circle cx="332" cy="166" r="4.8" fill="#E5C068">
-        <animate attributeName="r" values="3.5;6.5;3.5" dur="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="3.5;6.5;3.5" dur="1.4s" repeatCount="indefinite"/>
       </circle>
-      <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="11.5" fill="#B399EE">LOCKED 2.2X</text>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="1.4s" repeatCount="indefinite"/>
+        <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="11.5" fill="#B399EE">LOCKED 2.2X</text>
+      </g>
       <text x="332" y="228" text-anchor="middle" class="svg-folio" font-size="12.5" fill="#E5C068">Sorganeil Bind</text>`;
   } else {
     clashArt = `
-      <circle cx="332" cy="166" r="30" fill="none" stroke="#7DA8E6" stroke-opacity="0.35" stroke-width="0.9" stroke-dasharray="3 3"/>
-      <polygon points="332,140 354,153 354,179 332,192 310,179 310,153" fill="#7DA8E6" fill-opacity="0.12" stroke="#7DA8E6" stroke-width="1.6">
-        <animate attributeName="stroke-opacity" values="0.45;1;0.45" dur="1.8s" repeatCount="indefinite"/>
+      <circle cx="332" cy="166" r="30" fill="none" stroke="#7DA8E6" stroke-opacity="0.35" stroke-width="0.9" stroke-dasharray="3 3">
+        <animateTransform attributeName="transform" type="rotate" from="0 332 166" to="360 332 166" dur="14s" repeatCount="indefinite"/>
+      </circle>
+      <polygon points="332,140 354,153 354,179 332,192 310,179 310,153" fill="#7DA8E6" fill-opacity="0.14" stroke="#7DA8E6" stroke-width="1.6">
+        <animate attributeName="stroke-opacity" values="0.45;1;0.45" dur="1.5s" repeatCount="indefinite"/>
       </polygon>
-      <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="11.5" fill="#7DA8E6">+22 HP / +32 MP</text>
+      <!-- Counter-Zoltraak Astral Lance Streaking Toward Boss -->
+      <line x1="354" y1="166" x2="546" y2="136" stroke="#7DA8E6" stroke-width="2.2" stroke-dasharray="210" stroke-dashoffset="210">
+        <animate attributeName="stroke-dashoffset" values="210;0;0" dur="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="1;0.85;0.1" dur="1.2s" repeatCount="indefinite"/>
+      </line>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="1.4s" repeatCount="indefinite"/>
+        <text x="332" y="212" text-anchor="middle" class="svg-num" font-size="11.5" fill="#7DA8E6">+22 HP / +32 MP</text>
+      </g>
       <text x="332" y="228" text-anchor="middle" class="svg-folio" font-size="12.5" fill="#C8C2B4">Zoltraak Ward</text>`;
   }
 
@@ -597,9 +696,26 @@ export function buildGameSvg(st) {
 
   // Binding Chains Overlay on Boss Portrait when Sight-Locked
   const bossBindOverlay = st.bossBound
-    ? `<line x1="548" y1="104" x2="612" y2="168" stroke="#B399EE" stroke-opacity="0.75" stroke-width="1.6" stroke-dasharray="4 2"/>
-       <line x1="612" y1="104" x2="548" y2="168" stroke="#B399EE" stroke-opacity="0.75" stroke-width="1.6" stroke-dasharray="4 2"/>`
+    ? `<line x1="548" y1="104" x2="612" y2="168" stroke="#B399EE" stroke-opacity="0.85" stroke-width="1.8" stroke-dasharray="5 3">
+         <animate attributeName="stroke-dashoffset" from="16" to="0" dur="0.7s" repeatCount="indefinite"/>
+       </line>
+       <line x1="612" y1="104" x2="548" y2="168" stroke="#B399EE" stroke-opacity="0.85" stroke-width="1.8" stroke-dasharray="5 3">
+         <animate attributeName="stroke-dashoffset" from="16" to="0" dur="0.7s" repeatCount="indefinite"/>
+       </line>
+       <circle cx="580" cy="136" r="26" fill="none" stroke="#E5C068" stroke-width="1.1" stroke-dasharray="4 3">
+         <animateTransform attributeName="transform" type="rotate" from="0 580 136" to="360 580 136" dur="8s" repeatCount="indefinite"/>
+       </circle>`
+    : st.bossCharging
+    ? `<rect x="546" y="102" width="68" height="68" rx="9" fill="none" stroke="#E5C068" stroke-width="1.8">
+         <animate attributeName="stroke-opacity" values="0.25;1;0.25" dur="0.6s" repeatCount="indefinite"/>
+       </rect>`
     : "";
+
+  const bossIdleTransform = st.bossBound
+    ? ""
+    : st.bossCharging
+    ? `<animateTransform attributeName="transform" type="translate" values="-1.2,0; 1.2,0; -1.2,0" dur="0.32s" repeatCount="indefinite"/>`
+    : `<animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.8; 0,0" dur="2.9s" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1" repeatCount="indefinite"/>`;
 
   const ubelHpBar = renderSegmentedBar(52, 198, 212, 8, st.ubelHp, st.ubelMaxHp, "hp_g", "#171E19", 10);
   const ubelMpBar = renderSegmentedBar(52, 232, 212, 8, st.ubelMp, st.ubelMaxMp, "mp_g", "#181624", 10);
@@ -672,9 +788,18 @@ export function buildGameSvg(st) {
     <!-- Recessed Arena Stage (#090C0A, borderless) -->
     <rect x="40" y="92" width="584" height="162" rx="8" fill="#090C0A"/>
 
-    <!-- Left Combatant: Ubel -->
+    <!-- Ambient Dungeon Mana Particles -->
+    ${renderAmbientParticles()}
+
+    <!-- Left Combatant: Ubel (Animated Idle Breathing & First-Class Aura) -->
     <g data-act="ward" style="cursor:pointer">
-      ${ubelImg}
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="3.2s" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1" repeatCount="indefinite"/>
+        ${ubelImg}
+        <rect x="51" y="103" width="66" height="66" rx="8.5" fill="none" stroke="#9CC084" stroke-width="1.1">
+          <animate attributeName="stroke-opacity" values="0.3;0.85;0.3" dur="3.2s" repeatCount="indefinite"/>
+        </rect>
+      </g>
       <text x="126" y="120" class="svg-display-b" font-size="14" fill="#F4EFE6">Übel (FitzzXYZ)</text>
       <text x="126" y="139" class="svg-folio" font-size="13.5" fill="#9CC084">First-Class, +${st.slashBonus} sever</text>
       <text x="126" y="157" class="svg-body" font-size="12.5" fill="#E5C068">${st.wardActive ? "Ward lattice active" : st.empathy >= 3 ? "Empathy 3/3 ready" : "Reelseiden stance"}</text>
@@ -695,10 +820,13 @@ export function buildGameSvg(st) {
       ${clashArt}
     </g>
 
-    <!-- Right Combatant: Spiegel Replica -->
+    <!-- Right Combatant: Spiegel Replica (Animated Idle / Charge / Sorganeil Bind) -->
     <g data-act="sorganeil" style="cursor:pointer">
-      ${spiegelImg}
-      ${bossBindOverlay}
+      <g>
+        ${bossIdleTransform}
+        ${spiegelImg}
+        ${bossBindOverlay}
+      </g>
       <text x="536" y="120" text-anchor="end" class="svg-display-b" font-size="13.5" fill="#F4EFE6">${xmlEsc(boss.name)}</text>
       <text x="536" y="139" text-anchor="end" class="svg-folio" font-size="13.5" fill="#E5C068">${xmlEsc(boss.title)}</text>
       <text x="536" y="157" text-anchor="end" class="svg-body" font-size="12.5" fill="${bossStateCol}">Armor: ${Math.round(boss.armor * 100)}%</text>
@@ -917,11 +1045,53 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       border-left: none;
     }
     #arena-box {
+      position: relative;
       width: 100%;
       border-radius: 16px;
       box-shadow: 0 1px 2px var(--color-shadow);
       overflow: hidden;
       transition: transform 120ms ease-out;
+    }
+    .shake-hit {
+      animation: combatShake 240ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    .shake-crit {
+      animation: combatCritShake 360ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes combatShake {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      20% { transform: translate3d(-4px, 2px, 0); }
+      45% { transform: translate3d(4px, -2px, 0); }
+      70% { transform: translate3d(-2px, 1px, 0); }
+    }
+    @keyframes combatCritShake {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      15% { transform: translate3d(-8px, 4px, 0); }
+      35% { transform: translate3d(8px, -4px, 0); }
+      55% { transform: translate3d(-5px, -2px, 0); }
+      75% { transform: translate3d(4px, 2px, 0); }
+    }
+    .combat-float-popup {
+      position: absolute;
+      top: 38%;
+      left: 28%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background-color: var(--color-paper-2);
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      animation: popupFloat 760ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes popupFloat {
+      0% { opacity: 0; transform: translate(-50%, 8px) scale(0.88); }
+      22% { opacity: 1; transform: translate(-50%, -8px) scale(1.04); }
+      100% { opacity: 0; transform: translate(-50%, -32px) scale(0.96); }
     }
     .focus-bar-wrap {
       width: 100%;
@@ -1198,11 +1368,38 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       });
     }
 
+    function spawnCombatPopup(move, isCrit) {
+      const box = document.getElementById('arena-box');
+      if (!box) return;
+      box.classList.remove('shake-hit', 'shake-crit');
+      void box.offsetWidth;
+      box.classList.add(isCrit ? 'shake-crit' : 'shake-hit');
+
+      const labels = {
+        reelseiden: isCrit ? 'PERFECT SEVER 1.25X' : 'REELSEIDEN SLASH',
+        sorganeil: isCrit ? 'OCULAR LOCK 2.2X' : 'SORGANEIL BIND',
+        ward: 'HEXAGONAL WARD +32 MP',
+        chest1: 'APPRAISING WEST I',
+        chest2: 'APPRAISING SANCTUM II',
+        chest3: 'APPRAISING EAST III',
+        rescue: 'PULLED FRIEREN +25 MP'
+      };
+      const pop = document.createElement('div');
+      pop.className = 'combat-float-popup';
+      if (move && move.startsWith('chest')) {
+        pop.style.left = '76%';
+      }
+      pop.textContent = labels[move] || 'ARCANE RESONANCE';
+      box.appendChild(pop);
+      setTimeout(() => { if (pop.parentNode) pop.parentNode.removeChild(pop); }, 780);
+    }
+
     async function play(move) {
       if (busy) return;
       busy = true;
       const isCrit = checkFocusCrit();
       playSpellSfx(move, isCrit);
+      spawnCombatPopup(move, isCrit);
       const hint = document.getElementById('focus-hint');
       if (hint) {
         hint.textContent = isCrit ? 'Perfect Visualization (1.25x Pierce Activated)' : 'Standard Visualization Cast';
@@ -1215,6 +1412,7 @@ function buildInteractiveConsoleHtml(svgContent, st) {
         const box = document.getElementById('arena-box');
         box.innerHTML = data.svg;
         bindSvgHotspots();
+        spawnCombatPopup(move, isCrit);
         if (data.stageText) document.getElementById('st-stage').textContent = data.stageText;
         if (data.relicText) document.getElementById('st-relic').textContent = 'Relic: ' + data.relicText;
       } finally {
