@@ -1,4 +1,4 @@
-package telemetry
+package handler
 
 import (
 	"context"
@@ -65,10 +65,10 @@ func TestFetchSnapshotFromMockUpstash(t *testing.T) {
 	}
 }
 
-func TestHandleJSONResponse(t *testing.T) {
+func TestHandlerJSONResponse(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/api/telemetry?format=json", nil)
 	rec := httptest.NewRecorder()
-	Handle(rec, req)
+	Handler(rec, req)
 
 	if rec.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d", rec.Code)

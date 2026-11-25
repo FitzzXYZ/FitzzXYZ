@@ -380,3 +380,4 @@ export default function handler(req: VercelRequest, res: VercelResponse): Vercel
   res.setHeader("Expires", "0");
   return res.status(200).send(buildClockSvg(tz));
 }
+

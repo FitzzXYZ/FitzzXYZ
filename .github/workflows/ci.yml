@@ -67,3 +67,4 @@ jobs:
           assert not missing, f"Missing README assets: {missing}"
           print(f"Verified {len(svgs)} SVGs and all local README asset links.")
           PY
+
