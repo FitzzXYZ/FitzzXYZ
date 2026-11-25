@@ -462,11 +462,11 @@ function applyAction(st, act, isFocusCrit = false) {
       st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + loot.healMp);
       if (loot.title.includes("Reelseiden")) st.slashBonus = Math.min(30, st.slashBonus + 6);
       if (loot.title.includes("Flamme")) st.mpRegen = Math.min(16, (st.mpRegen || 4) + 4);
-      if (loot.bonusDmg > 0) {
+      if (loot.bonusDmg > 0 && !st.endingReached) {
         st.lastDmg = loot.bonusDmg;
         st.bossHp = Math.max(10, st.bossHp - loot.bonusDmg);
       }
-      if (loot.bind) st.bossBound = true;
+      if (loot.bind && !st.endingReached) st.bossBound = true;
       st.chestLog1 = `${label} (${st.activeRelicTier}): found ${loot.title}.`;
       st.chestLog2 = `${loot.effect}.`;
     }
@@ -1267,7 +1267,7 @@ function buildInteractiveConsoleHtml(svgContent, st) {
     }
     @keyframes focusSweep {
       0% { transform: translateX(0); }
-      100% { transform: translateX(520px); }
+      100% { transform: translateX(var(--sweep-x, 520px)); }
     }
     .focus-hint {
       font-family: var(--font-italic);
@@ -1383,7 +1383,7 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       <div class="status-strip" role="status" aria-live="polite">
         <span class="status-item" id="st-stage">${xmlEsc(st.endingReached ? "Epilogue: Serie’s First-Class Ceremony" : `${boss.stage}: ${boss.name}`)}</span>
         <span class="status-item" id="st-relic">Relic: ${xmlEsc(st.activeRelic || "Blue Moon Blossom")}</span>
-        <span class="status-item">Click SVG figures or press keys 1 to 6</span>
+        <span class="status-item">Click SVG or press 1 to 6, F, E</span>
       </div>
     </header>
 
@@ -1503,7 +1503,12 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       });
     }
 
-    function spawnCombatPopup(move, isCrit) {
+    function syncSweepWidth() {
+      const track = document.getElementById('focus-track');
+      if (track) track.style.setProperty('--sweep-x', Math.max(120, track.clientWidth - 12) + 'px');
+    }
+
+    function spawnCombatPopup(move, isCrit, labelOverride) {
       const box = document.getElementById('arena-box');
       if (!box) return;
       box.classList.remove('shake-hit', 'shake-crit');
@@ -1522,10 +1527,10 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       };
       const pop = document.createElement('div');
       pop.className = 'combat-float-popup';
-      if (move && move.startsWith('chest')) {
+      if (move && (move.startsWith('chest') || move === 'rescue')) {
         pop.style.left = '76%';
       }
-      pop.textContent = labels[move] || 'ARCANE RESONANCE';
+      pop.textContent = labelOverride || labels[move] || 'ARCANE RESONANCE';
       box.appendChild(pop);
       setTimeout(() => { if (pop.parentNode) pop.parentNode.removeChild(pop); }, 780);
     }
@@ -1535,7 +1540,6 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       busy = true;
       const isCrit = checkFocusCrit();
       playSpellSfx(move, isCrit);
-      spawnCombatPopup(move, isCrit);
       const hint = document.getElementById('focus-hint');
       if (hint) {
         hint.textContent = isCrit ? 'Perfect Visualization (1.25x Pierce Activated)' : 'Standard Visualization Cast';
@@ -1548,7 +1552,7 @@ function buildInteractiveConsoleHtml(svgContent, st) {
         const box = document.getElementById('arena-box');
         box.innerHTML = data.svg;
         bindSvgHotspots();
-        spawnCombatPopup(move, isCrit);
+        spawnCombatPopup(move, isCrit, data.popupText);
         if (data.stageText) document.getElementById('st-stage').textContent = data.stageText;
         if (data.relicText) document.getElementById('st-relic').textContent = 'Relic: ' + data.relicText;
         if (data.chapterTitle) document.getElementById('story-chapter').textContent = data.chapterTitle;
@@ -1559,9 +1563,12 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       }
     }
 
+    syncSweepWidth();
+    window.addEventListener('resize', syncSweepWidth);
     bindSvgHotspots();
     window.addEventListener('keydown', (e) => {
-      const map = { '1': 'reelseiden', '2': 'sorganeil', '3': 'ward', '4': 'chest1', '5': 'chest2', '6': 'chest3', 'f': 'rescue', 'F': 'rescue', 'r': 'reset', 'R': 'reset' };
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const map = { '1': 'reelseiden', '2': 'sorganeil', '3': 'ward', '4': 'chest1', '5': 'chest2', '6': 'chest3', 'f': 'rescue', 'F': 'rescue', 'e': 'ending', 'E': 'ending', 'r': 'reset', 'R': 'reset' };
       if (map[e.key]) play(map[e.key]);
     });
   </script>
@@ -1585,6 +1592,23 @@ export default function handler(req, res) {
     const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
     if (req.query.json === "1") {
       res.setHeader("Content-Type", "application/json; charset=utf-8");
+      const chestState = st.chests && st.chests[st.lastChestIdx];
+      let popupText = "";
+      if (act === "ending" || st.endingReached) {
+        popupText = "FIRST-CLASS EPILOGUE";
+      } else if (act.startsWith("chest")) {
+        popupText = chestState === "mimic" ? "1% MIMIC TRAP! -15 HP" : `${(st.activeRelicTier || "GRIMOIRE").toUpperCase()} FOUND`;
+      } else if (act === "reelseiden" && st.lastDmg > 0) {
+        popupText = `${isCrit ? "PERFECT SEVER " : "REELSEIDEN "}-${st.lastDmg} HP`;
+      } else if (act === "sorganeil") {
+        popupText = `SORGANEIL LOCK 2.2X (-${st.lastDmg || 18} HP)`;
+      } else if (act === "ward") {
+        popupText = `WARD COUNTER +22 HP`;
+      } else if (act === "rescue") {
+        popupText = "RESCUED FRIEREN +25 MP";
+      } else if (act.startsWith("stage")) {
+        popupText = boss.shortName.toUpperCase();
+      }
       return res.status(200).send(
         JSON.stringify({
           svg: buildGameSvg(st),
@@ -1593,6 +1617,7 @@ export default function handler(req, res) {
           chapterTitle: st.chapterTitle || boss.chapter,
           storyBanner: st.storyBanner || boss.storyLine,
           endingReached: Boolean(st.endingReached),
+          popupText,
         })
       );
     }
