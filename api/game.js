@@ -29,6 +29,7 @@ const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
 const UBEL_AVATAR = loadFileText("assets/ubel-mini-b64.txt");
 const SPIEGEL_AVATAR = loadFileText("assets/spiegel-mini-b64.txt");
 const FRIEREN_MIMIC_IMG = loadFileText("assets/game/frieren-mimic-b64.txt");
+const SERIE_AVATAR = loadFileText("assets/game/ending-serie-b64.txt") || SPIEGEL_AVATAR;
 const BOSS_PORTRAITS = [
   loadFileText("assets/game/boss-ubel-b64.txt") || SPIEGEL_AVATAR,
   loadFileText("assets/game/boss-sense-b64.txt") || SPIEGEL_AVATAR,
@@ -107,6 +108,9 @@ const BOSS_ROSTER = [
     shortName: "I. Übel",
     name: "Spiegel: Übel Replica",
     title: "Outer Tomb Corridor",
+    chapter: "Act I: The Mirror in the Torchlight",
+    storyLine: "Deep inside the King’s Tomb, the water-mirror demon Spiegel projects a silent clone of Übel across the corridor.",
+    clearStory: "Act I Cleared: The mirror clone shatters into gold dust. Ahead lies Sense’s crimson hair labyrinth.",
     maxHp: 160,
     trait: "Mirrors unbound slashes",
     intentNormal: "Mirror Reelseiden (18 dmg)",
@@ -118,6 +122,9 @@ const BOSS_ROSTER = [
     shortName: "II. Sense",
     name: "Spiegel: Sense Replica",
     title: "Hall of Crimson Wards",
+    chapter: "Act II: Hair Meant to Be Cut",
+    storyLine: "Examiner Sense’s iron-hair replica drapes the hall. Others see an unbreakable wall; Übel only sees hair waiting for shears.",
+    clearStory: "Act II Cleared: Reelseiden slices through Sense’s hair barrier! The inner gates open toward Lernen.",
     maxHp: 220,
     trait: "Hair phalanx (20% ward)",
     intentNormal: "Crimson Hair Lance (20 dmg)",
@@ -129,6 +136,9 @@ const BOSS_ROSTER = [
     shortName: "III. Lernen",
     name: "Spiegel: Lernen Replica",
     title: "First-Class Sanctuary",
+    chapter: "Act III: The First Disciple’s Threshold",
+    storyLine: "Serie’s eldest disciple Lernen guards the royal ante-vault with black Zoltraak spheres humming in the dark.",
+    clearStory: "Act III Cleared: Lernen’s replica dissolves. Beyond the vault door stands the supreme guardian: Frieren.",
     maxHp: 260,
     trait: "Black Zoltraak volleys",
     intentNormal: "Golem Barrage (22 dmg)",
@@ -140,6 +150,9 @@ const BOSS_ROSTER = [
     shortName: "IV. Frieren",
     name: "Spiegel: Frieren",
     title: "The King’s Inner Vault",
+    chapter: "Finale: The Pinnacle of Magic",
+    storyLine: "Centuries of celestial mana fill the vault as Frieren’s replica raises her crescent staff before the Spiegel heart.",
+    clearStory: "FINAL VICTORY: The Spiegel crystal shatters into golden light! Übel has conquered the King’s Tomb.",
     maxHp: 340,
     trait: "Vollzanbel & Judradjim",
     intentNormal: "Judradjim Bolt (24 dmg)",
@@ -166,6 +179,9 @@ function createInitialState() {
     bossCharging: false,
     wardActive: false,
     frierenTrapped: false,
+    endingReached: false,
+    chapterTitle: "Act I: The Mirror in the Torchlight",
+    storyBanner: "Deep inside the King’s Tomb, the water-mirror demon Spiegel projects a silent clone of Übel across the corridor.",
     lastDmg: 52,
     activeRelic: "Blue Moon Blossom (+8 MP/turn)",
     activeRelicTier: "Folk Grimoire",
@@ -207,6 +223,9 @@ function pushHistory(st, label) {
 }
 
 function getTacticalTip(st, boss) {
+  if (st.endingReached) {
+    return "Epilogue Complete! Cast any spell or click Chamber I to begin New Game+ (+4 permanent Sever).";
+  }
   if (st.frierenTrapped) {
     return "Frieren is stuck in a Mimic! Click Pull Frieren or cast Ward (+25 MP).";
   }
@@ -225,6 +244,21 @@ function getTacticalTip(st, boss) {
   return "Build Empathy to 3/3 or bind with Sorganeil before casting Reelseiden.";
 }
 
+function triggerGrandEnding(st) {
+  st.endingReached = true;
+  st.bossHp = 0;
+  st.bossBound = false;
+  st.bossCharging = false;
+  st.ubelHp = st.ubelMaxHp;
+  st.ubelMp = st.ubelMaxMp;
+  st.slashBonus = Math.min(42, st.slashBonus + 4);
+  st.chapterTitle = "Epilogue: Serie’s First-Class Privilege Ceremony";
+  st.storyBanner = "The Spiegel crystal shatters! In the Continental Magic Association hall, Serie grants Übel her First-Class Mage privilege.";
+  st.duelLog1 = "FINAL VICTORY: Spiegel Frieren and the core crystal shatter into a rain of golden mana!";
+  st.duelLog2 = "Serie: “You passed, Übel. Speak any spell you desire.” (Frieren is still stuck in a Mimic below.)";
+  pushHistory(st, "Epilogue");
+}
+
 function applyAction(st, act, isFocusCrit = false) {
   if (!act) return;
   if (act === "reset") {
@@ -232,18 +266,44 @@ function applyAction(st, act, isFocusCrit = false) {
     return;
   }
 
+  if (act === "ending") {
+    st.turn += 1;
+    triggerGrandEnding(st);
+    return;
+  }
+
   if (act === "stage0" || act === "stage1" || act === "stage2" || act === "stage3") {
     const targetIdx = Number(act.replace("stage", "")) % BOSS_ROSTER.length;
+    st.endingReached = false;
     st.stageIdx = targetIdx;
     const selBoss = BOSS_ROSTER[targetIdx];
     st.bossMaxHp = selBoss.maxHp;
     st.bossHp = selBoss.maxHp;
     st.bossBound = false;
     st.bossCharging = false;
+    st.chapterTitle = selBoss.chapter;
+    st.storyBanner = selBoss.storyLine;
     st.turn += 1;
     pushHistory(st, selBoss.shortName);
     st.duelLog1 = `Entered ${selBoss.stage} (${selBoss.title}): ${selBoss.name} materializes from the Spiegel crystal.`;
-    st.duelLog2 = `Trait observation: ${selBoss.trait}.`;
+    st.duelLog2 = `Story: ${selBoss.storyLine}`;
+    return;
+  }
+
+  if (st.endingReached && (act === "reelseiden" || act === "sorganeil" || act === "ward" || act === "newgame")) {
+    st.endingReached = false;
+    st.stageIdx = 0;
+    const firstBoss = BOSS_ROSTER[0];
+    st.bossMaxHp = firstBoss.maxHp;
+    st.bossHp = firstBoss.maxHp;
+    st.bossBound = false;
+    st.bossCharging = false;
+    st.chapterTitle = firstBoss.chapter;
+    st.storyBanner = `New Game+ Expedition (Sever +${st.slashBonus}): ${firstBoss.storyLine}`;
+    st.turn += 1;
+    pushHistory(st, "New Game+");
+    st.duelLog1 = `New Expedition begun with Serie’s blessing (+${st.slashBonus} Sever): ${firstBoss.name} appears!`;
+    st.duelLog2 = firstBoss.storyLine;
     return;
   }
 
@@ -327,7 +387,10 @@ function applyAction(st, act, isFocusCrit = false) {
 
     if (st.bossHp <= 0) {
       st.wins += 1;
-      const oldName = boss.name;
+      if (st.stageIdx === BOSS_ROSTER.length - 1) {
+        triggerGrandEnding(st);
+        return;
+      }
       st.stageIdx = (st.stageIdx + 1) % BOSS_ROSTER.length;
       const nextBoss = BOSS_ROSTER[st.stageIdx];
       st.bossMaxHp = nextBoss.maxHp;
@@ -336,7 +399,9 @@ function applyAction(st, act, isFocusCrit = false) {
       st.bossCharging = false;
       st.ubelHp = st.ubelMaxHp;
       st.ubelMp = st.ubelMaxMp;
-      st.duelLog2 = `${oldName} dissolves into gold mana. Advancing to ${nextBoss.name}.`;
+      st.chapterTitle = nextBoss.chapter;
+      st.storyBanner = nextBoss.storyLine;
+      st.duelLog2 = boss.clearStory;
       return;
     }
 
@@ -563,7 +628,29 @@ function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected, idx)
 
 export function buildGameSvg(st) {
   const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
-  const mapSvg = renderDungeonMapBar(st.stageIdx % BOSS_ROSTER.length);
+  const nodes = [
+    { x: 404, label: "I. Übel", act: "stage0" },
+    { x: 502, label: "II. Sense", act: "stage1" },
+    { x: 600, label: "III. Lernen", act: "stage2" },
+    { x: 698, label: "IV. Frieren", act: "stage3" },
+    { x: 796, label: "V. Epilogue", act: "ending" },
+  ];
+  const activeMapIdx = st.endingReached ? 4 : st.stageIdx % BOSS_ROSTER.length;
+  let mapSvg = "";
+  for (let i = 0; i < nodes.length - 1; i++) {
+    const done = i < activeMapIdx;
+    mapSvg += `<line x1="${nodes[i].x + 30}" y1="36" x2="${nodes[i + 1].x - 30}" y2="36" stroke="${done ? "#9CC084" : "#D4A843"}" stroke-opacity="${done ? "0.75" : "0.24"}" stroke-width="1.3"/>`;
+  }
+  for (let i = 0; i < nodes.length; i++) {
+    const n = nodes[i];
+    const isCur = i === activeMapIdx;
+    const isDone = i < activeMapIdx;
+    const col = isCur ? "#E5C068" : isDone ? "#9CC084" : "#8E887A";
+    const ring = isCur
+      ? `<circle cx="${n.x}" cy="24" r="7" fill="none" stroke="#E5C068" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3 2"><animateTransform attributeName="transform" type="rotate" from="0 ${n.x} 24" to="360 ${n.x} 24" dur="10s" repeatCount="indefinite"/></circle>`
+      : "";
+    mapSvg += `<g data-act="${n.act}" style="cursor:pointer">${ring}<polygon points="${n.x},20 ${n.x + 4},24 ${n.x},28 ${n.x - 4},24" fill="${col}"/><text x="${n.x}" y="44" text-anchor="middle" class="svg-body" font-size="11.5" fill="${col}">${n.label}</text></g>`;
+  }
 
   // Empathy Resonance Diamonds (3 slots around cx=332, y=118)
   let empathyRunes = "";
@@ -650,7 +737,9 @@ export function buildGameSvg(st) {
     ? `<image href="${UBEL_AVATAR}" x="52" y="104" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#ubel_av)"/>`
     : `<rect x="52" y="104" width="64" height="64" rx="8" fill="#161E18"/>`;
 
-  const currentBossAvatar = BOSS_PORTRAITS[st.stageIdx % BOSS_PORTRAITS.length] || SPIEGEL_AVATAR;
+  const currentBossAvatar = st.endingReached
+    ? SERIE_AVATAR
+    : BOSS_PORTRAITS[st.stageIdx % BOSS_PORTRAITS.length] || SPIEGEL_AVATAR;
   const spiegelImg = currentBossAvatar
     ? `<image href="${currentBossAvatar}" x="548" y="104" width="64" height="64" preserveAspectRatio="xMidYMin slice" clip-path="url(#spiegel_av)"/>`
     : `<rect x="548" y="104" width="64" height="64" rx="8" fill="#1C1422"/>`;
@@ -746,10 +835,10 @@ export function buildGameSvg(st) {
     <line x1="36" y1="56" x2="1164" y2="56" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
     <!-- ================================================================== -->
-    <!-- COLUMN I: SPIEGEL SANCTUARY DUEL (x=40..624)                        -->
+    <!-- COLUMN I: SPIEGEL SANCTUARY DUEL OR GRAND ENDING EPILOGUE           -->
     <!-- ================================================================== -->
-    <text x="40" y="80" class="svg-body" font-size="15" fill="#9CC084">I. Spiegel Sanctuary Duel</text>
-    <text x="624" y="80" text-anchor="end" class="svg-folio" font-size="14" fill="${bossStateCol}">Next intent: ${xmlEsc(bossIntent)}</text>
+    <text x="40" y="80" class="svg-body" font-size="15" fill="${st.endingReached ? "#E5C068" : "#9CC084"}">${st.endingReached ? "I. Epilogue: Serie’s First-Class Ceremony" : "I. Spiegel Sanctuary Duel"}</text>
+    <text x="624" y="80" text-anchor="end" class="svg-folio" font-size="14" fill="${st.endingReached ? "#9CC084" : bossStateCol}">${st.endingReached ? "First-Class Privilege Awarded" : `Next intent: ${xmlEsc(bossIntent)}`}</text>
 
     <!-- Recessed Arena Stage (#090C0A, borderless) -->
     <rect x="40" y="92" width="584" height="162" rx="8" fill="#090C0A"/>
@@ -757,6 +846,46 @@ export function buildGameSvg(st) {
     <!-- Ambient Dungeon Mana Particles -->
     ${renderAmbientParticles()}
 
+    ${
+      st.endingReached
+        ? `
+    <!-- GRAND ENDING SCENE: ÜBEL & SERIE IN THE CONTINENTAL MAGIC ASSOCIATION HALL -->
+    <g data-act="stage0" style="cursor:pointer">
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="3.0s" repeatCount="indefinite"/>
+        ${ubelImg}
+        <rect x="51" y="103" width="66" height="66" rx="8.5" fill="none" stroke="#E5C068" stroke-width="1.4"/>
+      </g>
+      <text x="126" y="120" class="svg-display-b" font-size="14" fill="#F4EFE6">Übel (FitzzXYZ)</text>
+      <text x="126" y="139" class="svg-folio" font-size="13.5" fill="#9CC084">Certified First-Class Mage</text>
+      <text x="126" y="157" class="svg-body" font-size="12.5" fill="#E5C068">Permanent Sever +${st.slashBonus}</text>
+
+      <!-- Center Golden First-Class Certification Seal -->
+      <circle cx="332" cy="144" r="32" fill="#E5C068" fill-opacity="0.1">
+        <animate attributeName="r" values="26;36;26" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="332" cy="144" r="28" fill="none" stroke="#E5C068" stroke-width="1.2" stroke-dasharray="5 3">
+        <animateTransform attributeName="transform" type="rotate" from="0 332 144" to="360 332 144" dur="14s" repeatCount="indefinite"/>
+      </circle>
+      <polygon points="332,124 338,138 352,144 338,150 332,164 326,150 312,144 326,138" fill="#E5C068" fill-opacity="0.28" stroke="#E5C068" stroke-width="1.3"/>
+      <text x="332" y="192" text-anchor="middle" class="svg-num" font-size="11.5" fill="#E5C068">S-RANK CLEAR</text>
+
+      <!-- Right Portrait: Serie (The Living Grimoire) -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="3.4s" repeatCount="indefinite"/>
+        ${spiegelImg}
+        <rect x="547" y="103" width="66" height="66" rx="8.5" fill="none" stroke="#E5C068" stroke-width="1.4"/>
+      </g>
+      <text x="536" y="120" text-anchor="end" class="svg-display-b" font-size="13.5" fill="#F4EFE6">Great Mage Serie</text>
+      <text x="536" y="139" text-anchor="end" class="svg-folio" font-size="13.5" fill="#E5C068">The Living Grimoire</text>
+      <text x="536" y="157" text-anchor="end" class="svg-body" font-size="12.5" fill="#9CC084">Privilege Bestowed</text>
+
+      <!-- Epilogue Story Dialogue Banner Inside Stage -->
+      <line x1="56" y1="204" x2="608" y2="204" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+      <text x="332" y="224" text-anchor="middle" class="svg-folio" font-size="13.5" fill="#F4EFE6">“A First-Class Mage need only visualize victory. Speak your wish, Übel.” (Serie)</text>
+      <text x="332" y="243" text-anchor="middle" class="svg-body" font-size="12.5" fill="#9CC084">King’s Tomb Conquered (${st.wins} Expeditions, ${st.grimoiresFound} Grimoires, ${st.mimicsTriggered} Mimics)</text>
+    </g>`
+        : `
     <!-- Left Combatant: Ubel (Animated Idle Breathing & First-Class Aura) -->
     <g data-act="ward" style="cursor:pointer">
       <g>
@@ -803,7 +932,8 @@ export function buildGameSvg(st) {
     ${bossHpBar}
 
     <text x="400" y="225" class="svg-body" font-size="13" fill="#8E887A">Trait</text>
-    <text x="612" y="225" text-anchor="end" class="svg-folio" font-size="12.5" fill="#C8C2B4">${xmlEsc(boss.trait)}</text>
+    <text x="612" y="225" text-anchor="end" class="svg-folio" font-size="12.5" fill="#C8C2B4">${xmlEsc(boss.trait)}</text>`
+    }
 
     <!-- 4-Turn Tactical Timeline Strip -->
     <text x="40" y="276" class="svg-folio" font-size="13" fill="#8E887A">Recent casts:</text>
@@ -1063,6 +1193,33 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       22% { opacity: 1; transform: translate(-50%, -8px) scale(1.04); }
       100% { opacity: 0; transform: translate(-50%, -32px) scale(0.96); }
     }
+    .story-bar-wrap {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background-color: var(--color-paper-2);
+      border-left: 4px solid var(--color-gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .story-chapter {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-gold);
+      white-space: nowrap;
+    }
+    .story-line {
+      flex: 1;
+      min-width: 240px;
+      font-family: var(--font-italic);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--color-ink);
+    }
     .focus-bar-wrap {
       width: 100%;
       padding: 12px 16px;
@@ -1216,16 +1373,24 @@ function buildInteractiveConsoleHtml(svgContent, st) {
         <button type="button" class="utility-btn" id="rescue-btn" onclick="play('rescue')">
           Pull Frieren from Mimic (+25 MP)
         </button>
+        <button type="button" class="utility-btn" id="ending-btn" onclick="play('ending')">
+          Story Epilogue
+        </button>
         <button type="button" class="utility-btn" id="sfx-btn" onclick="toggleSfx()">
           Spell Audio: On
         </button>
       </div>
       <div class="status-strip" role="status" aria-live="polite">
-        <span class="status-item" id="st-stage">${xmlEsc(boss.stage)}: ${xmlEsc(boss.name)}</span>
+        <span class="status-item" id="st-stage">${xmlEsc(st.endingReached ? "Epilogue: Serie’s First-Class Ceremony" : `${boss.stage}: ${boss.name}`)}</span>
         <span class="status-item" id="st-relic">Relic: ${xmlEsc(st.activeRelic || "Blue Moon Blossom")}</span>
         <span class="status-item">Click SVG figures or press keys 1 to 6</span>
       </div>
     </header>
+
+    <section class="story-bar-wrap" aria-label="First-Class Exam Story Chronicle">
+      <span class="story-chapter" id="story-chapter">${xmlEsc(st.chapterTitle || boss.chapter)}</span>
+      <span class="story-line" id="story-line">${xmlEsc(st.storyBanner || boss.storyLine)}</span>
+    </section>
 
     <section id="arena-box" aria-label="Tactical Grimoire Arena">${svgContent}</section>
 
@@ -1352,7 +1517,8 @@ function buildInteractiveConsoleHtml(svgContent, st) {
         chest1: 'APPRAISING WEST I',
         chest2: 'APPRAISING SANCTUM II',
         chest3: 'APPRAISING EAST III',
-        rescue: 'PULLED FRIEREN +25 MP'
+        rescue: 'PULLED FRIEREN +25 MP',
+        ending: 'FIRST-CLASS EPILOGUE'
       };
       const pop = document.createElement('div');
       pop.className = 'combat-float-popup';
@@ -1385,6 +1551,8 @@ function buildInteractiveConsoleHtml(svgContent, st) {
         spawnCombatPopup(move, isCrit);
         if (data.stageText) document.getElementById('st-stage').textContent = data.stageText;
         if (data.relicText) document.getElementById('st-relic').textContent = 'Relic: ' + data.relicText;
+        if (data.chapterTitle) document.getElementById('story-chapter').textContent = data.chapterTitle;
+        if (data.storyBanner) document.getElementById('story-line').textContent = data.storyBanner;
       } finally {
         btns.forEach((b) => b.removeAttribute('aria-disabled'));
         busy = false;
@@ -1420,8 +1588,11 @@ export default function handler(req, res) {
       return res.status(200).send(
         JSON.stringify({
           svg: buildGameSvg(st),
-          stageText: `${boss.stage}: ${boss.name}`,
+          stageText: st.endingReached ? "Epilogue: Serie’s First-Class Ceremony" : `${boss.stage}: ${boss.name}`,
           relicText: st.activeRelic,
+          chapterTitle: st.chapterTitle || boss.chapter,
+          storyBanner: st.storyBanner || boss.storyLine,
+          endingReached: Boolean(st.endingReached),
         })
       );
     }

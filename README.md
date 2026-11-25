@@ -91,6 +91,9 @@
     <a href="https://fitzzxyz.vercel.app/api/game?act=reelseiden"><img height="34" src="./assets/btn-game-reelseiden.svg" alt="Cast Reelseiden" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=sorganeil"><img height="34" src="./assets/btn-game-sorganeil.svg" alt="Cast Sorganeil" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=ward"><img height="34" src="./assets/btn-game-ward.svg" alt="Cast Mana Ward" /></a>&nbsp;
+    <a href="https://fitzzxyz.vercel.app/api/game?act=ending"><img height="34" src="./assets/btn-game-ending.svg" alt="Story Epilogue & Serie's Privilege" /></a>
+  </p>
+  <p align="center">
     <a href="https://fitzzxyz.vercel.app/api/game?act=chest1"><img height="34" src="./assets/btn-game-chest1.svg" alt="Open Chest I" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=chest2"><img height="34" src="./assets/btn-game-chest2.svg" alt="Open Chest II" /></a>&nbsp;
     <a href="https://fitzzxyz.vercel.app/api/game?act=chest3"><img height="34" src="./assets/btn-game-chest3.svg" alt="Open Chest III" /></a>&nbsp;
