@@ -236,14 +236,14 @@
       <rect x="1016" y="404" width="24" height="20" rx="3" fill="#1F2622"/>
       <rect x="1048" y="404" width="24" height="20" rx="3" fill="#1F2622"/>
       <rect x="1080" y="404" width="24" height="20" rx="3" fill="#1F2622"/></g>
-    <text x="536" y="440" class="italic" font-size="14.5" fill="#C8C2B4">4 day best streak · 75 contributions · PostgreSQL &amp; MySQL</text>
+    <text x="536" y="440" class="italic" font-size="14.5" fill="#C8C2B4">4 day best streak · 76 contributions · PostgreSQL &amp; MySQL</text>
 
     <!-- Bottom Mana XP Bar -->
     <text x="418" y="462" class="cinzel" font-size="14" fill="#E5C068" letter-spacing="1.8">MANA RESONANCE   ·   LV 3  &gt;  4</text>
-    <text x="1104" y="462" text-anchor="end" class="italic" font-size="14.5" fill="#D8D0C5">75 / 100 mana xp · Road to Aureole</text>
+    <text x="1104" y="462" text-anchor="end" class="italic" font-size="14.5" fill="#D8D0C5">76 / 100 mana xp · Road to Aureole</text>
 
     <rect x="418" y="470" width="686" height="14" rx="5" fill="#1F2622"/>
-    <rect x="418" y="470" width="514" height="14" rx="5" fill="url(#manaXpGrad)"/>
+    <rect x="418" y="470" width="521" height="14" rx="5" fill="url(#manaXpGrad)"/>
   
     <!-- ANIM_ADV_LIFE -->
     <g clip-path="url(#advBarClip)">
