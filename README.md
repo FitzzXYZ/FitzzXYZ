@@ -100,6 +100,18 @@
     <a href="https://fitzzxyz.vercel.app/api/game?act=rescue"><img height="34" src="./assets/btn-game-rescue.svg" alt="Pull Frieren from Mimic" /></a>
   </p>
 
+  <!-- LIVE POLYGLOT RUNTIME CARDS: GO SERVERLESS TELEMETRY & RUST COMBAT ORACLE -->
+  <p align="center">
+    <a href="https://fitzzxyz.vercel.app/api/telemetry?format=json">
+      <img src="https://fitzzxyz.vercel.app/api/telemetry" alt="Global Dungeon Telemetry — Live Go Serverless &amp; Upstash Redis Ledger" width="100%" />
+    </a>
+  </p>
+  <p align="center">
+    <a href="https://fitzzxyz.vercel.app/api/oracle?format=json">
+      <img src="https://fitzzxyz.vercel.app/api/oracle" alt="First-Class Combat Oracle — Live Rust Fluid Runtime Probability Engine" width="100%" />
+    </a>
+  </p>
+
   <p align="center">
     <img src="./assets/frieren-divider.svg" alt="" width="100%" />
   </p>

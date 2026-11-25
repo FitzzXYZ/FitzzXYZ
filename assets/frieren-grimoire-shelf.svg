@@ -91,9 +91,9 @@
     <text x="672" y="80" class="cinzel" font-size="11.5" fill="#E5C068" letter-spacing="1">GRIMOIRE III · ÄUSSERST</text>
     <text x="648" y="108" class="title" font-size="21">Serie’s Privilege</text>
     <text x="648" y="130" class="italic" font-size="14.5" fill="#E5C068">First-Class intuitive mastery</text>
-    <text x="648" y="158" class="body">Full-stack architectural command</text>
-    <text x="648" y="180" class="body">across Node.js, Java OOP, PHP</text>
-    <text x="648" y="202" class="body">Laravel, and SQL databases.</text>
+    <text x="648" y="158" class="body">Polyglot systems command across</text>
+    <text x="648" y="180" class="body">TypeScript, Go, Rust, Python,</text>
+    <text x="648" y="202" class="body">PHP Laravel, Redis, and SQL.</text>
 
     <line x1="912" y1="70" x2="912" y2="214" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
 

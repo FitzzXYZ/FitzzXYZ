@@ -1,12 +1,46 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import {
+  loadArenaState,
+  saveArenaState,
+  type ArenaState,
+  type ChestState,
+} from "../lib/redis.js";
 
 /**
  * Sousou no Frieren x Ubel — The King's Tomb: Tactical Duel & Frieren's Mimic Roulette
  * Hallmark v2.0.0 Anti-AI-Slop Edition (0 FAIL, 0 REFLEX, 0 WARN on sloplint.mjs)
  */
 
-function loadFileText(relPath) {
+interface GrimoireLoot {
+  title: string;
+  tier: string;
+  tierCol: string;
+  relic: string;
+  effect: string;
+  bonusDmg: number;
+  healHp: number;
+  healMp: number;
+  bind: boolean;
+}
+
+interface BossSpec {
+  stage: string;
+  shortName: string;
+  name: string;
+  title: string;
+  chapter: string;
+  storyLine: string;
+  clearStory: string;
+  maxHp: number;
+  trait: string;
+  intentNormal: string;
+  intentCharge: string;
+  armor: number;
+}
+
+function loadFileText(relPath: string): string {
   try {
     return fs.readFileSync(path.join(process.cwd(), relPath), "utf8").trim();
   } catch {
@@ -14,7 +48,7 @@ function loadFileText(relPath) {
   }
 }
 
-function loadFontB64(name) {
+function loadFontB64(name: string): string {
   try {
     return fs.readFileSync(path.join(process.cwd(), "assets", "fonts", name)).toString("base64");
   } catch {
@@ -44,7 +78,7 @@ const FONT_FACE_CSS = [
   CORMORANT_500I && `@font-face{font-family:'CormorantItalic';font-style:italic;font-weight:500;font-display:swap;src:url("data:font/woff;base64,${CORMORANT_500I}") format("woff");}`,
 ].filter(Boolean).join("\n      ");
 
-const GRIMOIRE_LOOT = [
+const GRIMOIRE_LOOT: readonly GrimoireLoot[] = [
   {
     title: "Reelseiden Severing Treatise",
     tier: "First-Class Folio",
@@ -102,7 +136,7 @@ const GRIMOIRE_LOOT = [
   },
 ];
 
-const BOSS_ROSTER = [
+const BOSS_ROSTER: readonly BossSpec[] = [
   {
     stage: "Chamber I of IV",
     shortName: "I. Übel",
@@ -161,7 +195,7 @@ const BOSS_ROSTER = [
   },
 ];
 
-function createInitialState() {
+export function createInitialState(): ArenaState {
   return {
     ubelHp: 100,
     ubelMaxHp: 100,
@@ -198,18 +232,13 @@ function createInitialState() {
     wins: 14,
     grimoiresFound: 24,
     mimicsTriggered: 9,
+    rescuesCount: 6,
     turn: 12,
+    updatedAt: "",
   };
 }
 
-function getArenaState() {
-  if (!globalThis.__FITZZ_ARENA_V4__) {
-    globalThis.__FITZZ_ARENA_V4__ = createInitialState();
-  }
-  return globalThis.__FITZZ_ARENA_V4__;
-}
-
-function xmlEsc(s) {
+function xmlEsc(s: unknown): string {
   return String(s)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -217,12 +246,12 @@ function xmlEsc(s) {
     .replace(/"/g, "&quot;");
 }
 
-function pushHistory(st, label) {
+function pushHistory(st: ArenaState, label: string): void {
   const item = `T${st.turn}: ${label}`;
   st.history = [...(st.history || []).slice(-3), item];
 }
 
-function getTacticalTip(st, boss) {
+function getTacticalTip(st: ArenaState, boss: BossSpec): string {
   if (st.endingReached) {
     return "Epilogue Complete! Cast any spell or click Chamber I to begin New Game+ (+4 permanent Sever).";
   }
@@ -244,7 +273,7 @@ function getTacticalTip(st, boss) {
   return "Build Empathy to 3/3 or bind with Sorganeil before casting Reelseiden.";
 }
 
-function triggerGrandEnding(st) {
+function triggerGrandEnding(st: ArenaState): void {
   st.endingReached = true;
   st.bossHp = 0;
   st.bossBound = false;
@@ -259,7 +288,7 @@ function triggerGrandEnding(st) {
   pushHistory(st, "Epilogue");
 }
 
-function applyAction(st, act, isFocusCrit = false) {
+export function applyAction(st: ArenaState, act: string, isFocusCrit = false): void {
   if (!act) return;
   if (act === "reset") {
     Object.assign(st, createInitialState());
@@ -313,6 +342,7 @@ function applyAction(st, act, isFocusCrit = false) {
   // Rescue Frieren bonus if she was trapped in a Mimic
   if (act === "rescue") {
     st.frierenTrapped = false;
+    st.rescuesCount = (st.rescuesCount || 0) + 1;
     st.chests = ["closed", "closed", "closed"];
     st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 25);
     st.empathy = Math.min(3, st.empathy + 1);
@@ -377,6 +407,7 @@ function applyAction(st, act, isFocusCrit = false) {
       st.ubelMp = Math.min(st.ubelMaxMp, st.ubelMp + 32);
       st.ubelHp = Math.min(st.ubelMaxHp, st.ubelHp + 22);
       st.wardActive = true;
+      if (st.frierenTrapped) st.rescuesCount = (st.rescuesCount || 0) + 1;
       st.frierenTrapped = false;
       st.empathy = Math.min(3, st.empathy + 1);
       const counter = isFocusCrit ? 30 : 22;
@@ -473,7 +504,17 @@ function applyAction(st, act, isFocusCrit = false) {
   }
 }
 
-function renderSegmentedBar(x, y, w, h, val, maxVal, fillGrad, bgCol, segments = 10) {
+function renderSegmentedBar(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  val: number,
+  maxVal: number,
+  fillGrad: string,
+  bgCol: string,
+  segments = 10
+): string {
   const pct = Math.max(0, Math.min(1, val / Math.max(1, maxVal)));
   const fillW = Math.round(pct * w);
   let ticks = "";
@@ -489,7 +530,7 @@ function renderSegmentedBar(x, y, w, h, val, maxVal, fillGrad, bgCol, segments =
     ${ticks}`;
 }
 
-function renderAmbientParticles() {
+function renderAmbientParticles(): string {
   const motes = [
     { cx: 92, cy: 174, r: 1.8, col: "#9CC084", dur: "3.4s", dy: -18 },
     { cx: 224, cy: 152, r: 1.5, col: "#E5C068", dur: "4.1s", dy: -22 },
@@ -511,40 +552,15 @@ function renderAmbientParticles() {
     .join("");
 }
 
-function renderDungeonMapBar(stageIdx) {
-  const nodes = [
-    { x: 428, label: "I. Übel" },
-    { x: 538, label: "II. Sense" },
-    { x: 648, label: "III. Lernen" },
-    { x: 758, label: "IV. Frieren" },
-  ];
-  let lines = "";
-  for (let i = 0; i < nodes.length - 1; i++) {
-    const done = i < stageIdx;
-    const col = done ? "#9CC084" : "#D4A843";
-    const op = done ? "0.75" : "0.24";
-    lines += `<line x1="${nodes[i].x + 36}" y1="36" x2="${nodes[i + 1].x - 36}" y2="36" stroke="${col}" stroke-opacity="${op}" stroke-width="1.3"/>`;
-  }
-  let dots = "";
-  for (let i = 0; i < nodes.length; i++) {
-    const n = nodes[i];
-    const isCur = i === stageIdx;
-    const isDone = i < stageIdx;
-    const col = isCur ? "#E5C068" : isDone ? "#9CC084" : "#8E887A";
-    const ring = isCur
-      ? `<circle cx="${n.x}" cy="24" r="7" fill="none" stroke="#E5C068" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3 2"><animateTransform attributeName="transform" type="rotate" from="0 ${n.x} 24" to="360 ${n.x} 24" dur="10s" repeatCount="indefinite"/></circle>`
-      : "";
-    dots += `
-      <g data-act="stage${i}" style="cursor:pointer">
-        ${ring}
-        <polygon points="${n.x},20 ${n.x + 4},24 ${n.x},28 ${n.x - 4},24" fill="${col}"/>
-        <text x="${n.x}" y="44" text-anchor="middle" class="svg-body" font-size="11.5" fill="${col}">${n.label}</text>
-      </g>`;
-  }
-  return lines + dots;
-}
-
-function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected, idx) {
+function renderReliquaryColumn(
+  cx: number,
+  yTop: number,
+  numeral: string,
+  title: string,
+  state: ChestState,
+  isSelected: boolean,
+  idx: number
+): string {
   const accent = state === "mimic" ? "#D4886A" : state === "grimoire" ? "#E5C068" : "#F4EFE6";
   const ringOp = isSelected ? "0.5" : "0.15";
   const actName = `chest${idx + 1}`;
@@ -626,7 +642,7 @@ function renderReliquaryColumn(cx, yTop, numeral, title, state, isSelected, idx)
     </g>`;
 }
 
-export function buildGameSvg(st) {
+export function buildGameSvg(st: ArenaState): string {
   const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
   const nodes = [
     { x: 404, label: "I. Übel", act: "stage0" },
@@ -989,7 +1005,7 @@ export function buildGameSvg(st) {
 </svg>`;
 }
 
-export function buildStandaloneGameSvg(st) {
+export function buildStandaloneGameSvg(st: ArenaState): string {
   const raw = buildGameSvg(st);
   const styleBlock = `
     <style>
@@ -1010,7 +1026,7 @@ export function buildStandaloneGameSvg(st) {
   return raw.replace("</defs>", `${styleBlock}\n  </defs>`);
 }
 
-function buildInteractiveConsoleHtml(svgContent, st) {
+function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string {
   const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
   return `<!DOCTYPE html>
 <html lang="en">
@@ -1576,10 +1592,14 @@ function buildInteractiveConsoleHtml(svgContent, st) {
 </html>`;
 }
 
-export default function handler(req, res) {
-  const st = getArenaState();
-  const act = req.query && req.query.act;
-  const isCrit = req.query && req.query.crit === "1";
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+): Promise<VercelResponse> {
+  const { state: st, storage: initialStorage } = await loadArenaState(createInitialState);
+  const rawAct = req.query?.act;
+  const act = typeof rawAct === "string" ? rawAct.trim().slice(0, 24) : "";
+  const isCrit = req.query?.crit === "1";
 
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0");
   res.setHeader("CDN-Cache-Control", "no-store");
@@ -1589,15 +1609,20 @@ export default function handler(req, res) {
 
   if (act) {
     applyAction(st, act, isCrit);
+    const savedStorage = await saveArenaState(st);
+    res.setHeader("X-Fitzz-Storage", savedStorage);
     const boss = BOSS_ROSTER[st.stageIdx % BOSS_ROSTER.length];
-    if (req.query.json === "1") {
+    if (req.query?.json === "1") {
       res.setHeader("Content-Type", "application/json; charset=utf-8");
-      const chestState = st.chests && st.chests[st.lastChestIdx];
+      const chestState = st.chests[st.lastChestIdx];
       let popupText = "";
       if (act === "ending" || st.endingReached) {
         popupText = "FIRST-CLASS EPILOGUE";
       } else if (act.startsWith("chest")) {
-        popupText = chestState === "mimic" ? "1% MIMIC TRAP! -15 HP" : `${(st.activeRelicTier || "GRIMOIRE").toUpperCase()} FOUND`;
+        popupText =
+          chestState === "mimic"
+            ? "1% MIMIC TRAP! -15 HP"
+            : `${(st.activeRelicTier || "GRIMOIRE").toUpperCase()} FOUND`;
       } else if (act === "reelseiden" && st.lastDmg > 0) {
         popupText = `${isCrit ? "PERFECT SEVER " : "REELSEIDEN "}-${st.lastDmg} HP`;
       } else if (act === "sorganeil") {
@@ -1612,16 +1637,19 @@ export default function handler(req, res) {
       return res.status(200).send(
         JSON.stringify({
           svg: buildGameSvg(st),
-          stageText: st.endingReached ? "Epilogue: Serie’s First-Class Ceremony" : `${boss.stage}: ${boss.name}`,
+          stageText: st.endingReached
+            ? "Epilogue: Serie’s First-Class Ceremony"
+            : `${boss.stage}: ${boss.name}`,
           relicText: st.activeRelic,
           chapterTitle: st.chapterTitle || boss.chapter,
           storyBanner: st.storyBanner || boss.storyLine,
           endingReached: Boolean(st.endingReached),
+          storage: savedStorage,
           popupText,
         })
       );
     }
-    if (req.query.mode === "redirect") {
+    if (req.query?.mode === "redirect") {
       res.setHeader("Location", "https://github.com/FitzzXYZ#arcane-trial-arena");
       return res.status(302).end();
     }
@@ -1629,6 +1657,7 @@ export default function handler(req, res) {
     return res.status(200).send(buildInteractiveConsoleHtml(buildGameSvg(st), st));
   }
 
+  res.setHeader("X-Fitzz-Storage", initialStorage);
   res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
   return res.status(200).send(buildStandaloneGameSvg(st));
 }
