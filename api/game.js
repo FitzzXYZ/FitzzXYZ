@@ -1198,7 +1198,7 @@ function buildInteractiveConsoleHtml(svgContent, st) {
       padding: 12px 16px;
       border-radius: 8px;
       background-color: var(--color-paper-2);
-      border-left: 4px solid var(--color-gold);
+      border: 1px solid var(--color-rule);
       display: flex;
       align-items: center;
       justify-content: space-between;
