@@ -1,9 +1,25 @@
+# Python
 __pycache__/
 *.pyc
-.DS_Store
+.loc_sync.lock
+
+# Node & TypeScript
 node_modules/
 .tmp-dist/
+npm-debug.log*
+
+# Rust & Go build artifacts
 target/
+*.exe
+*.test
+*.out
+
+# Vercel & Environment Variables
 .vercel/
+.env
 .env.local
 .env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
