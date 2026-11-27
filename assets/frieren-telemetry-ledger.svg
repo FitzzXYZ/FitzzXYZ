@@ -21,7 +21,7 @@
   <rect x="0.5" y="0.5" width="1199" height="147" rx="11.5" fill="url(#tll_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
   <g clip-path="url(#tll_clip)">
     <text x="36" y="40" class="caption" fill="#9CC084">Annual Mana Output</text>
-    <text x="36" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">85</text>
+    <text x="36" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">86</text>
     <text x="106" y="84" class="italic" font-size="17" fill="#9CC084">contributions</text>
     <text x="36" y="116" class="body" font-size="14" fill="#8E887A">Live · 27 Nov 2026 · GitHub</text>
 
