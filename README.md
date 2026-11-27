@@ -17,7 +17,7 @@
     <a href="https://github.com/FitzzXYZ/FitzzXYZ/commits/main"><img height="32" src="./assets/badge-sync.svg" alt="Live Auto-Synced Status" /></a>
   </p>
 
-  <!-- ASTRAL HOROLOGIUM — LIVE REAL-TIME WIB CELESTIAL CLOCK (Powered by Vercel Serverless) -->
+  <!-- ASTRAL HOROLOGIUM — LIVE REAL-TIME WIB CELESTIAL CLOCK (TypeScript Vercel Fluid Compute) -->
   <p align="center">
     <a href="https://github.com/FitzzXYZ">
       <img src="https://fitzzxyz.vercel.app/api/clock?tz=Asia/Jakarta" alt="Astral Horologium — Live Real-Time WIB Celestial Astrolabe Clock & 29 Years Post-Himmel" width="100%" />
@@ -45,15 +45,15 @@
   </p>
 
   <!-- ====================================================================== -->
-  <!-- ACT II · FIRST-CLASS STATUS, COLLECTED GRIMOIRES, RELICS & QUEST LOG  -->
+  <!-- ACT II · FIRST-CLASS ENGINEERING DOSSIER, POLYGLOT ARCHITECTURE & RELICS -->
   <!-- ====================================================================== -->
 
-  <!-- FIRST-CLASS MAGE & ADVENTURER ATTRIBUTES SHEET (Live Synced + Photo #1) -->
+  <!-- FIRST-CLASS MAGE & ADVENTURER ATTRIBUTES SHEET (Live Synced) -->
   <p align="center">
     <img src="./assets/frieren-adventurer-card.svg" alt="First-Class Mage & Adventurer Attributes Sheet" width="100%" />
   </p>
 
-  <!-- COLLECTED GRIMOIRES & FOLK SPELLCRAFT COMPENDIUM -->
+  <!-- COLLECTED GRIMOIRES & FOLK SPELLCRAFT COMPENDIUM (2x2 Editorial Layout) -->
   <p align="center">
     <img src="./assets/frieren-grimoire-shelf.svg" alt="Collected Grimoires & Folk Spellcraft Compendium" width="100%" />
   </p>
@@ -64,19 +64,41 @@
     <img width="49%" src="./assets/lore-panel-2.svg" alt="Chronicle II — Reelseiden & The Tailor's Shears" />
   </p>
 
-  <!-- EQUIPPED MAGE RELICS & ARCANE ARTIFACTS (Full-Stack Arsenal) -->
+  <!-- EQUIPPED MAGE RELICS & TECHNICAL ARSENAL (Horizontal Editorial Ledger) -->
   <p align="center">
-    <img src="./assets/frieren-equipment-relics.svg" alt="Equipped Mage Relics & Full-Stack Arsenal" width="100%" />
+    <img src="./assets/frieren-equipment-relics.svg" alt="Equipped Mage Relics & Polyglot Technical Arsenal" width="100%" />
   </p>
 
-  <!-- THE MAGE'S STUDY WORKBENCH & LIVE LATEST QUEST (With Photo #2) -->
+  <!-- POLYGLOT RUNTIME ARCHITECTURE BLUEPRINT (TS / Go / Rust / Upstash Redis / Python) -->
+  <p align="center">
+    <a href="https://github.com/FitzzXYZ/FitzzXYZ">
+      <img src="./assets/frieren-polyglot-architecture.svg" alt="Polyglot Runtime Architecture — TypeScript, Go, Rust, Upstash Redis & Python Automation" width="100%" />
+    </a>
+  </p>
+
+  <!-- SELECTED ENGINEERING WORKS & CODEBASE INDEX (Verified Repositories) -->
+  <p align="center">
+    <a href="https://github.com/FitzzXYZ?tab=repositories">
+      <img src="./assets/frieren-project-dossier.svg" alt="Selected Engineering Works & Verified Codebase Dossier" width="100%" />
+    </a>
+  </p>
+
+  <!-- THE MAGE'S STUDY WORKBENCH & LIVE LATEST QUEST -->
   <p align="center">
     <a href="https://github.com/FitzzXYZ?tab=repositories">
       <img src="./assets/developer-dashboard.svg" alt="The Mage's Study — Live Active Quest Log, Grimoire Scroll & Field Dossier" width="100%" />
     </a>
   </p>
 
-  <!-- INTERACTIVE README MINI-GAME: ÜBEL DUEL & FRIEREN'S MIMIC CHEST ROULETTE -->
+  <p align="center">
+    <img src="./assets/frieren-divider.svg" alt="" width="100%" />
+  </p>
+
+  <!-- ====================================================================== -->
+  <!-- ACT III · THE KING'S TOMB INTERACTIVE TRIAL & POLYGLOT RUNTIME LEDGER  -->
+  <!-- ====================================================================== -->
+
+  <!-- INTERACTIVE README MINI-GAME: ÜBEL DUEL & FRIEREN'S MIMIC CHEST ROULETTE (TypeScript + Upstash Redis) -->
   <p align="center">
     <a href="https://fitzzxyz.vercel.app/api/game?act=reelseiden">
       <img src="https://fitzzxyz.vercel.app/api/game" alt="Arcane Trial Arena — Interactive Übel vs. Clone Duel & Frieren Mimic Chest Roulette" width="100%" />
@@ -103,7 +125,7 @@
   <!-- LIVE POLYGLOT RUNTIME CARDS: GO SERVERLESS TELEMETRY & RUST COMBAT ORACLE -->
   <p align="center">
     <a href="https://fitzzxyz.vercel.app/api/telemetry?format=json">
-      <img src="https://fitzzxyz.vercel.app/api/telemetry" alt="Global Dungeon Telemetry — Live Go Serverless &amp; Upstash Redis Ledger" width="100%" />
+      <img src="https://fitzzxyz.vercel.app/api/telemetry" alt="Global Dungeon Ledger — Live Go Serverless &amp; Upstash Redis Telemetry" width="100%" />
     </a>
   </p>
   <p align="center">
@@ -112,12 +134,19 @@
     </a>
   </p>
 
+  <!-- FIRST-CLASS MAGE EXAMINATION CHRONICLE & SERIE'S PRIVILEGE SEAL -->
+  <p align="center">
+    <a href="https://fitzzxyz.vercel.app/api/game?act=ending">
+      <img src="./assets/game/frieren-exam-seal.svg" alt="First-Class Mage Examination Chronicle — 4 Acts &amp; Serie's Privilege Epilogue" width="100%" />
+    </a>
+  </p>
+
   <p align="center">
     <img src="./assets/frieren-divider.svg" alt="" width="100%" />
   </p>
 
   <!-- ====================================================================== -->
-  <!-- ACT III · LIVE TELEMETRY, VERIFIED LOC, CONTRIBUTION CURVE & GRAPHIFY -->
+  <!-- ACT IV · IMPERIAL ARCHIVE TELEMETRY, VERIFIED LOC & GRAPHIFY MAP       -->
   <!-- ====================================================================== -->
 
   <!-- IMPERIAL ARCHIVE TELEMETRY LEDGER (Live Synced) -->
@@ -127,10 +156,10 @@
     </a>
   </p>
 
-  <!-- TOTAL KODE YANG SUDAH SAYA TULIS (Auto-Updated on Every Commit & Hourly) -->
+  <!-- TOTAL KODE YANG SUDAH SAYA TULIS (Auto-Updated on Every Commit & Every 15 Min) -->
   <p align="center">
     <a href="https://github.com/FitzzXYZ?tab=repositories">
-      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 116.904 baris kode (594 file · 8 repo · 14 bahasa)" width="100%" />
+      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 127.170 baris kode (644 file · 9 repo · 14 bahasa)" width="100%" />
     </a>
   </p>
 

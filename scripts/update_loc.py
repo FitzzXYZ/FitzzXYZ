@@ -669,12 +669,7 @@ def build_loc_svg(data: dict) -> str:
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="455" rx="15.5" fill="url(#loc_outer_bg)" stroke="url(#loc_border)" stroke-width="1.2"/>
-  <rect x="6.5" y="6.5" width="1187" height="443" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-  <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="16,444 20,440 16,436 12,440" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,444 1188,440 1184,436 1180,440" fill="#D4A843" fill-opacity="0.65"/>
+  <rect x="0.5" y="0.5" width="1199" height="455" rx="11.5" fill="url(#loc_outer_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
 
   <g clip-path="url(#loc_clip)">
     <g transform="translate(36, 20)">
@@ -690,19 +685,19 @@ def build_loc_svg(data: dict) -> str:
       <circle cx="7" cy="17" r="2" fill="#E5C068"/>
       <circle cx="13" cy="17" r="2" fill="#9CC084"><animate attributeName="cx" values="13;16;13" dur="5.6s" repeatCount="indefinite"/></circle>
     </g>
-    <text x="70" y="39" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">TOTAL KODE YANG SUDAH SAYA TULIS</text>
-    <text x="1164" y="39" text-anchor="end" class="folio" fill="#D4A843">FitzzXYZ Owned &amp; Contributed Repos · Verified LOC</text>
-    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+    <text x="70" y="38" class="cinzel" font-size="17.5" fill="#F4EFE6">Total Kode yang Sudah Saya Tulis</text>
+    <text x="1164" y="38" text-anchor="end" class="folio" fill="#D4A843">Verified codebase across FitzzXYZ owned and contributed repositories</text>
+    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
 
-    <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_card_bg)" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
-    <rect x="28" y="68" width="1144" height="362" rx="12" fill="url(#loc_glow)"/>
+    <rect x="28" y="68" width="1144" height="362" rx="10" fill="#090C0A"/>
+    <rect x="28" y="68" width="1144" height="362" rx="10" fill="url(#loc_glow)"/>
 
-    <text x="56" y="102" class="cinzel" font-size="12.5" fill="#9CC084" letter-spacing="1.6">TOTAL KODE YANG SUDAH DITULIS</text>
-    <text x="1144" y="102" text-anchor="end" class="cinzel" font-size="11.5" fill="#D4A843" letter-spacing="1.4">LIVE VERIFIED CODEBASE</text>
+    <text x="56" y="100" class="folio" font-size="14.5" fill="#9CC084">Verified source lines (no blank lines or comments)</text>
+    <text x="1144" y="100" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">Live verified codebase</text>
     <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">{total_lines_str} <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
-    <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">{data["total_repos"]} <tspan class="folio" font-size="16" fill="#C8C2B4">active repos  ·  </tspan>{data["total_langs"]} <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
+    <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">{data["total_repos"]} <tspan class="folio" font-size="16" fill="#C8C2B4">active repos, </tspan>{data["total_langs"]} <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">{meta_str}</text>
-    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; hourly</text>
+    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; 15-min CI</text>
 
     <g clip-path="url(#loc_bar_clip)">
       {bar_svg}
@@ -863,17 +858,12 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="363" rx="15.5" fill="url(#ag_bg)" stroke="url(#ag_border)" stroke-width="1.2"/>
-  <rect x="6.5" y="6.5" width="1187" height="351" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-  <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="16,352 20,348 16,344 12,348" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,352 1188,348 1184,344 1180,348" fill="#D4A843" fill-opacity="0.65"/>
+  <rect x="0.5" y="0.5" width="1199" height="363" rx="11.5" fill="url(#ag_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
 
   <g clip-path="url(#ag_clip)">
-    <text x="36" y="42" class="cinzel" font-size="18.5" fill="#F4EFE6" letter-spacing="0.8">{USERNAME.upper()}’S CONTRIBUTION GRAPH</text>
-    <text x="1164" y="42" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">{period_total} contributions in the last 31 days  ·  {updated_str}</text>
-    <line x1="36" y1="56" x2="1164" y2="56" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
+    <text x="36" y="40" class="cinzel" font-size="17.5" fill="#F4EFE6">{USERNAME}’s 31-Day Contribution Curve</text>
+    <text x="1164" y="40" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">{period_total} contributions in the last 31 days — {updated_str}</text>
+    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
 
     <text x="34" y="188" text-anchor="middle" transform="rotate(-90 34 188)" class="axis-title">CONTRIBUTIONS</text>
     <text x="624" y="340" text-anchor="middle" class="axis-title">DAYS</text>

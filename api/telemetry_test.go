@@ -60,7 +60,7 @@ func TestFetchSnapshotFromMockUpstash(t *testing.T) {
 	if strings.Contains(svg, "<Serie>") {
 		t.Fatal("XML special characters in ActiveRelic were not escaped")
 	}
-	if !strings.Contains(svg, "UPSTASH REDIS") {
+	if !strings.Contains(svg, "Upstash Redis") {
 		t.Fatal("expected live Upstash badge in SVG")
 	}
 }

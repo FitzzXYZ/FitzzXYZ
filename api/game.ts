@@ -246,6 +246,20 @@ function xmlEsc(s: unknown): string {
     .replace(/"/g, "&quot;");
 }
 
+function fitWellText(raw: string, baseChars: number, maxChars: number): { text: string; size: number } {
+  const clean = String(raw || "").trim();
+  if (clean.length <= baseChars) {
+    return { text: clean, size: 13.5 };
+  }
+  if (clean.length <= maxChars) {
+    return { text: clean, size: 12.2 };
+  }
+  const slice = clean.slice(0, maxChars - 1);
+  const lastSpace = slice.lastIndexOf(" ");
+  const cut = lastSpace > Math.floor(maxChars * 0.65) ? slice.slice(0, lastSpace) : slice;
+  return { text: `${cut.replace(/[.,;:\s]+$/, "")}…`, size: 11.8 };
+}
+
 function pushHistory(st: ArenaState, label: string): void {
   const item = `T${st.turn}: ${label}`;
   st.history = [...(st.history || []).slice(-3), item];
@@ -938,9 +952,9 @@ export function buildGameSvg(st: ArenaState): string {
         ${spiegelImg}
         ${bossBindOverlay}
       </g>
-      <text x="536" y="120" text-anchor="end" class="svg-display-b" font-size="13.5" fill="#F4EFE6">${xmlEsc(boss.name)}</text>
-      <text x="536" y="139" text-anchor="end" class="svg-folio" font-size="13.5" fill="#E5C068">${xmlEsc(boss.title)}</text>
-      <text x="536" y="157" text-anchor="end" class="svg-body" font-size="12.5" fill="${bossStateCol}">Armor: ${Math.round(boss.armor * 100)}%</text>
+      <text x="530" y="120" text-anchor="end" class="svg-display-b" font-size="13.5" fill="#F4EFE6">${xmlEsc(boss.name)}</text>
+      <text x="530" y="139" text-anchor="end" class="svg-folio" font-size="12.5" fill="#E5C068">${xmlEsc(boss.title)}</text>
+      <text x="530" y="157" text-anchor="end" class="svg-body" font-size="12.5" fill="${bossStateCol}">Armor: ${Math.round(boss.armor * 100)}%</text>
     </g>
 
     <text x="400" y="191" class="svg-body" font-size="13" fill="#E5C068">Replica integrity</text>
@@ -961,14 +975,14 @@ export function buildGameSvg(st: ArenaState): string {
     <line x1="510" y1="264" x2="510" y2="280" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     <text x="524" y="276" class="svg-body" font-size="13" fill="#E5C068">${xmlEsc(hist[3] || "")}</text>
 
-    <!-- Duel Chronicle Well (Borderless Recessed Surface #090C0A, clipped so text never overflows) -->
+    <!-- Duel Chronicle Well (Borderless Recessed Surface #090C0A, smart auto-fit prevents mid-word clipping) -->
     <rect x="40" y="292" width="584" height="140" rx="8" fill="#090C0A"/>
     <g clip-path="url(#duel_well_clip)">
       <text x="56" y="316" class="svg-body" font-size="14" fill="#E5C068">Combat Chronicle &amp; Tactical Advisor</text>
-      <text x="56" y="344" class="svg-body" font-size="14" fill="#F4EFE6">${xmlEsc(st.duelLog1)}</text>
-      <text x="56" y="372" class="svg-folio" font-size="13.5" fill="#9CC084">${xmlEsc(st.duelLog2)}</text>
+      <text x="56" y="344" class="svg-body" font-size="${fitWellText(st.duelLog1, 66, 86).size}" fill="#F4EFE6">${xmlEsc(fitWellText(st.duelLog1, 66, 86).text)}</text>
+      <text x="56" y="372" class="svg-folio" font-size="${fitWellText(st.duelLog2, 68, 88).size}" fill="#9CC084">${xmlEsc(fitWellText(st.duelLog2, 68, 88).text)}</text>
       <line x1="56" y1="388" x2="608" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-      <text x="56" y="412" class="svg-folio" font-size="13.5" fill="#E5C068">${xmlEsc(tipText)}</text>
+      <text x="56" y="412" class="svg-folio" font-size="${fitWellText(tipText, 68, 88).size}" fill="#E5C068">${xmlEsc(fitWellText(tipText, 68, 88).text)}</text>
     </g>
 
     <!-- Master Vertical Hairline Divider -->
@@ -992,14 +1006,14 @@ export function buildGameSvg(st: ArenaState): string {
     <text x="760" y="276" class="svg-body" font-size="14" fill="#E5C068">${xmlEsc(st.activeRelic || "Blue Moon Blossom (+8 MP/turn)")}</text>
     <text x="1164" y="276" text-anchor="end" class="svg-folio" font-size="13.5" fill="#9CC084">${st.relicCount || 3} Folios Collected</text>
 
-    <!-- Reliquary Appraisal Well (Borderless Recessed Surface #090C0A, clipped so text never overflows) -->
+    <!-- Reliquary Appraisal Well (Borderless Recessed Surface #090C0A, smart auto-fit prevents mid-word clipping) -->
     <rect x="672" y="292" width="492" height="140" rx="8" fill="#090C0A"/>
     <g clip-path="url(#chest_well_clip)">
       <text x="688" y="316" class="svg-body" font-size="14" fill="#B399EE">Reliquary Appraisal Ledger</text>
-      <text x="688" y="344" class="svg-body" font-size="14" fill="#F4EFE6">${xmlEsc(st.chestLog1)}</text>
-      <text x="688" y="372" class="svg-folio" font-size="13.5" fill="#C8C2B4">${xmlEsc(st.chestLog2)}</text>
+      <text x="688" y="344" class="svg-body" font-size="${fitWellText(st.chestLog1, 56, 72).size}" fill="#F4EFE6">${xmlEsc(fitWellText(st.chestLog1, 56, 72).text)}</text>
+      <text x="688" y="372" class="svg-folio" font-size="${fitWellText(st.chestLog2, 58, 76).size}" fill="#C8C2B4">${xmlEsc(fitWellText(st.chestLog2, 58, 76).text)}</text>
       <line x1="688" y1="388" x2="1148" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-      <text x="688" y="412" class="svg-folio" font-size="13.5" fill="#9CC084">Resonance: ${xmlEsc(st.activeRelicEffect || "Regenerates +8 MP after every turn.")}</text>
+      <text x="688" y="412" class="svg-folio" font-size="${fitWellText(`Resonance: ${st.activeRelicEffect || "Regenerates +8 MP after every turn."}`, 58, 76).size}" fill="#9CC084">${xmlEsc(fitWellText(`Resonance: ${st.activeRelicEffect || "Regenerates +8 MP after every turn."}`, 58, 76).text)}</text>
     </g>
   </g>
 </svg>`;

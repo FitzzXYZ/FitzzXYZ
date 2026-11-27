@@ -181,102 +181,91 @@ func clampPct(val, maxVal int) float64 {
 
 func RenderSVG(rep TelemetryReport) string {
 	s := rep.Snapshot
-	storageBadge := "UPSTASH REDIS · LIVE"
+	storageBadge := "Upstash Redis (iad1)"
 	storageCol := "#9CC084"
 	if rep.Storage != "upstash" {
-		storageBadge = "STANDBY · MEMORY FALLBACK"
+		storageBadge = "Memory Fallback"
 		storageCol = "#E5C068"
 	}
 
-	grimBarW := int(math.Round(clampPct(s.GrimoiresFound, maxInt(1, rep.Appraisals)) * 232))
-	bossBarW := int(math.Round(clampPct(s.BossHP, maxInt(1, s.BossMaxHP)) * 232))
+	const barMaxW = 684.0
+	grimBarW := int(math.Round(clampPct(s.GrimoiresFound, maxInt(1, rep.Appraisals)) * barMaxW))
+	mimicBarW := int(math.Round(clampPct(s.MimicsTriggered, maxInt(1, rep.Appraisals)) * barMaxW))
+	bossBarW := int(math.Round(clampPct(s.BossHP, maxInt(1, s.BossMaxHP)) * barMaxW))
 
-	statusNote := fmt.Sprintf("Boss Integrity %d/%d HP · Sever +%d", s.BossHP, s.BossMaxHP, s.SlashBonus)
+	statusNote := fmt.Sprintf("Sever +%d active", s.SlashBonus)
 	if s.EndingReached {
-		statusNote = fmt.Sprintf("First-Class Privilege Granted · NG+ Sever +%d", s.SlashBonus)
+		statusNote = fmt.Sprintf("First-Class Privilege granted (+%d Sever)", s.SlashBonus)
 	} else if s.FrierenTrapped {
-		statusNote = "Alert: Frieren trapped in a Mimic coffer!"
+		statusNote = "Frieren trapped inside a Mimic coffer"
 	}
 
 	chamberEsc := html.EscapeString(rep.ActiveChamber)
-	relicEsc := html.EscapeString(truncate(s.ActiveRelic, 30))
+	relicEsc := html.EscapeString(truncate(s.ActiveRelic, 29))
 	statusEsc := html.EscapeString(truncate(statusNote, 42))
 
-	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 176" width="100%%" height="100%%">
+	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 184" width="100%%" height="100%%" role="img" aria-label="Global Dungeon Telemetry — Go Serverless Ledger">
   <defs>
     <linearGradient id="go_bg" x1="0%%" y1="0%%" x2="100%%" y2="100%%">
       <stop offset="0%%" stop-color="#0E1310"/>
-      <stop offset="50%%" stop-color="#131815"/>
-      <stop offset="100%%" stop-color="#16131E"/>
+      <stop offset="100%%" stop-color="#141816"/>
     </linearGradient>
-    <linearGradient id="go_border" x1="0%%" y1="0%%" x2="100%%" y2="0%%">
-      <stop offset="0%%" stop-color="#7DA8E6" stop-opacity="0.62"/>
-      <stop offset="50%%" stop-color="#D4A843" stop-opacity="0.65"/>
-      <stop offset="100%%" stop-color="#9CC084" stop-opacity="0.62"/>
-    </linearGradient>
-    <clipPath id="go_clip"><rect x="0" y="0" width="1200" height="176" rx="16"/></clipPath>
+    <clipPath id="go_clip"><rect x="0" y="0" width="1200" height="184" rx="12"/></clipPath>
     <style>
-      .t-h { font-family: 'Cinzel', Georgia, serif; font-weight: 700; letter-spacing: 1.4px; }
+      .t-title { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
       .t-num { font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }
       .t-body { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; }
       .t-it { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; }
-      .t-mono { font-family: ui-monospace, 'JetBrains Mono', monospace; font-weight: 600; }
+      .t-mono { font-family: ui-monospace, 'JetBrains Mono', monospace; font-weight: 600; font-variant-numeric: tabular-nums; }
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="175" rx="15.5" fill="url(#go_bg)" stroke="url(#go_border)" stroke-width="1.2"/>
-  <rect x="6.5" y="6.5" width="1187" height="163" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-  <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="16,164 20,160 16,156 12,160" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,164 1188,160 1184,156 1180,160" fill="#D4A843" fill-opacity="0.65"/>
+  <rect x="0.5" y="0.5" width="1199" height="183" rx="11.5" fill="url(#go_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
 
   <g clip-path="url(#go_clip)">
-    <circle cx="34" cy="34" r="3.6" fill="#7DA8E6">
-      <animate attributeName="opacity" values="0.4;1;0.4" dur="2.4s" repeatCount="indefinite"/>
-    </circle>
-    <text x="48" y="38" class="t-h" font-size="11.5" fill="#E5C068">GLOBAL DUNGEON TELEMETRY  ·  GO SERVERLESS LEDGER</text>
-    <text x="1164" y="38" text-anchor="end" class="t-mono" font-size="10.5" fill="%s">%s</text>
-    <line x1="30" y1="50" x2="1170" y2="50" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <rect x="0" y="0" width="3.5" height="184" fill="#7DA8E6"/>
 
-    <!-- Col 1: Chambers Cleared -->
-    <text x="34" y="74" class="t-h" font-size="10" fill="#9CC084">CHAMBERS CLEARED</text>
-    <text x="34" y="114" class="t-num" font-size="34" fill="#F4EFE6">%d</text>
-    <text x="118" y="109" class="t-it" font-size="14" fill="#8E887A">Spiegel victories</text>
-    <text x="34" y="142" class="t-body" font-size="14" fill="#C8C2B4">Active: <tspan fill="#E5C068">%s</tspan></text>
+    <!-- Editorial Header (Title Case, No Corner Diamonds, No Middle-Dot Eyebrow) -->
+    <text x="32" y="34" class="t-title" font-size="16" fill="#F4EFE6">Global Dungeon Ledger</text>
+    <text x="242" y="34" class="t-it" font-size="14" fill="#8E887A">Go Serverless runtime</text>
+    <text x="1166" y="34" text-anchor="end" class="t-mono" font-size="11.5" fill="%s">%s</text>
+    <line x1="32" y1="46" x2="1166" y2="46" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
-    <line x1="294" y1="64" x2="294" y2="152" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <!-- Asymmetric Left Anchor (34%% width: Primary Victory Figure + Recessed Context) -->
+    <text x="32" y="72" class="t-body" font-size="13.5" fill="#9CC084">Chambers cleared across all visitors</text>
+    <text x="32" y="118" class="t-num" font-size="44" fill="#F4EFE6">%d</text>
+    <text x="130" y="108" class="t-it" font-size="15.5" fill="#E5C068">%s</text>
+    <text x="130" y="125" class="t-body" font-size="13" fill="#C8C2B4">Relic: %s</text>
 
-    <!-- Col 2: Reliquary Audit -->
-    <text x="318" y="74" class="t-h" font-size="10" fill="#E5C068">RELIQUARY APPRAISAL ODDS</text>
-    <text x="318" y="104" class="t-num" font-size="22" fill="#9CC084">%.1f%% <tspan class="t-body" font-size="13.5" fill="#C8C2B4">Grimoires (%d)</tspan></text>
-    <rect x="318" y="116" width="232" height="7" rx="3.5" fill="#1D1A18"/>
-    <rect x="318" y="116" width="%d" height="7" rx="3.5" fill="#9CC084"/>
-    <text x="318" y="144" class="t-it" font-size="13.5" fill="#D4886A">%.1f%% Mimics (%d traps) · Frieren claims 99%%</text>
+    <rect x="32" y="138" width="388" height="28" rx="6" fill="#090C0A"/>
+    <text x="44" y="156" class="t-mono" font-size="11.5" fill="#C8C2B4">%d turns cast</text>
+    <text x="408" y="156" text-anchor="end" class="t-mono" font-size="11.5" fill="#9CC084">%d Frieren rescues</text>
 
-    <line x1="584" y1="64" x2="584" y2="152" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="448" y1="60" x2="448" y2="166" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
 
-    <!-- Col 3: Turns & Rescues -->
-    <text x="608" y="74" class="t-h" font-size="10" fill="#B399EE">SHARED ARENA CHRONICLE</text>
-    <text x="608" y="114" class="t-num" font-size="32" fill="#F4EFE6">%d</text>
-    <text x="698" y="109" class="t-body" font-size="14.5" fill="#C8C2B4">total turns cast</text>
-    <text x="608" y="144" class="t-body" font-size="14" fill="#C8C2B4">Frieren rescues: <tspan fill="#9CC084">%d</tspan> · Relic: <tspan fill="#E5C068">%s</tspan></text>
+    <!-- Asymmetric Right Comparative Ledger (62%% width: 3 Horizontal Manuscript Rows) -->
+    <text x="480" y="72" class="t-body" font-size="14" fill="#F4EFE6">Authentic grimoire discoveries</text>
+    <text x="1164" y="72" text-anchor="end" class="t-mono" font-size="12" fill="#9CC084">%.1f%% (%d found)</text>
+    <rect x="480" y="80" width="684" height="6" rx="3" fill="#181D1A"/>
+    <rect x="480" y="80" width="%d" height="6" rx="3" fill="#9CC084"/>
 
-    <line x1="904" y1="64" x2="904" y2="152" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <text x="480" y="112" class="t-body" font-size="14" fill="#F4EFE6">Mimic trap encounters <tspan class="t-it" font-size="13" fill="#8E887A">(Frieren claims 99%% safe)</tspan></text>
+    <text x="1164" y="112" text-anchor="end" class="t-mono" font-size="12" fill="#D4886A">%.1f%% (%d traps)</text>
+    <rect x="480" y="120" width="684" height="6" rx="3" fill="#181D1A"/>
+    <rect x="480" y="120" width="%d" height="6" rx="3" fill="#D4886A"/>
 
-    <!-- Col 4: Boss & Runtime Seal -->
-    <text x="928" y="74" class="t-h" font-size="10" fill="#7DA8E6">SPIEGEL INTEGRITY</text>
-    <text x="928" y="104" class="t-num" font-size="22" fill="#F4EFE6">%d / %d <tspan class="t-body" font-size="13" fill="#8E887A">HP</tspan></text>
-    <rect x="928" y="116" width="232" height="7" rx="3.5" fill="#1D1A18"/>
-    <rect x="928" y="116" width="%d" height="7" rx="3.5" fill="#D4886A"/>
-    <text x="928" y="144" class="t-it" font-size="13" fill="#C8C2B4">%s</text>
+    <text x="480" y="152" class="t-body" font-size="14" fill="#F4EFE6">Spiegel boss integrity <tspan class="t-it" font-size="13" fill="#C8C2B4">— %s</tspan></text>
+    <text x="1164" y="152" text-anchor="end" class="t-mono" font-size="12" fill="#E5C068">%d / %d HP</text>
+    <rect x="480" y="160" width="684" height="6" rx="3" fill="#181D1A"/>
+    <rect x="480" y="160" width="%d" height="6" rx="3" fill="#E5C068"/>
   </g>
 </svg>`,
 		storageCol, storageBadge,
-		s.Wins, chamberEsc,
-		rep.GrimoireRate, s.GrimoiresFound, grimBarW, rep.MimicRate, s.MimicsTriggered,
-		s.Turn, s.RescuesCount, relicEsc,
-		s.BossHP, s.BossMaxHP, bossBarW, statusEsc,
+		s.Wins, chamberEsc, relicEsc,
+		s.Turn, s.RescuesCount,
+		rep.GrimoireRate, s.GrimoiresFound, grimBarW,
+		rep.MimicRate, s.MimicsTriggered, mimicBarW,
+		statusEsc, s.BossHP, s.BossMaxHP, bossBarW,
 	)
 }
 

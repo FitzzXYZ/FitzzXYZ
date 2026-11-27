@@ -253,7 +253,7 @@ fn compute_oracle(state: &RedisArenaState, storage: String) -> OracleReport {
         )
     } else if boss.armor > 0.0 {
         format!(
-            "Target holds {}% ward — bind with Sorganeil or charge Empathy 3/3.",
+            "Target holds {}% ward — bind with Sorganeil or Empathy 3/3.",
             (boss.armor * 100.0).round() as u32
         )
     } else {
@@ -296,9 +296,9 @@ fn xml_escape(input: &str) -> String {
 
 fn render_svg(rep: &OracleReport) -> String {
     let storage_lbl = if rep.storage == "upstash" {
-        "UPSTASH SYNCED · FLUID RUST"
+        "Upstash Redis synced"
     } else {
-        "DETERMINISTIC ENGINE · FLUID RUST"
+        "Deterministic fallback"
     };
     let storage_col = if rep.storage == "upstash" {
         "#9CC084"
@@ -306,89 +306,71 @@ fn render_svg(rep: &OracleReport) -> String {
         "#B399EE"
     };
 
-    let boss_label = xml_escape(&format!("{} · {}", rep.stage, rep.boss_name));
+    let boss_label = xml_escape(&format!("{} — {}", rep.stage, rep.boss_name));
     let verdict = xml_escape(&rep.tactical_verdict);
     let mimic_slot = xml_escape(rep.next_mimic_slot);
 
-    let std_w = ((rep.standard_slash.avg as f64 / rep.empathy_true_cleave.max.max(1) as f64)
-        * 210.0)
-        .round() as u32;
-    let bound_w = ((rep.perfect_bound_slash.avg as f64 / rep.empathy_true_cleave.max.max(1) as f64)
-        * 210.0)
-        .round() as u32;
+    let peak = rep.empathy_true_cleave.max.max(1) as f64;
+    let std_w = ((rep.standard_slash.avg as f64 / peak) * 620.0).round() as u32;
+    let bound_w = ((rep.perfect_bound_slash.avg as f64 / peak) * 620.0).round() as u32;
+    let emp_w = ((rep.empathy_true_cleave.avg as f64 / peak) * 620.0).round() as u32;
 
     format!(
-        r##"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 176" width="100%" height="100%">
+        r##"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 192" width="100%" height="100%" role="img" aria-label="First-Class Combat Oracle — Rust Fluid Runtime">
   <defs>
     <linearGradient id="rs_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="52%" stop-color="#13151B"/>
-      <stop offset="100%" stop-color="#1A1320"/>
+      <stop offset="0%" stop-color="#0E1211"/>
+      <stop offset="100%" stop-color="#17131D"/>
     </linearGradient>
-    <linearGradient id="rs_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4886A" stop-opacity="0.65"/>
-      <stop offset="50%" stop-color="#B399EE" stop-opacity="0.68"/>
-      <stop offset="100%" stop-color="#D4A843" stop-opacity="0.62"/>
-    </linearGradient>
-    <clipPath id="rs_clip"><rect x="0" y="0" width="1200" height="176" rx="16"/></clipPath>
+    <clipPath id="rs_clip"><rect x="0" y="0" width="1200" height="192" rx="12"/></clipPath>
     <style>
-      .r-h {{ font-family: 'Cinzel', Georgia, serif; font-weight: 700; letter-spacing: 1.4px; }}
+      .r-title {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
       .r-num {{ font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }}
       .r-body {{ font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; }}
       .r-it {{ font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; }}
-      .r-mono {{ font-family: ui-monospace, 'JetBrains Mono', monospace; font-weight: 600; }}
+      .r-mono {{ font-family: ui-monospace, 'JetBrains Mono', monospace; font-weight: 600; font-variant-numeric: tabular-nums; }}
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="175" rx="15.5" fill="url(#rs_bg)" stroke="url(#rs_border)" stroke-width="1.2"/>
-  <rect x="6.5" y="6.5" width="1187" height="163" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-  <polygon points="16,12 20,16 16,20 12,16" fill="#D4886A" fill-opacity="0.7"/>
-  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4886A" fill-opacity="0.7"/>
-  <polygon points="16,164 20,160 16,156 12,160" fill="#D4886A" fill-opacity="0.7"/>
-  <polygon points="1184,164 1188,160 1184,156 1180,160" fill="#D4886A" fill-opacity="0.7"/>
+  <rect x="0.5" y="0.5" width="1199" height="191" rx="11.5" fill="url(#rs_bg)" stroke="#B399EE" stroke-opacity="0.34" stroke-width="1"/>
 
   <g clip-path="url(#rs_clip)">
-    <polygon points="34,29 39,34 34,39 29,34" fill="#D4886A">
-      <animate attributeName="opacity" values="0.45;1;0.45" dur="2.6s" repeatCount="indefinite"/>
-    </polygon>
-    <text x="48" y="38" class="r-h" font-size="11.5" fill="#E5C068">FIRST-CLASS COMBAT ORACLE  ·  RUST PROBABILITY ENGINE</text>
-    <text x="1164" y="38" text-anchor="end" class="r-mono" font-size="10.5" fill="{storage_col}">{storage_lbl}</text>
-    <line x1="30" y1="50" x2="1170" y2="50" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <rect x="0" y="0" width="3.5" height="192" fill="#D4886A"/>
 
-    <!-- Col 1: Target & Armor -->
-    <text x="34" y="74" class="r-h" font-size="10" fill="#D4886A">ACTIVE TARGET ANALYSIS</text>
-    <text x="34" y="102" class="r-body" font-size="17" fill="#F4EFE6">{boss_label}</text>
-    <text x="34" y="124" class="r-mono" font-size="11.5" fill="#C8C2B4">HP {boss_hp}/{boss_max_hp} · WARD {armor}% · EMPATHY {empathy}/3</text>
-    <text x="34" y="148" class="r-it" font-size="13.5" fill="#9CC084">{verdict}</text>
+    <!-- Editorial Header (Inverted Asymmetry vs Go Ledger: 58% Left Spectrum / 42% Right Recessed Forecast) -->
+    <text x="32" y="34" class="r-title" font-size="16" fill="#F4EFE6">First-Class Combat Oracle</text>
+    <text x="274" y="34" class="r-it" font-size="14" fill="#8E887A">Rust Fluid Runtime probability engine</text>
+    <text x="1166" y="34" text-anchor="end" class="r-mono" font-size="11.5" fill="{storage_col}">{storage_lbl}</text>
+    <line x1="32" y1="46" x2="1166" y2="46" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
 
-    <line x1="418" y1="64" x2="418" y2="152" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <!-- Left Panel (x=32..652): Target Summary + 3-Tier Reelseiden Damage Spectrum -->
+    <text x="32" y="72" class="r-body" font-size="16" fill="#F4EFE6">{boss_label}</text>
+    <text x="652" y="72" text-anchor="end" class="r-mono" font-size="11.5" fill="#C8C2B4">HP {boss_hp}/{boss_max_hp} | Ward {armor}% | Empathy {empathy}/3</text>
 
-    <!-- Col 2: Reelseiden Damage Curve -->
-    <text x="442" y="74" class="r-h" font-size="10" fill="#9CC084">REELSEIDEN DAMAGE CURVE (+{slash_bonus} SEVER)</text>
-    <text x="442" y="98" class="r-mono" font-size="11" fill="#C8C2B4">Base Slash: {std_min}–{std_max} (avg {std_avg})</text>
-    <rect x="442" y="104" width="210" height="5" rx="2.5" fill="#1C201E"/>
-    <rect x="442" y="104" width="{std_w}" height="5" rx="2.5" fill="#9CC084"/>
+    <text x="32" y="98" class="r-body" font-size="13.5" fill="#C8C2B4">Standard Reelseiden (+{slash_bonus} sever)</text>
+    <text x="652" y="98" text-anchor="end" class="r-mono" font-size="11.5" fill="#9CC084">{std_min}–{std_max} dmg (avg {std_avg})</text>
+    <rect x="32" y="105" width="620" height="6" rx="3" fill="#181C1A"/>
+    <rect x="32" y="105" width="{std_w}" height="6" rx="3" fill="#9CC084"/>
 
-    <text x="442" y="126" class="r-mono" font-size="11" fill="#B399EE">Sorganeil 2.2x + Crit: {bnd_min}–{bnd_max}</text>
-    <rect x="442" y="132" width="210" height="5" rx="2.5" fill="#1C201E"/>
-    <rect x="442" y="132" width="{bound_w}" height="5" rx="2.5" fill="#B399EE"/>
+    <text x="32" y="131" class="r-body" font-size="13.5" fill="#C8C2B4">Sorganeil 2.2x sight-lock + Perfect Sever</text>
+    <text x="652" y="131" text-anchor="end" class="r-mono" font-size="11.5" fill="#B399EE">{bnd_min}–{bnd_max} dmg</text>
+    <rect x="32" y="138" width="620" height="6" rx="3" fill="#181C1A"/>
+    <rect x="32" y="138" width="{bound_w}" height="6" rx="3" fill="#B399EE"/>
 
-    <text x="442" y="152" class="r-mono" font-size="11" fill="#E5C068">Empathy 3/3 Peak True Cleave: {emp_min}–{emp_max}</text>
+    <text x="32" y="164" class="r-body" font-size="13.5" fill="#E5C068">Empathy 3/3 true cleave (ignores armor ward)</text>
+    <text x="652" y="164" text-anchor="end" class="r-mono" font-size="11.5" fill="#E5C068">{emp_min}–{emp_max} dmg</text>
+    <rect x="32" y="171" width="620" height="6" rx="3" fill="#181C1A"/>
+    <rect x="32" y="171" width="{emp_w}" height="6" rx="3" fill="#E5C068"/>
 
-    <line x1="764" y1="64" x2="764" y2="152" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <!-- Right Panel (x=688..1166): Recessed Obsidian Forecast & Mimic Aura Well -->
+    <rect x="688" y="58" width="478" height="120" rx="8" fill="#090C0A"/>
+    <text x="708" y="80" class="r-body" font-size="13.5" fill="#E5C068">Lethal forecast</text>
+    <text x="1146" y="80" text-anchor="end" class="r-mono" font-size="11.5" fill="#8E887A">Standard rotation: {ttk_std} turns</text>
+    <text x="708" y="114" class="r-num" font-size="30" fill="#F4EFE6">{ttk_opt} <tspan class="r-it" font-size="15" fill="#9CC084">optimal turns to shatter</tspan></text>
 
-    <!-- Col 3: Turns to Kill -->
-    <text x="788" y="74" class="r-h" font-size="10" fill="#E5C068">LETHAL FORECAST</text>
-    <text x="788" y="114" class="r-num" font-size="32" fill="#F4EFE6">{ttk_opt} <tspan class="r-body" font-size="14" fill="#9CC084">optimal turns</tspan></text>
-    <text x="788" y="144" class="r-it" font-size="13.5" fill="#C8C2B4">Standard rotation: {ttk_std} turns to shatter</text>
-
-    <line x1="974" y1="64" x2="974" y2="152" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
-
-    <!-- Col 4: Mimic Detection -->
-    <text x="996" y="74" class="r-h" font-size="10" fill="#B399EE">MIMIC ORACLE</text>
-    <text x="996" y="104" class="r-num" font-size="22" fill="#D4886A">{mimic_pct:.1}% <tspan class="r-body" font-size="13" fill="#8E887A">trap risk</tspan></text>
-    <text x="996" y="128" class="r-body" font-size="13.5" fill="#C8C2B4">Next Mimic aura:</text>
-    <text x="996" y="148" class="r-mono" font-size="11.5" fill="#E5C068">{mimic_slot}</text>
+    <line x1="708" y1="126" x2="1146" y2="126" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
+    <text x="708" y="146" class="r-body" font-size="13.5" fill="#D4886A">Mimic trap risk ({mimic_pct:.1}%): <tspan class="r-mono" font-size="11.5" fill="#E5C068">{mimic_slot}</tspan></text>
+    <text x="708" y="166" class="r-it" font-size="13" fill="#9CC084">{verdict}</text>
   </g>
 </svg>"##,
         storage_col = storage_col,
@@ -403,12 +385,13 @@ fn render_svg(rep: &OracleReport) -> String {
         std_min = rep.standard_slash.min,
         std_max = rep.standard_slash.max,
         std_avg = rep.standard_slash.avg,
-        std_w = std_w.min(210),
+        std_w = std_w.min(620),
         bnd_min = rep.perfect_bound_slash.min,
         bnd_max = rep.perfect_bound_slash.max,
-        bound_w = bound_w.min(210),
+        bound_w = bound_w.min(620),
         emp_min = rep.empathy_true_cleave.min,
         emp_max = rep.empathy_true_cleave.max,
+        emp_w = emp_w.min(620),
         ttk_opt = rep.turns_to_kill_optimal,
         ttk_std = rep.turns_to_kill_standard,
         mimic_pct = rep.mimic_trap_pct,
@@ -502,7 +485,7 @@ mod tests {
         let svg = render_svg(&rep);
         assert!(svg.starts_with("<svg "));
         assert!(svg.ends_with("</svg>"));
-        assert!(svg.contains("UPSTASH SYNCED"));
+        assert!(svg.contains("Upstash Redis synced"));
         assert_eq!(xml_escape("A & <B> \"C\""), "A &amp; &lt;B&gt; &quot;C&quot;");
     }
 

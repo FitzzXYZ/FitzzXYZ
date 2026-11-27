@@ -3,14 +3,15 @@
     "fitzzxyz/fitzzxyz": {
       "files": 10,
       "langs": {
-        "Go": 355,
+        "Go": 345,
         "HTML": 295,
-        "Python": 1537,
-        "Rust": 438,
-        "TypeScript": 2069
+        "Python": 1527,
+        "Rust": 426,
+        "TypeScript": 2082
       },
-      "lines": 4694,
-      "source": "ci-checkout"
+      "lines": 4675,
+      "pushed_at": "2026-11-27T06:56:53Z",
+      "source": "local"
     },
     "fitzzxyz/lomba-ui-ux": {
       "files": 36,
@@ -61,6 +62,23 @@
       "pushed_at": "2026-11-25T04:48:39Z",
       "source": "local"
     },
+    "fitzzxyz/tugas-rpl-fix": {
+      "files": 50,
+      "langs": {
+        "CSS": 413,
+        "DOS Batch": 2,
+        "Go": 764,
+        "HTML": 28,
+        "JSX": 6400,
+        "JavaScript": 252,
+        "PowerShell": 47,
+        "Python": 2299,
+        "SQL": 80
+      },
+      "lines": 10285,
+      "pushed_at": "2026-11-27T12:16:17Z",
+      "source": "local"
+    },
     "local/pak gondrong": {
       "files": 4,
       "langs": {
@@ -100,6 +118,6 @@
       "source": "local"
     }
   },
-  "updated_at": "2026-11-27T13:56:51+07:00",
+  "updated_at": "2026-11-27T20:39:49+07:00",
   "version": 1
 }
