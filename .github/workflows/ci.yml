@@ -49,6 +49,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Run Python LOC Updater Unit Tests
+        run: python -m unittest discover -s tests -v
       - name: Verify SVG XML and local README asset paths
         run: |
           python - <<'PY'

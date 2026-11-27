@@ -130,7 +130,7 @@
   <!-- TOTAL KODE YANG SUDAH SAYA TULIS (Auto-Updated on Every Commit & Hourly) -->
   <p align="center">
     <a href="https://github.com/FitzzXYZ?tab=repositories">
-      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 113.149 baris kode (576 file · 8 repo · 14 bahasa)" width="100%" />
+      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 116.904 baris kode (594 file · 8 repo · 14 bahasa)" width="100%" />
     </a>
   </p>
 

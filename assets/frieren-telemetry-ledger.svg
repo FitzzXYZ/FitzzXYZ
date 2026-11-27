@@ -67,9 +67,9 @@
     <line x1="316" y1="28" x2="316" y2="126" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
 
     <text x="340" y="42" class="caption" fill="#B399EE">Inscribed Scrolls</text>
-    <text x="340" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">65</text>
+    <text x="340" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">86</text>
     <text x="402" y="84" class="italic" font-size="17" fill="#B399EE">commits</text>
-    <text x="340" y="116" class="body" font-size="14" fill="#8E887A">3 public · 8 active repos</text>
+    <text x="340" y="116" class="body" font-size="14" fill="#8E887A">4 public · 8 active repos</text>
 
     <line x1="624" y1="28" x2="624" y2="126" stroke="#D4A843" stroke-opacity="0.25" stroke-width="1"/>
 

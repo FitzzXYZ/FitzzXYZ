@@ -1,0 +1,106 @@
+{
+  "repos": {
+    "fitzzxyz/fitzzxyz": {
+      "files": 10,
+      "langs": {
+        "Go": 355,
+        "HTML": 295,
+        "Python": 1537,
+        "Rust": 438,
+        "TypeScript": 2069
+      },
+      "lines": 4694,
+      "pushed_at": "2026-11-27T06:44:29Z",
+      "source": "local"
+    },
+    "fitzzxyz/lomba-ui-ux": {
+      "files": 36,
+      "langs": {
+        "CSS": 253,
+        "HTML": 80,
+        "TypeScript": 5914
+      },
+      "lines": 6247,
+      "source": "local"
+    },
+    "fitzzxyz/portofolio": {
+      "files": 35,
+      "langs": {
+        "CSS": 51,
+        "HTML": 17,
+        "JSX": 3692,
+        "JavaScript": 806,
+        "SQL": 142
+      },
+      "lines": 4708,
+      "source": "local"
+    },
+    "fitzzxyz/rpl-web": {
+      "files": 85,
+      "langs": {
+        "Blade": 210,
+        "CSS": 149,
+        "JavaScript": 373,
+        "PHP": 1757,
+        "SQL": 230,
+        "TypeScript": 8970
+      },
+      "lines": 11689,
+      "source": "local"
+    },
+    "fitzzxyz/tugas-kuliah-spk": {
+      "files": 32,
+      "langs": {
+        "CSS": 2381,
+        "HTML": 33,
+        "JSX": 4292,
+        "JavaScript": 1101,
+        "Python": 728,
+        "Rust": 671
+      },
+      "lines": 9206,
+      "pushed_at": "2026-11-25T04:48:39Z",
+      "source": "local"
+    },
+    "local/pak gondrong": {
+      "files": 4,
+      "langs": {
+        "CSS": 1739,
+        "HTML": 25,
+        "JavaScript": 1845
+      },
+      "lines": 3609,
+      "source": "local"
+    },
+    "noname-lastman/nggktaumaukemana": {
+      "files": 160,
+      "langs": {
+        "CSS": 467,
+        "Go": 2743,
+        "JavaScript": 14,
+        "TypeScript": 44595
+      },
+      "lines": 47819,
+      "source": "local"
+    },
+    "noname-lastman/sistem-kasir-arunika": {
+      "files": 232,
+      "langs": {
+        "Blade": 313,
+        "Bourne Shell": 537,
+        "CSS": 216,
+        "DOS Batch": 59,
+        "HTML": 41,
+        "JSX": 13151,
+        "JavaScript": 2374,
+        "PHP": 11871,
+        "PowerShell": 73,
+        "Python": 297
+      },
+      "lines": 28932,
+      "source": "local"
+    }
+  },
+  "updated_at": "2026-11-27T13:56:09+07:00",
+  "version": 1
+}
