@@ -236,13 +236,22 @@ func RenderSVG(rep TelemetryReport) string {
       <stop offset="58%%" stop-color="#A8E8C2" stop-opacity="0.25"/>
       <stop offset="100%%" stop-color="#E5C068" stop-opacity="0"/>
     </linearGradient>
+    <linearGradient id="go_shimmer" x1="0%%" y1="0%%" x2="100%%" y2="0%%">
+      <stop offset="0%%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="50%%" stop-color="#F2FBF6" stop-opacity="0.72"/>
+      <stop offset="100%%" stop-color="#F2FBF6" stop-opacity="0"/>
+    </linearGradient>
     <clipPath id="go_clip"><rect x="0" y="0" width="1200" height="184" rx="14"/></clipPath>
+    <clipPath id="go_b1"><rect x="472" y="79" width="%d" height="6" rx="3"/></clipPath>
+    <clipPath id="go_b2"><rect x="472" y="118" width="%d" height="6" rx="3"/></clipPath>
+    <clipPath id="go_b3"><rect x="472" y="157" width="%d" height="6" rx="3"/></clipPath>
     <style>
       .t-title { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
       .t-num { font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }
       .t-body { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; }
       .t-it { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; }
       .t-mono { font-family: ui-monospace, 'JetBrains Mono', monospace; font-weight: 600; font-variant-numeric: tabular-nums; }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
     </style>
   </defs>
 
@@ -253,6 +262,8 @@ func RenderSVG(rep TelemetryReport) string {
     <!-- Subtle Atmospheric Aureole Mountain Horizon Silhouette Behind Frosted Panes -->
     <path d="M 0 184 L 0 132 Q 160 88 330 122 T 680 104 T 1020 126 L 1200 96 L 1200 184 Z" fill="#1C3D38" fill-opacity="0.34"/>
     <path d="M 0 184 L 0 152 Q 220 116 470 144 T 910 128 L 1200 142 L 1200 184 Z" fill="#112227" fill-opacity="0.52"/>
+    <circle cx="441" cy="172" r="1.6" fill="#7EE8B2" opacity="0"><animate attributeName="cy" values="172;24" dur="8.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="8.2s" repeatCount="indefinite"/></circle>
+    <circle cx="812" cy="174" r="1.5" fill="#F0CD78" opacity="0"><animate attributeName="cy" values="174;26" dur="9.4s" begin="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.65;0" dur="9.4s" begin="2.5s" repeatCount="indefinite"/></circle>
     <polygon points="0,0 260,0 144,184 0,184" fill="#76C99A" fill-opacity="0.06"/>
     <polygon points="940,0 1200,0 1200,184 1044,184" fill="#7DA8E6" fill-opacity="0.06"/>
     <rect x="0" y="0" width="1200" height="184" fill="url(#go_frost)"/>
@@ -283,19 +294,23 @@ func RenderSVG(rep TelemetryReport) string {
     <text x="1156" y="71" text-anchor="end" class="t-mono" font-size="12" fill="#9EE0B4">%.1f%% (%d found)</text>
     <rect x="472" y="79" width="684" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
     <rect x="472" y="79" width="%d" height="6" rx="3" fill="#7EE8B2"/>
+    <g clip-path="url(#go_b1)"><rect x="380" y="78" width="96" height="8" fill="url(#go_shimmer)"><animate attributeName="x" values="380;1180;1180" keyTimes="0;0.45;1" dur="6.8s" repeatCount="indefinite"/></rect></g>
 
     <text x="472" y="110" class="t-body" font-size="14" fill="#F4EFE6">Mimic trap encounters <tspan class="t-it" font-size="13" fill="#9AA49E">(Frieren claims 99%% safe)</tspan></text>
     <text x="1156" y="110" text-anchor="end" class="t-mono" font-size="12" fill="#D4886A">%.1f%% (%d traps)</text>
     <rect x="472" y="118" width="684" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
     <rect x="472" y="118" width="%d" height="6" rx="3" fill="#D4886A"/>
+    <g clip-path="url(#go_b2)"><rect x="380" y="117" width="96" height="8" fill="url(#go_shimmer)"><animate attributeName="x" values="380;1180;1180" keyTimes="0;0.45;1" dur="7.4s" begin="1.4s" repeatCount="indefinite"/></rect></g>
 
     <text x="472" y="149" class="t-body" font-size="14" fill="#F4EFE6">Spiegel boss integrity <tspan class="t-it" font-size="13" fill="#D2D8D4">— %s</tspan></text>
     <text x="1156" y="149" text-anchor="end" class="t-mono" font-size="12" fill="#F0CD78">%d / %d HP</text>
     <rect x="472" y="157" width="684" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
     <rect x="472" y="157" width="%d" height="6" rx="3" fill="#F0CD78"/>
+    <g clip-path="url(#go_b3)"><rect x="380" y="156" width="96" height="8" fill="url(#go_shimmer)"><animate attributeName="x" values="380;1180;1180" keyTimes="0;0.45;1" dur="7.0s" begin="2.8s" repeatCount="indefinite"/></rect></g>
   </g>
   <rect x="0.6" y="0.6" width="1198.8" height="182.8" rx="13.4" fill="none" stroke="url(#go_rim)" stroke-width="1.2"/>
 </svg>`,
+		grimBarW, mimicBarW, bossBarW,
 		storageCol, storageBadge,
 		s.Wins, chamberEsc, relicEsc,
 		s.Turn, s.RescuesCount,

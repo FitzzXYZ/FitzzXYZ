@@ -1,14 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 40" width="100%" height="100%" role="img" aria-label="Live GitHub Analytics &amp; Verified Codebase">
   <defs>
     <linearGradient id="sh_line" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#F0CD78" stop-opacity="0.58"/>
-      <stop offset="48%" stop-color="#E8F6EE" stop-opacity="0.22"/>
+      <stop offset="0%" stop-color="#F0CD78" stop-opacity="0.64"/>
+      <stop offset="52%" stop-color="#E8F6EE" stop-opacity="0.24"/>
       <stop offset="100%" stop-color="#E8F6EE" stop-opacity="0"/>
     </linearGradient>
+    <style>@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style>
   </defs>
-  <rect x="0.5" y="6.5" width="34" height="27" rx="8" fill="#0B191A" fill-opacity="0.78" stroke="#F0CD78" stroke-opacity="0.58" stroke-width="1"/>
+  <rect x="0.5" y="6.5" width="34" height="27" rx="8" fill="#0B191A" fill-opacity="0.82" stroke="#F0CD78" stroke-opacity="0.62" stroke-width="1"/>
   <text x="17.5" y="24" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#F0CD78">03</text>
   <text x="46" y="25" font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="700" fill="#F4F2EA">Live GitHub Analytics &amp; Verified Codebase</text>
-  <text x="1196" y="24" text-anchor="end" font-family="Georgia, serif" font-style="italic" font-size="13.5" fill="#9EB0A8">Auto-synced metrics, LOC ledger &amp; Graphify map</text>
+  <text x="1196" y="24" text-anchor="end" font-family="Georgia, serif" font-style="italic" font-size="13.5" fill="#A6B8B0">Plate IV · Auto-synced telemetry, LOC ledger &amp; Graphify map</text>
   <line x1="0" y1="38.5" x2="1200" y2="38.5" stroke="url(#sh_line)" stroke-width="1.2"/>
 </svg>

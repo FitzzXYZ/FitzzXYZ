@@ -348,13 +348,22 @@ fn render_svg(rep: &OracleReport) -> String {
       <stop offset="58%" stop-color="#C5B2F8" stop-opacity="0.26"/>
       <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
     </linearGradient>
+    <linearGradient id="rs_shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F2FBF6" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#F2FBF6" stop-opacity="0"/>
+    </linearGradient>
     <clipPath id="rs_clip"><rect x="0" y="0" width="1200" height="192" rx="14"/></clipPath>
+    <clipPath id="rs_b1"><rect x="38" y="103" width="{std_w}" height="6" rx="3"/></clipPath>
+    <clipPath id="rs_b2"><rect x="38" y="135" width="{bound_w}" height="6" rx="3"/></clipPath>
+    <clipPath id="rs_b3"><rect x="38" y="167" width="{emp_w}" height="6" rx="3"/></clipPath>
     <style>
       .r-title {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
       .r-num {{ font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }}
       .r-body {{ font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; }}
       .r-it {{ font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; }}
       .r-mono {{ font-family: ui-monospace, 'JetBrains Mono', monospace; font-weight: 600; font-variant-numeric: tabular-nums; }}
+      @media (prefers-reduced-motion: reduce) {{ * {{ animation: none !important; transition: none !important; }} }}
     </style>
   </defs>
 
@@ -365,6 +374,8 @@ fn render_svg(rep: &OracleReport) -> String {
     <!-- Subtle Atmospheric Twilight Mountain Horizon Behind Frosted Panes -->
     <path d="M 0 192 L 0 124 Q 200 92 410 130 T 820 108 T 1200 132 L 1200 192 Z" fill="#291E3D" fill-opacity="0.38"/>
     <path d="M 0 192 L 0 156 Q 280 124 560 150 T 1010 132 L 1200 148 L 1200 192 Z" fill="#101E22" fill-opacity="0.54"/>
+    <circle cx="691" cy="180" r="1.6" fill="#C8B6FA" opacity="0"><animate attributeName="cy" values="180;24" dur="8.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.72;0" dur="8.6s" repeatCount="indefinite"/></circle>
+    <circle cx="964" cy="182" r="1.5" fill="#F0CD78" opacity="0"><animate attributeName="cy" values="182;26" dur="9.2s" begin="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.66;0" dur="9.2s" begin="2.8s" repeatCount="indefinite"/></circle>
     <polygon points="888,0 1200,0 1200,192 1004,192" fill="#B399EE" fill-opacity="0.065"/>
     <polygon points="0,52 164,0 248,192 0,192" fill="#4AD696" fill-opacity="0.055"/>
     <rect x="0" y="0" width="1200" height="192" fill="url(#rs_frost)"/>
@@ -386,21 +397,25 @@ fn render_svg(rep: &OracleReport) -> String {
     <text x="664" y="96" text-anchor="end" class="r-mono" font-size="11.2" fill="#9EE0B4">{std_min}–{std_max} dmg (avg {std_avg})</text>
     <rect x="38" y="103" width="620" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
     <rect x="38" y="103" width="{std_w}" height="6" rx="3" fill="#7EE8B2"/>
+    <g clip-path="url(#rs_b1)"><rect x="-40" y="102" width="90" height="8" fill="url(#rs_shimmer)"><animate attributeName="x" values="-40;680;680" keyTimes="0;0.45;1" dur="6.6s" repeatCount="indefinite"/></rect></g>
 
     <text x="38" y="128" class="r-body" font-size="13.5" fill="#D2D8D4">Sorganeil 2.2x sight-lock + Perfect Sever</text>
     <text x="664" y="128" text-anchor="end" class="r-mono" font-size="11.2" fill="#C8B6FA">{bnd_min}–{bnd_max} dmg</text>
     <rect x="38" y="135" width="620" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
     <rect x="38" y="135" width="{bound_w}" height="6" rx="3" fill="#B399EE"/>
+    <g clip-path="url(#rs_b2)"><rect x="-40" y="134" width="90" height="8" fill="url(#rs_shimmer)"><animate attributeName="x" values="-40;680;680" keyTimes="0;0.45;1" dur="7.2s" begin="1.5s" repeatCount="indefinite"/></rect></g>
 
     <text x="38" y="160" class="r-body" font-size="13.5" fill="#F0CD78">Empathy 3/3 true cleave (ignores armor ward)</text>
     <text x="664" y="160" text-anchor="end" class="r-mono" font-size="11.2" fill="#F0CD78">{emp_min}–{emp_max} dmg</text>
     <rect x="38" y="167" width="620" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
     <rect x="38" y="167" width="{emp_w}" height="6" rx="3" fill="#F0CD78"/>
+    <g clip-path="url(#rs_b3)"><rect x="-40" y="166" width="90" height="8" fill="url(#rs_shimmer)"><animate attributeName="x" values="-40;680;680" keyTimes="0;0.45;1" dur="7.6s" begin="2.8s" repeatCount="indefinite"/></rect></g>
 
     <!-- Floating Frosted Glass Pane II (Right 41% Lethal Forecast & Mimic Aura) -->
     <rect x="698" y="46" width="482" height="132" rx="11" fill="#0A141A" fill-opacity="0.56" stroke="#D8CAFF" stroke-opacity="0.26" stroke-width="1"/>
     <line x1="714" y1="46.8" x2="1060" y2="46.8" stroke="#F2FBF6" stroke-opacity="0.38" stroke-width="1.1"/>
-    <text x="716" y="72" class="r-body" font-size="13.5" fill="#F0CD78">Lethal forecast</text>
+    <circle cx="722" cy="68" r="3.2" fill="#F0CD78"><animate attributeName="opacity" values="0.35;1;0.35" dur="2.5s" repeatCount="indefinite"/></circle>
+    <text x="732" y="72" class="r-body" font-size="13.5" fill="#F0CD78">Lethal forecast</text>
     <text x="1160" y="72" text-anchor="end" class="r-mono" font-size="11.2" fill="#A4B4AE">Standard rotation: {ttk_std} turns</text>
     <text x="716" y="109" class="r-num" font-size="31" fill="#F4EFE6">{ttk_opt} <tspan class="r-it" font-size="15" fill="#9EE0B4">optimal turns to shatter</tspan></text>
 

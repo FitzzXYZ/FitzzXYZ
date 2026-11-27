@@ -250,7 +250,13 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
       <stop offset="0%" stop-color="#7EE8B2"/>
       <stop offset="100%" stop-color="${phaseCol}"/>
     </linearGradient>
+    <linearGradient id="clk_sheen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="48%" stop-color="#F2FBF6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#F2FBF6" stop-opacity="0"/>
+    </linearGradient>
     <clipPath id="clk_clip"><rect x="0" y="0" width="1200" height="188" rx="14"/></clipPath>
+    <clipPath id="dial_clip"><circle cx="112" cy="94" r="64"/></clipPath>
     <clipPath id="arc_trav_clip"><rect x="876" y="30" width="${(280 * t).toFixed(1)}" height="104"/></clipPath>
     <style>
       ${FONT_FACE_CSS}
@@ -262,6 +268,7 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
       .clock-digit { font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
       .clock-digit-sec { font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
       .unit-lbl { font-family: 'Cinzel', Georgia, serif; font-size: 7.5px; font-weight: 600; letter-spacing: 1.4px; fill: #98A49E; }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
     </style>
   </defs>
 
@@ -275,6 +282,11 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
     <polygon points="948,0 1200,0 1200,188 1044,188" fill="#B399EE" fill-opacity="0.06"/>
     <rect x="0" y="0" width="1200" height="188" fill="url(#clk_frost)"/>
     <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#clk_glint)" stroke-width="1.4"/>
+
+    <!-- Subtle Rising Twilight Mana Motes Behind Frosted Panes -->
+    <circle cx="210" cy="176" r="1.6" fill="#7EE8B2" opacity="0"><animate attributeName="cy" values="176;22" dur="8.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="8.4s" repeatCount="indefinite"/></circle>
+    <circle cx="564" cy="178" r="1.8" fill="#F0CD78" opacity="0"><animate attributeName="cy" values="178;18" dur="9.2s" begin="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.65;0" dur="9.2s" begin="2.4s" repeatCount="indefinite"/></circle>
+    <circle cx="1172" cy="172" r="1.5" fill="#C8B6FA" opacity="0"><animate attributeName="cy" values="172;24" dur="7.8s" begin="4.1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.68;0" dur="7.8s" begin="4.1s" repeatCount="indefinite"/></circle>
 
     <!-- Floating Frosted Glass Pane I: Crystal Astrolabe Watch Housing -->
     <rect x="18" y="14" width="188" height="160" rx="12" fill="#081416" fill-opacity="0.54" stroke="#E8F6EE" stroke-opacity="0.24" stroke-width="1"/>
@@ -330,9 +342,16 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
     </g>
     <circle cx="112" cy="94" r="4.6" fill="#E5C068"/>
     <circle cx="112" cy="94" r="2.3" fill="#B399EE"/>
-    <!-- Sapphire Watch-Crystal Specular Lens Glare -->
+    <!-- Sapphire Watch-Crystal Specular Lens Glare + Animated Sheen Sweep -->
     <path d="M 62 76 A 54 54 0 0 1 154 62 Q 112 78 62 76 Z" fill="#F2FBF6" fill-opacity="0.12"/>
     <path d="M 70 54 A 58 58 0 0 1 146 48" fill="none" stroke="#F2FBF6" stroke-opacity="0.34" stroke-width="1.2" stroke-linecap="round"/>
+    <g clip-path="url(#dial_clip)">
+      <g transform="skewX(-24)">
+        <rect x="-20" y="24" width="46" height="140" fill="url(#clk_sheen)">
+          <animate attributeName="x" values="-20;240;240" keyTimes="0;0.34;1" keySplines="0.4 0 0.2 1;0 0 1 1" calcMode="spline" dur="11s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+    </g>
 
     <circle cx="232" cy="36" r="3.4" fill="#7EE8B2">
       <animate attributeName="opacity" values="0.35;1;0.35" dur="2.2s" repeatCount="indefinite"/>

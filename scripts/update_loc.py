@@ -1030,13 +1030,13 @@ def update_live_github_widgets(loc_data: dict | None = None):
                 ledger = f.read()
             if total_contribs is not None:
                 ledger = re.sub(
-                    r'(<text x="36" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
+                    r'(<text x="(?:36|214)" y="(?:86|98)" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
                     rf"\g<1>{total_contribs}\g<2>",
                     ledger,
                 )
             if commits:
                 ledger = re.sub(
-                    r'(<text x="340" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
+                    r'(<text x="(?:340|464)" y="(?:86|98)" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
                     rf"\g<1>{commits}\g<2>",
                     ledger,
                 )
@@ -1055,7 +1055,7 @@ def update_live_github_widgets(loc_data: dict | None = None):
             ledger = re.sub(r"(?:May – Nov 2026|Live · \d{2} [A-Za-z]{3} \d{4}) · GitHub", live_date, ledger)
             if followers is not None and following is not None:
                 ledger = re.sub(
-                    r'(<text x="936" y="86" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
+                    r'(<text x="(?:936|964)" y="(?:86|98)" class="cinzel-bold" font-size="34" fill="#F4EFE6">)\d+(</text>)',
                     rf"\g<1>{followers}\g<2>",
                     ledger,
                 )
@@ -1288,6 +1288,15 @@ def sync_readme_alt(data: dict) -> bool:
         if dn and dnew != dtxt:
             with open(desktop_svg, "w", encoding="utf-8") as f:
                 f.write(dnew)
+    about_svg = os.path.join(ASSETS_DIR, "frieren-about-bento.svg")
+    if os.path.exists(about_svg):
+        with open(about_svg, "r", encoding="utf-8") as f:
+            atxt = f.read()
+        loc_k = f"{data['total_lines'] / 1000:.1f}K LOC"
+        anew, an = re.subn(r"[\d.]+K LOC", loc_k, atxt, count=1)
+        if an and anew != atxt:
+            with open(about_svg, "w", encoding="utf-8") as f:
+                f.write(anew)
     return bool(n and updated != text)
 
 
@@ -1602,6 +1611,8 @@ def auto_commit_and_push(include_readme: bool):
         "assets/frieren-activity-graph.svg",
         "assets/frieren-adventurer-card.svg",
         "assets/developer-dashboard.svg",
+        "assets/frieren-desktop-banner.svg",
+        "assets/frieren-about-bento.svg",
         "assets/frieren-clock.svg",
         "assets/badge-instagram.svg",
         "assets/badge-repos.svg",

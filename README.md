@@ -37,14 +37,14 @@
     <img src="./assets/sec-01-craft.svg" alt="01 — About, Polyglot Stack &amp; Engineering Works" width="100%" />
   </p>
 
-  <!-- ASYMMETRIC ATMOSPHERIC GLASS ABOUT BENTO (63% Craft & Config + 35% Stacked Scenic Principles) -->
+  <!-- ASYMMETRIC ATMOSPHERIC GLASS ABOUT BENTO (60% KPIs & Code + 38% Plate I Übel Forest Gaze) -->
   <p align="center">
-    <img src="./assets/frieren-about-bento.svg" alt="About FitzzXYZ — Building Systems That Cut Clean &amp; Craft Principles" width="100%" />
+    <img src="./assets/frieren-about-bento.svg" alt="About FitzzXYZ — Building Systems That Cut Clean &amp; Plate I Übel Forest Gaze" width="100%" />
   </p>
 
-  <!-- CORE STACK FROSTED GLASS CAPSULE CLOUD -->
+  <!-- CORE STACK 3-ZONE FROSTED MATRIX + PLATE II DARK ACADEMY PORTRAIT -->
   <p align="center">
-    <img src="./assets/frieren-stack-glass.svg" alt="Core Polyglot Tech Stack — TypeScript, React, Node.js, Go, Rust, Python, PostgreSQL &amp; Upstash Redis" width="100%" />
+    <img src="./assets/frieren-stack-glass.svg" alt="Core Polyglot Tech Stack 3-Zone Matrix &amp; Plate II Übel Portrait" width="100%" />
   </p>
 
   <!-- POLYGLOT RUNTIME ARCHITECTURE BLUEPRINT (TS / Go / Rust / Upstash Redis / Python) -->
@@ -162,7 +162,7 @@
   <!-- TOTAL KODE YANG SUDAH SAYA TULIS (Auto-Updated on Every Commit & Every 15 Min) -->
   <p align="center">
     <a href="https://github.com/FitzzXYZ?tab=repositories">
-      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 127.432 baris kode (644 file · 9 repo · 14 bahasa)" width="100%" />
+      <img src="./assets/frieren-total-loc.svg" alt="Total Kode yang Sudah Saya Tulis — 127.490 baris kode (644 file · 9 repo · 14 bahasa)" width="100%" />
     </a>
   </p>
 
@@ -188,16 +188,16 @@
   </p>
 
   <!-- ====================================================================== -->
-  <!-- SECTION 04 · VISUAL MONOGRAPH (ALL 5 ÜBEL PLATES), CODA & COLOPHON     -->
+  <!-- SECTION 04 · AUREOLE EPILOGUE (PLATE V), ANIMATED CODA & COLOPHON      -->
   <!-- ====================================================================== -->
 
   <p align="center">
-    <img src="./assets/sec-04-monograph.svg" alt="04 — Visual Monograph &amp; Aureole Coda" width="100%" />
+    <img src="./assets/sec-04-monograph.svg" alt="04 — Aureole Epilogue &amp; Animated Coda" width="100%" />
   </p>
 
-  <!-- VISUAL MONOGRAPH — ALL FIVE CURATED ÜBEL & AUREOLE PLATES -->
+  <!-- GRAND FINALE AUREOLE SPREAD — PLATE V ÜBEL HORIZON & EXPEDITION CONSTELLATION -->
   <p align="center">
-    <img src="./assets/frieren-visual-folio.svg" alt="Visual Monograph — Übel &amp; The Road to Aureole (Five Curated Character &amp; Horizon Plates)" width="100%" />
+    <img src="./assets/frieren-aureole-finale.svg" alt="Road to Aureole Grand Finale — Plate V Übel Horizon &amp; Animated Expedition Constellation" width="100%" />
   </p>
 
   <!-- NOCTURNE & EMPATHY — ANIMATED CODA -->
