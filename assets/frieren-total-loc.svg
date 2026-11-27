@@ -114,7 +114,7 @@
 
     <text x="56" y="100" class="folio" font-size="14.5" fill="#9EE0B4">Verified source lines (no blank lines or comments)</text>
     <text x="1144" y="100" text-anchor="end" class="folio" font-size="14.5" fill="#E5C068">Live verified codebase</text>
-    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">127.240 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">127.390 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
     <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">9 <tspan class="folio" font-size="16" fill="#C8C2B4">active repos, </tspan>14 <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">644 file  ·  9 repo  ·  14 bahasa</text>
     <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9EE0B4">Auto-synced on every commit &amp; 15-min CI</text>
@@ -126,11 +126,11 @@
       <rect x="934.02" y="186" width="58.26" height="16" fill="#E5C068"/>
       <rect x="991.68" y="186" width="49.56" height="16" fill="#B399EE"/>
       <rect x="1040.64" y="186" width="43.03" height="16" fill="#6EA8A6"/>
-      <rect x="1083.07" y="186" width="33.24" height="16" fill="#6BB5C9"/>
-      <rect x="1115.71" y="186" width="10.39" height="16" fill="#C98D6B"/>
-      <rect x="1125.50" y="186" width="4.95" height="16" fill="#7EA876"/>
-      <rect x="1129.86" y="186" width="4.95" height="16" fill="#C96D68"/>
-      <rect x="1134.21" y="186" width="10.39" height="16" fill="#6B7280"/>
+      <rect x="1083.07" y="186" width="34.33" height="16" fill="#6BB5C9"/>
+      <rect x="1116.80" y="186" width="10.39" height="16" fill="#C98D6B"/>
+      <rect x="1126.59" y="186" width="4.95" height="16" fill="#7EA876"/>
+      <rect x="1130.94" y="186" width="4.95" height="16" fill="#C96D68"/>
+      <rect x="1135.30" y="186" width="9.30" height="16" fill="#6B7280"/>
       <rect x="-220" y="186" width="220" height="16" fill="url(#loc_sheen)">
         <animate attributeName="x" values="-220;1320" dur="6.5s" repeatCount="indefinite"/>
       </rect>
@@ -140,7 +140,7 @@
     
       <circle cx="64" cy="237" r="6" fill="#7DA8E6"/>
       <text x="84" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">TypeScript</text>
-      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">61.561 baris  ·  <tspan fill="#7DA8E6" font-weight="600">48.4%</tspan></text>
+      <text x="562" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">61.642 baris  ·  <tspan fill="#7DA8E6" font-weight="600">48.4%</tspan></text>
 
       <circle cx="638" cy="237" r="6" fill="#9CC084"/>
       <text x="658" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">JSX</text>
@@ -164,11 +164,11 @@
 
       <circle cx="64" cy="345" r="6" fill="#6BB5C9"/>
       <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Go</text>
-      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">3.852 baris  ·  <tspan fill="#6BB5C9" font-weight="600">3.0%</tspan></text>
+      <text x="562" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">3.886 baris  ·  <tspan fill="#6BB5C9" font-weight="600">3.1%</tspan></text>
 
       <circle cx="638" cy="345" r="6" fill="#C98D6B"/>
       <text x="658" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Rust</text>
-      <text x="1144" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.097 baris  ·  <tspan fill="#C98D6B" font-weight="600">0.9%</tspan></text>
+      <text x="1144" y="350" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">1.132 baris  ·  <tspan fill="#C98D6B" font-weight="600">0.9%</tspan></text>
 
       <circle cx="64" cy="381" r="6" fill="#7EA876"/>
       <text x="84" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">Bourne Shell</text>
