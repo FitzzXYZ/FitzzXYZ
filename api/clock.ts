@@ -190,56 +190,82 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 188" width="100%" height="100%">
   <defs>
     <linearGradient id="clk_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="50%" stop-color="#131815"/>
-      <stop offset="100%" stop-color="#16131E"/>
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
     </linearGradient>
-    <linearGradient id="clk_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.62"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.62"/>
+    <radialGradient id="clk_orb1" cx="12%" cy="18%" r="45%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="clk_orb2" cx="88%" cy="82%" r="48%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="clk_orb3" cx="55%" cy="10%" r="36%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="clk_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="40%" stop-color="#DDF2E8" stop-opacity="0.028"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.055"/>
+    </linearGradient>
+    <linearGradient id="clk_border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#8DD4A8" stop-opacity="0.38"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.36"/>
+    </linearGradient>
+    <linearGradient id="clk_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.56"/>
+      <stop offset="58%" stop-color="#A8E8C2" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="dial_grad" cx="50%" cy="42%" r="58%">
-      <stop offset="0%" stop-color="#1C251F"/>
-      <stop offset="65%" stop-color="#0E1310"/>
-      <stop offset="100%" stop-color="#080B09"/>
+      <stop offset="0%" stop-color="#192B28"/>
+      <stop offset="65%" stop-color="#0B1616"/>
+      <stop offset="100%" stop-color="#070E0E"/>
     </radialGradient>
     <linearGradient id="cell_bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#151C18"/>
-      <stop offset="50%" stop-color="#0B0F0D"/>
-      <stop offset="100%" stop-color="#131816"/>
+      <stop offset="0%" stop-color="#162826" stop-opacity="0.72"/>
+      <stop offset="50%" stop-color="#0A1516" stop-opacity="0.64"/>
+      <stop offset="100%" stop-color="#132221" stop-opacity="0.72"/>
     </linearGradient>
     <linearGradient id="arc_fill" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${phaseCol}" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="#0E1310" stop-opacity="0"/>
+      <stop offset="0%" stop-color="${phaseCol}" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#091314" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="arc_prog" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#9CC084"/>
+      <stop offset="0%" stop-color="#7EE8B2"/>
       <stop offset="100%" stop-color="${phaseCol}"/>
     </linearGradient>
-    <clipPath id="clk_clip"><rect x="0" y="0" width="1200" height="188" rx="16"/></clipPath>
+    <clipPath id="clk_clip"><rect x="0" y="0" width="1200" height="188" rx="14"/></clipPath>
     <clipPath id="arc_trav_clip"><rect x="876" y="30" width="${(280 * t).toFixed(1)}" height="104"/></clipPath>
     <style>
       ${FONT_FACE_CSS}
       .cinzel { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
       .serif { font-family: 'Cormorant', Georgia, serif; font-weight: 600; }
       .folio { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; font-weight: 500; }
-      .roman-card { font-family: 'Cinzel', Georgia, serif; font-size: 8.8px; font-weight: 800; fill: #E5C068; }
-      .roman-minor { font-family: 'Cinzel', Georgia, serif; font-size: 7.4px; font-weight: 600; fill: #8E887A; }
+      .roman-card { font-family: 'Cinzel', Georgia, serif; font-size: 8.8px; font-weight: 800; fill: #F0CD78; }
+      .roman-minor { font-family: 'Cinzel', Georgia, serif; font-size: 7.4px; font-weight: 600; fill: #98A49E; }
       .clock-digit { font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
       .clock-digit-sec { font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
-      .unit-lbl { font-family: 'Cinzel', Georgia, serif; font-size: 7.5px; font-weight: 600; letter-spacing: 1.4px; fill: #8E887A; }
+      .unit-lbl { font-family: 'Cinzel', Georgia, serif; font-size: 7.5px; font-weight: 600; letter-spacing: 1.4px; fill: #98A49E; }
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="187" rx="15.5" fill="url(#clk_bg)" stroke="url(#clk_border)" stroke-width="1.2"/>
-  <rect x="6.5" y="6.5" width="1187" height="175" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-  <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="16,176 20,172 16,168 12,172" fill="#D4A843" fill-opacity="0.65"/>
-  <polygon points="1184,176 1188,172 1184,168 1180,172" fill="#D4A843" fill-opacity="0.65"/>
-
   <g clip-path="url(#clk_clip)">
+    <rect x="0" y="0" width="1200" height="188" fill="url(#clk_bg)"/>
+    <rect x="0" y="0" width="1200" height="188" fill="url(#clk_orb1)"/>
+    <rect x="0" y="0" width="1200" height="188" fill="url(#clk_orb2)"/>
+    <rect x="0" y="0" width="1200" height="188" fill="url(#clk_orb3)"/>
+    <polygon points="0,0 264,0 168,188 0,188" fill="#76C99A" fill-opacity="0.06"/>
+    <polygon points="948,0 1200,0 1200,188 1044,188" fill="#B399EE" fill-opacity="0.06"/>
+    <line x1="264" y1="0" x2="168" y2="188" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="188" fill="url(#clk_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#clk_glint)" stroke-width="1.4"/>
     <circle cx="112" cy="94" r="96" fill="none" stroke="#D4A843" stroke-opacity="0.06" stroke-width="1"/>
     <circle cx="112" cy="94" r="73" fill="none" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1" stroke-dasharray="3 6">
       <animateTransform attributeName="transform" type="rotate" from="0 112 94" to="360 112 94" dur="80s" repeatCount="indefinite"/>
@@ -289,7 +315,8 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
     </circle>
     <text x="234" y="42" class="cinzel" font-size="11.8" fill="#E5C068" letter-spacing="1.6">ASTRAL HOROLOGIUM  ·  ${safeTz.toUpperCase()}</text>
 
-    <rect x="218" y="54" width="320" height="74" rx="10" fill="#090D0B" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1.1"/>
+    <rect x="218" y="54" width="320" height="74" rx="10" fill="#081414" fill-opacity="0.56" stroke="#E8F6EE" stroke-opacity="0.20" stroke-width="1"/>
+    <line x1="232" y1="54.8" x2="460" y2="54.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
 
     <rect x="228" y="62" width="58" height="46" rx="6" fill="url(#cell_bg)" stroke="#D4A843" stroke-opacity="0.24" stroke-width="0.8"/>
     <line x1="257" y1="64" x2="257" y2="106" stroke="#D4A843" stroke-opacity="0.12" stroke-width="0.8"/>
@@ -366,6 +393,7 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
     <text x="1086" y="150" text-anchor="middle" class="folio" font-size="13" fill="#B399EE">Dusk</text>
     <text x="1156" y="150" text-anchor="end" class="folio" font-size="13" fill="#8E887A">24:00</text>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="186.8" rx="13.4" fill="none" stroke="url(#clk_border)" stroke-width="1.2"/>
 </svg>`;
 }
 

@@ -814,28 +814,52 @@ export function buildGameSvg(st: ArenaState): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 456" width="100%" height="100%" role="img" aria-label="The King’s Tomb: First-Class Exam and Reliquary Trial">
   <defs>
     <linearGradient id="gm_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="50%" stop-color="#131815"/>
-      <stop offset="100%" stop-color="#16131E"/>
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
     </linearGradient>
-    <linearGradient id="gm_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
+    <radialGradient id="gm_orb1" cx="14%" cy="16%" r="46%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gm_orb2" cx="88%" cy="82%" r="48%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gm_orb3" cx="54%" cy="8%" r="36%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gm_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="38%" stop-color="#DDF2E8" stop-opacity="0.028"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="gm_border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#8DD4A8" stop-opacity="0.38"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="gm_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.56"/>
+      <stop offset="58%" stop-color="#A8E8C2" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="hp_g" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#527A56"/>
-      <stop offset="100%" stop-color="#9CC084"/>
+      <stop offset="0%" stop-color="#489268"/>
+      <stop offset="100%" stop-color="#7EE8B2"/>
     </linearGradient>
     <linearGradient id="mp_g" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#6E56AF"/>
-      <stop offset="100%" stop-color="#B399EE"/>
+      <stop offset="100%" stop-color="#C4B2F8"/>
     </linearGradient>
     <linearGradient id="boss_g" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#B85650"/>
-      <stop offset="100%" stop-color="#E5C068"/>
+      <stop offset="100%" stop-color="#F0CD78"/>
     </linearGradient>
-    <clipPath id="gm_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
+    <clipPath id="gm_clip"><rect x="0" y="0" width="1200" height="456" rx="14"/></clipPath>
     <clipPath id="ubel_av"><rect x="52" y="104" width="64" height="64" rx="8"/></clipPath>
     <clipPath id="spiegel_av"><rect x="548" y="104" width="64" height="64" rx="8"/></clipPath>
     <clipPath id="duel_well_clip"><rect x="44" y="294" width="572" height="136" rx="6"/></clipPath>
@@ -845,9 +869,16 @@ export function buildGameSvg(st: ArenaState): string {
     <clipPath id="mimic_clip_2"><rect x="1048" y="142" width="76" height="58" rx="6"/></clipPath>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="455" rx="15.5" fill="url(#gm_bg)" stroke="url(#gm_border)" stroke-width="1.2"/>
-
   <g clip-path="url(#gm_clip)">
+    <rect x="0" y="0" width="1200" height="456" fill="url(#gm_bg)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#gm_orb1)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#gm_orb2)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#gm_orb3)"/>
+    <polygon points="0,0 280,0 128,456 0,456" fill="#76C99A" fill-opacity="0.055"/>
+    <polygon points="944,0 1200,0 1200,320 1052,456" fill="#B399EE" fill-opacity="0.06"/>
+    <line x1="280" y1="0" x2="128" y2="456" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#gm_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#gm_glint)" stroke-width="1.4"/>
     <!-- TOP DUNGEON EXPEDITION MAP & TELEMETRY BAR -->
     <polygon points="40,28 45,33 40,38 35,33" fill="#D4A843"/>
     <text x="56" y="38" class="svg-display" font-size="17" fill="#F4EFE6">THE KING’S TOMB: DUNGEON TRIAL</text>
@@ -870,8 +901,9 @@ export function buildGameSvg(st: ArenaState): string {
     <text x="40" y="80" class="svg-body" font-size="15" fill="${st.endingReached ? "#E5C068" : "#9CC084"}">${st.endingReached ? "I. Epilogue: Serie’s First-Class Ceremony" : "I. Spiegel Sanctuary Duel"}</text>
     <text x="624" y="80" text-anchor="end" class="svg-folio" font-size="14" fill="${st.endingReached ? "#9CC084" : bossStateCol}">${st.endingReached ? "First-Class Privilege Awarded" : `Next intent: ${xmlEsc(bossIntent)}`}</text>
 
-    <!-- Recessed Arena Stage (#090C0A, borderless) -->
-    <rect x="40" y="92" width="584" height="162" rx="8" fill="#090C0A"/>
+    <!-- Smoked-Crystal Arena Stage -->
+    <rect x="40" y="92" width="584" height="162" rx="10" fill="#081414" fill-opacity="0.58" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="1"/>
+    <line x1="56" y1="92.8" x2="420" y2="92.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
 
     <!-- Ambient Dungeon Mana Particles -->
     ${renderAmbientParticles()}
@@ -975,14 +1007,15 @@ export function buildGameSvg(st: ArenaState): string {
     <line x1="510" y1="264" x2="510" y2="280" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     <text x="524" y="276" class="svg-body" font-size="13" fill="#E5C068">${xmlEsc(hist[3] || "")}</text>
 
-    <!-- Duel Chronicle Well (Borderless Recessed Surface #090C0A, smart auto-fit prevents mid-word clipping) -->
-    <rect x="40" y="292" width="584" height="140" rx="8" fill="#090C0A"/>
+    <!-- Duel Chronicle Well (Smoked-Crystal Glass Pane, smart auto-fit prevents mid-word clipping) -->
+    <rect x="40" y="292" width="584" height="140" rx="10" fill="#081414" fill-opacity="0.56" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="1"/>
+    <line x1="56" y1="292.8" x2="420" y2="292.8" stroke="#F2FBF6" stroke-opacity="0.26" stroke-width="1"/>
     <g clip-path="url(#duel_well_clip)">
       <text x="56" y="316" class="svg-body" font-size="14" fill="#E5C068">Combat Chronicle &amp; Tactical Advisor</text>
-      <text x="56" y="344" class="svg-body" font-size="${fitWellText(st.duelLog1, 66, 86).size}" fill="#F4EFE6">${xmlEsc(fitWellText(st.duelLog1, 66, 86).text)}</text>
-      <text x="56" y="372" class="svg-folio" font-size="${fitWellText(st.duelLog2, 68, 88).size}" fill="#9CC084">${xmlEsc(fitWellText(st.duelLog2, 68, 88).text)}</text>
-      <line x1="56" y1="388" x2="608" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-      <text x="56" y="412" class="svg-folio" font-size="${fitWellText(tipText, 68, 88).size}" fill="#E5C068">${xmlEsc(fitWellText(tipText, 68, 88).text)}</text>
+      <text x="56" y="344" class="svg-body" font-size="${fitWellText(st.duelLog1, 76, 100).size}" fill="#F4EFE6">${xmlEsc(fitWellText(st.duelLog1, 76, 100).text)}</text>
+      <text x="56" y="372" class="svg-folio" font-size="${fitWellText(st.duelLog2, 80, 104).size}" fill="#9CC084">${xmlEsc(fitWellText(st.duelLog2, 80, 104).text)}</text>
+      <line x1="56" y1="388" x2="608" y2="388" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
+      <text x="56" y="412" class="svg-folio" font-size="${fitWellText(tipText, 80, 104).size}" fill="#E5C068">${xmlEsc(fitWellText(tipText, 80, 104).text)}</text>
     </g>
 
     <!-- Master Vertical Hairline Divider -->
@@ -1006,16 +1039,18 @@ export function buildGameSvg(st: ArenaState): string {
     <text x="760" y="276" class="svg-body" font-size="14" fill="#E5C068">${xmlEsc(st.activeRelic || "Blue Moon Blossom (+8 MP/turn)")}</text>
     <text x="1164" y="276" text-anchor="end" class="svg-folio" font-size="13.5" fill="#9CC084">${st.relicCount || 3} Folios Collected</text>
 
-    <!-- Reliquary Appraisal Well (Borderless Recessed Surface #090C0A, smart auto-fit prevents mid-word clipping) -->
-    <rect x="672" y="292" width="492" height="140" rx="8" fill="#090C0A"/>
+    <!-- Reliquary Appraisal Well (Smoked-Crystal Glass Pane, smart auto-fit prevents mid-word clipping) -->
+    <rect x="672" y="292" width="492" height="140" rx="10" fill="#081414" fill-opacity="0.56" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="1"/>
+    <line x1="688" y1="292.8" x2="1010" y2="292.8" stroke="#F2FBF6" stroke-opacity="0.26" stroke-width="1"/>
     <g clip-path="url(#chest_well_clip)">
       <text x="688" y="316" class="svg-body" font-size="14" fill="#B399EE">Reliquary Appraisal Ledger</text>
-      <text x="688" y="344" class="svg-body" font-size="${fitWellText(st.chestLog1, 56, 72).size}" fill="#F4EFE6">${xmlEsc(fitWellText(st.chestLog1, 56, 72).text)}</text>
-      <text x="688" y="372" class="svg-folio" font-size="${fitWellText(st.chestLog2, 58, 76).size}" fill="#C8C2B4">${xmlEsc(fitWellText(st.chestLog2, 58, 76).text)}</text>
-      <line x1="688" y1="388" x2="1148" y2="388" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-      <text x="688" y="412" class="svg-folio" font-size="${fitWellText(`Resonance: ${st.activeRelicEffect || "Regenerates +8 MP after every turn."}`, 58, 76).size}" fill="#9CC084">${xmlEsc(fitWellText(`Resonance: ${st.activeRelicEffect || "Regenerates +8 MP after every turn."}`, 58, 76).text)}</text>
+      <text x="688" y="344" class="svg-body" font-size="${fitWellText(st.chestLog1, 66, 86).size}" fill="#F4EFE6">${xmlEsc(fitWellText(st.chestLog1, 66, 86).text)}</text>
+      <text x="688" y="372" class="svg-folio" font-size="${fitWellText(st.chestLog2, 68, 88).size}" fill="#C8C2B4">${xmlEsc(fitWellText(st.chestLog2, 68, 88).text)}</text>
+      <line x1="688" y1="388" x2="1148" y2="388" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
+      <text x="688" y="412" class="svg-folio" font-size="${fitWellText(`Resonance: ${st.activeRelicEffect || "Regenerates +8 MP after every turn."}`, 68, 88).size}" fill="#9CC084">${xmlEsc(fitWellText(`Resonance: ${st.activeRelicEffect || "Regenerates +8 MP after every turn."}`, 68, 88).text)}</text>
     </g>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="454.8" rx="13.4" fill="none" stroke="url(#gm_border)" stroke-width="1.2"/>
 </svg>`;
 }
 
@@ -1050,25 +1085,30 @@ function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string
   <meta name="description" content="Interactive Sousou no Frieren and Übel tactical grimoire duel and Frieren Mimic roulette mini-game for FitzzXYZ."/>
   <title>FitzzXYZ: The King’s Tomb &amp; Reliquary Trial</title>
   <style>
-    /* Hallmark: v2.0.0 | theme: grimoire (by request) | genre: atmospheric | shape: workbench | posture: full-palette | axis: left-biased | signature: live spiegel duel and mimic roulette */
-    /* critique: focus=the live SVG combat and reliquary board with visualization focus meter | hierarchy=status header -> interactive SVG stage -> visualization timing meter -> 6 spell and coffer controls | restraint=hairline surface ladder and borderless chronicle wells */
+    /* Hallmark: v2.0.0 | theme: arcane-glass-fantasy (by request) | genre: atmospheric | shape: workbench | posture: full-palette | axis: left-biased | signature: frosted crystal spiegel duel and mimic roulette */
+    /* critique: focus=the live crystal-framed SVG combat and reliquary board with visualization focus meter | hierarchy=status header -> frosted SVG stage -> visualization timing meter -> 6 translucent crystal spell and coffer controls | restraint=two static atmospheric emerald-gold blooms behind frosted smoked-glass panes with top specular bevels */
+    /* Hallmark · dismissed 29 · semi-glass fantasy theme explicitly requested by user, using tinted emerald-slate frosted panes over two static atmospheric blooms */
     :root {
-      --color-paper: #0A0D0B;
-      --color-paper-2: #101512;
-      --color-paper-3: #151C18;
-      --color-ink: #F4EFE6;
-      --color-ink-2: #C8C2B4;
-      --color-muted: #8E887A;
-      --color-rule: rgba(212, 168, 67, 0.28);
-      --color-rule-strong: rgba(212, 168, 67, 0.45);
-      --color-accent: #9CC084;
-      --color-accent-ink: #0A0D0B;
-      --color-focus: #E5C068;
-      --color-gold: #E5C068;
-      --color-amethyst: #B399EE;
+      --color-paper: #081213;
+      --color-paper-2: rgba(15, 31, 30, 0.70);
+      --color-paper-3: rgba(22, 44, 42, 0.80);
+      --color-glass-rim: rgba(232, 246, 238, 0.22);
+      --color-glass-top: rgba(242, 251, 246, 0.20);
+      --color-bloom-emerald: rgba(69, 212, 150, 0.14);
+      --color-bloom-gold: rgba(229, 192, 104, 0.11);
+      --color-ink: #F4F2EA;
+      --color-ink-2: #CED6D0;
+      --color-muted: #93A09A;
+      --color-rule: rgba(226, 245, 234, 0.18);
+      --color-rule-strong: rgba(141, 212, 168, 0.36);
+      --color-accent: #7EE8B2;
+      --color-accent-ink: #081213;
+      --color-focus: #F0CD78;
+      --color-gold: #F0CD78;
+      --color-amethyst: #C4B2F8;
       --color-azure: #7DA8E6;
       --color-terracotta: #D4886A;
-      --color-shadow: rgba(0, 0, 0, 0.68);
+      --color-shadow: rgba(4, 11, 12, 0.56);
       --font-display: 'Cinzel', Georgia, serif;
       --font-body: 'Cormorant', Georgia, serif;
       --font-italic: 'CormorantItalic', Georgia, serif;
@@ -1096,6 +1136,9 @@ function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string
     body {
       min-height: 100vh;
       padding: 24px 16px;
+      background-image:
+        radial-gradient(circle at 14% 16%, var(--color-bloom-emerald) 0%, transparent 28%),
+        radial-gradient(circle at 86% 82%, var(--color-bloom-gold) 0%, transparent 26%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1134,11 +1177,14 @@ function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string
       gap: 8px;
       padding: 8px 16px;
       min-height: 40px;
-      border-radius: 8px;
+      border-radius: 10px;
       text-decoration: none;
       background-color: var(--color-paper-2);
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
       color: var(--color-ink);
-      border: 1px solid var(--color-rule-strong);
+      border: 1px solid var(--color-glass-rim);
+      box-shadow: inset 0 1px 0 var(--color-glass-top);
       font-family: var(--font-body);
       font-size: 15px;
       font-weight: 600;
@@ -1226,9 +1272,12 @@ function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string
     .story-bar-wrap {
       width: 100%;
       padding: 12px 16px;
-      border-radius: 8px;
+      border-radius: 10px;
       background-color: var(--color-paper-2);
-      border: 1px solid var(--color-rule);
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
+      border: 1px solid var(--color-glass-rim);
+      box-shadow: inset 0 1px 0 var(--color-glass-top);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1253,8 +1302,12 @@ function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string
     .focus-bar-wrap {
       width: 100%;
       padding: 12px 16px;
-      border-radius: 8px;
+      border-radius: 10px;
       background-color: var(--color-paper-2);
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
+      border: 1px solid var(--color-glass-rim);
+      box-shadow: inset 0 1px 0 var(--color-glass-top);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1323,10 +1376,13 @@ function buildInteractiveConsoleHtml(svgContent: string, st: ArenaState): string
       cursor: pointer;
       padding: 12px 16px;
       min-height: 48px;
-      border-radius: 8px;
+      border-radius: 10px;
       background-color: var(--color-paper-2);
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
       color: var(--color-ink);
-      border: 1px solid var(--color-rule-strong);
+      border: 1px solid var(--color-glass-rim);
+      box-shadow: inset 0 1px 0 var(--color-glass-top);
       text-align: left;
       display: flex;
       flex-direction: column;

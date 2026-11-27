@@ -48,22 +48,77 @@
         <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
         <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
       </linearGradient>
-      <clipPath id="gfy_clip"><rect x="0" y="0" width="1200" height="390" rx="16"/></clipPath>
-    </defs>
-    <rect x="0.5" y="0.5" width="1199" height="389" rx="15.5" fill="url(#gfy_bg)" stroke="url(#gfy_gold)" stroke-width="1.2"/>
-    <rect x="6.5" y="6.5" width="1187" height="377" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-    <!-- Delicate Astrolabe Corner Diamonds -->
-    <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="16,370 20,374 16,378 12,374" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="1184,370 1188,374 1184,378 1180,374" fill="#D4A843" fill-opacity="0.65"/>
+      <clipPath id="gfy_clip"><rect x="0" y="0" width="1200" height="390" rx="14"/></clipPath>
+        <!-- ARCANE_GLASS_DEFS_START -->
+    <linearGradient id="gm_gl_base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
+    </linearGradient>
+    <radialGradient id="gm_gl_orb1" cx="16%" cy="16%" r="48%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.22"/>
+      <stop offset="52%" stop-color="#B399EE" stop-opacity="0.070"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gm_gl_orb2" cx="86%" cy="82%" r="46%">
+      <stop offset="0%" stop-color="#4AD696" stop-opacity="0.24"/>
+      <stop offset="54%" stop-color="#4AD696" stop-opacity="0.072"/>
+      <stop offset="100%" stop-color="#4AD696" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gm_gl_orb3" cx="54%" cy="92%" r="36%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gm_gl_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="32%" stop-color="#DDF2E8" stop-opacity="0.032"/>
+      <stop offset="72%" stop-color="#C9B8F8" stop-opacity="0.022"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.055"/>
+    </linearGradient>
+    <linearGradient id="gm_gl_shard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8FAF0" stop-opacity="0.14"/>
+      <stop offset="48%" stop-color="#76C99A" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="gm_gl_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="30%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="gm_gl_topglint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.55"/>
+      <stop offset="56%" stop-color="#A8E8C2" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="gm_gl_clip"><rect x="0" y="0" width="1200" height="390" rx="14"/></clipPath>
+    <!-- ARCANE_GLASS_DEFS_END -->
+  </defs>
+
+  <!-- ARCANE_GLASS_SHELL_START -->
+  <g clip-path="url(#gm_gl_clip)">
+    <rect x="0" y="0" width="1200" height="390" fill="url(#gm_gl_base)"/>
+    <rect x="0" y="0" width="1200" height="390" fill="url(#gm_gl_orb1)"/>
+    <rect x="0" y="0" width="1200" height="390" fill="url(#gm_gl_orb2)"/>
+    <rect x="0" y="0" width="1200" height="390" fill="url(#gm_gl_orb3)"/>
+      <polygon points="0,0 288,0 132,390 0,390" fill="url(#gm_gl_shard)"/>
+      <polygon points="192,0 396,0 228,390 96,390" fill="#76C99A" fill-opacity="0.045"/>
+      <polygon points="948,0 1200,0 1200,280 1056,390" fill="#B399EE" fill-opacity="0.055"/>
+      <line x1="288" y1="0" x2="132" y2="390" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
+      <line x1="948" y1="0" x2="1056" y2="390" stroke="#D8CAFF" stroke-opacity="0.10" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="390" fill="url(#gm_gl_frost)"/>
+    <line x1="18" y1="1.1" x2="768" y2="1.1" stroke="url(#gm_gl_topglint)" stroke-width="1.4"/>
+  </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="388.8" rx="13.4" fill="none" stroke="url(#gm_gl_rim)" stroke-width="1.2"/>
+  <!-- ARCANE_GLASS_SHELL_END -->
     
   <g clip-path="url(#gfy_clip)">
     <text x="36" y="42" class="h2">ASTRAL KNOWLEDGE CONSTELLATION · GRAPHIFY</text>
     <text x="1164" y="42" text-anchor="end" class="folio">24 nodes · 38 leylines · 4 Leiden communities</text>
     <line x1="36" y1="56" x2="1164" y2="56" stroke="#D4A843" stroke-opacity="0.28" stroke-width="1"/>
 
-    <rect x="36" y="74" width="716" height="284" rx="10" fill="#0B0F0D" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <rect x="36" y="74" width="716" height="284" rx="10" fill="#081414" fill-opacity="0.56" stroke="#DFF4E9" stroke-opacity="0.22" stroke-width="1"/>
 
     <!-- Constellation Circles -->
     <g stroke="#D4A843" stroke-opacity="0.12" fill="none" stroke-dasharray="4 4">
@@ -117,7 +172,7 @@
     <text x="780" y="252" class="title" font-size="17">4. First-Class Mage Status Sheet</text>
     <text x="1164" y="252" text-anchor="end" class="italic" font-size="15.5" fill="#7DA8E6">4 leylines</text>
 
-    <rect x="780" y="282" width="384" height="76" rx="8" fill="#0B0F0D" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <rect x="780" y="282" width="384" height="76" rx="8" fill="#081414" fill-opacity="0.56" stroke="#DFF4E9" stroke-opacity="0.22" stroke-width="1"/>
     <text x="798" y="308" class="cinzel" font-size="11.5" fill="#E5C068" letter-spacing="1">LEIDEN COMMUNITY COHESION</text>
     <text x="798" y="334" class="italic" font-size="15.5" fill="#D8D0C5">Stack 0.29  ·  Grimoire 0.40  ·  Chronicle 0.47  ·  Hero 0.50</text>
   

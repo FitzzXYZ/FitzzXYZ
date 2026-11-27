@@ -1,5 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 162 32" width="162" height="32">
-  <rect x="0.5" y="0.5" width="161" height="31" rx="8" fill="#111613" stroke="#E5C068" stroke-opacity="0.45" stroke-width="1"/>
+  <defs>
+    <linearGradient id="bg_glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#142723"/>
+      <stop offset="55%" stop-color="#101D1E"/>
+      <stop offset="100%" stop-color="#1B172B"/>
+    </linearGradient>
+    <linearGradient id="bg_top" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#F2FBF6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0.5" y="0.5" width="161" height="31" rx="9" fill="url(#bg_glass)" stroke="#E5C068" stroke-opacity="0.52" stroke-width="1"/>
+  <rect x="1.5" y="1.2" width="159" height="14" rx="7.5" fill="url(#bg_top)"/>
   <line x1="15" y1="12" x2="23" y2="12" stroke="#D4A843" stroke-width="1.2"/><line x1="15" y1="12" x2="19" y2="20" stroke="#D4A843" stroke-width="1.2"/><line x1="23" y1="12" x2="19" y2="20" stroke="#D4A843" stroke-width="1.2"/><circle cx="15" cy="12" r="2.1" fill="#E5C068"/><circle cx="23" cy="12" r="2.1" fill="#9CC084"/><circle cx="19" cy="20" r="2.1" fill="#B399EE"/>
   <text x="36" y="20.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="12.5" font-weight="600" fill="#F4EFE6">Graphify <tspan fill="#E5C068" font-weight="500">· 24 nodes</tspan></text>
 </svg>

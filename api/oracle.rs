@@ -319,10 +319,36 @@ fn render_svg(rep: &OracleReport) -> String {
         r##"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 192" width="100%" height="100%" role="img" aria-label="First-Class Combat Oracle — Rust Fluid Runtime">
   <defs>
     <linearGradient id="rs_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1211"/>
-      <stop offset="100%" stop-color="#17131D"/>
+      <stop offset="0%" stop-color="#0A1314"/>
+      <stop offset="50%" stop-color="#111A1D"/>
+      <stop offset="100%" stop-color="#1A1429"/>
     </linearGradient>
-    <clipPath id="rs_clip"><rect x="0" y="0" width="1200" height="192" rx="12"/></clipPath>
+    <radialGradient id="rs_orb1" cx="84%" cy="18%" r="46%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rs_orb2" cx="14%" cy="84%" r="48%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rs_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.09"/>
+      <stop offset="42%" stop-color="#DDF2E8" stop-opacity="0.025"/>
+      <stop offset="100%" stop-color="#C9B8F8" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="rs_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#C5B2F8" stop-opacity="0.38"/>
+      <stop offset="68%" stop-color="#8DD4A8" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="rs_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.56"/>
+      <stop offset="58%" stop-color="#C5B2F8" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="rs_clip"><rect x="0" y="0" width="1200" height="192" rx="14"/></clipPath>
     <style>
       .r-title {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
       .r-num {{ font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }}
@@ -332,46 +358,54 @@ fn render_svg(rep: &OracleReport) -> String {
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="191" rx="11.5" fill="url(#rs_bg)" stroke="#B399EE" stroke-opacity="0.34" stroke-width="1"/>
-
   <g clip-path="url(#rs_clip)">
-    <rect x="0" y="0" width="3.5" height="192" fill="#D4886A"/>
+    <rect x="0" y="0" width="1200" height="192" fill="url(#rs_bg)"/>
+    <rect x="0" y="0" width="1200" height="192" fill="url(#rs_orb1)"/>
+    <rect x="0" y="0" width="1200" height="192" fill="url(#rs_orb2)"/>
+    <polygon points="888,0 1200,0 1200,192 1004,192" fill="#B399EE" fill-opacity="0.065"/>
+    <polygon points="0,52 164,0 248,192 0,192" fill="#4AD696" fill-opacity="0.055"/>
+    <line x1="888" y1="0" x2="1004" y2="192" stroke="#E5DCFF" stroke-opacity="0.11" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="192" fill="url(#rs_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#rs_glint)" stroke-width="1.4"/>
+    <rect x="0" y="0" width="3.5" height="192" fill="#D4886A" fill-opacity="0.85"/>
 
-    <!-- Editorial Header (Inverted Asymmetry vs Go Ledger: 58% Left Spectrum / 42% Right Recessed Forecast) -->
+    <!-- Editorial Header (Inverted Asymmetry vs Go Ledger: 58% Left Spectrum / 42% Right Frosted Glass Well) -->
     <text x="32" y="34" class="r-title" font-size="16" fill="#F4EFE6">First-Class Combat Oracle</text>
-    <text x="274" y="34" class="r-it" font-size="14" fill="#8E887A">Rust Fluid Runtime probability engine</text>
+    <text x="274" y="34" class="r-it" font-size="14" fill="#9AA49E">Rust Fluid Runtime probability engine</text>
     <text x="1166" y="34" text-anchor="end" class="r-mono" font-size="11.5" fill="{storage_col}">{storage_lbl}</text>
-    <line x1="32" y1="46" x2="1166" y2="46" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="32" y1="46" x2="1166" y2="46" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
 
     <!-- Left Panel (x=32..652): Target Summary + 3-Tier Reelseiden Damage Spectrum -->
     <text x="32" y="72" class="r-body" font-size="16" fill="#F4EFE6">{boss_label}</text>
-    <text x="652" y="72" text-anchor="end" class="r-mono" font-size="11.5" fill="#C8C2B4">HP {boss_hp}/{boss_max_hp} | Ward {armor}% | Empathy {empathy}/3</text>
+    <text x="652" y="72" text-anchor="end" class="r-mono" font-size="11.5" fill="#D2D8D4">HP {boss_hp}/{boss_max_hp} | Ward {armor}% | Empathy {empathy}/3</text>
 
-    <text x="32" y="98" class="r-body" font-size="13.5" fill="#C8C2B4">Standard Reelseiden (+{slash_bonus} sever)</text>
-    <text x="652" y="98" text-anchor="end" class="r-mono" font-size="11.5" fill="#9CC084">{std_min}–{std_max} dmg (avg {std_avg})</text>
-    <rect x="32" y="105" width="620" height="6" rx="3" fill="#181C1A"/>
-    <rect x="32" y="105" width="{std_w}" height="6" rx="3" fill="#9CC084"/>
+    <text x="32" y="98" class="r-body" font-size="13.5" fill="#D2D8D4">Standard Reelseiden (+{slash_bonus} sever)</text>
+    <text x="652" y="98" text-anchor="end" class="r-mono" font-size="11.5" fill="#9EE0B4">{std_min}–{std_max} dmg (avg {std_avg})</text>
+    <rect x="32" y="105" width="620" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
+    <rect x="32" y="105" width="{std_w}" height="6" rx="3" fill="#7EE8B2"/>
 
-    <text x="32" y="131" class="r-body" font-size="13.5" fill="#C8C2B4">Sorganeil 2.2x sight-lock + Perfect Sever</text>
-    <text x="652" y="131" text-anchor="end" class="r-mono" font-size="11.5" fill="#B399EE">{bnd_min}–{bnd_max} dmg</text>
-    <rect x="32" y="138" width="620" height="6" rx="3" fill="#181C1A"/>
+    <text x="32" y="131" class="r-body" font-size="13.5" fill="#D2D8D4">Sorganeil 2.2x sight-lock + Perfect Sever</text>
+    <text x="652" y="131" text-anchor="end" class="r-mono" font-size="11.5" fill="#C8B6FA">{bnd_min}–{bnd_max} dmg</text>
+    <rect x="32" y="138" width="620" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
     <rect x="32" y="138" width="{bound_w}" height="6" rx="3" fill="#B399EE"/>
 
-    <text x="32" y="164" class="r-body" font-size="13.5" fill="#E5C068">Empathy 3/3 true cleave (ignores armor ward)</text>
-    <text x="652" y="164" text-anchor="end" class="r-mono" font-size="11.5" fill="#E5C068">{emp_min}–{emp_max} dmg</text>
-    <rect x="32" y="171" width="620" height="6" rx="3" fill="#181C1A"/>
-    <rect x="32" y="171" width="{emp_w}" height="6" rx="3" fill="#E5C068"/>
+    <text x="32" y="164" class="r-body" font-size="13.5" fill="#F0CD78">Empathy 3/3 true cleave (ignores armor ward)</text>
+    <text x="652" y="164" text-anchor="end" class="r-mono" font-size="11.5" fill="#F0CD78">{emp_min}–{emp_max} dmg</text>
+    <rect x="32" y="171" width="620" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
+    <rect x="32" y="171" width="{emp_w}" height="6" rx="3" fill="#F0CD78"/>
 
-    <!-- Right Panel (x=688..1166): Recessed Obsidian Forecast & Mimic Aura Well -->
-    <rect x="688" y="58" width="478" height="120" rx="8" fill="#090C0A"/>
-    <text x="708" y="80" class="r-body" font-size="13.5" fill="#E5C068">Lethal forecast</text>
-    <text x="1146" y="80" text-anchor="end" class="r-mono" font-size="11.5" fill="#8E887A">Standard rotation: {ttk_std} turns</text>
-    <text x="708" y="114" class="r-num" font-size="30" fill="#F4EFE6">{ttk_opt} <tspan class="r-it" font-size="15" fill="#9CC084">optimal turns to shatter</tspan></text>
+    <!-- Right Panel (x=688..1166): Smoked-Crystal Forecast & Mimic Aura Well -->
+    <rect x="688" y="58" width="478" height="120" rx="10" fill="#081414" fill-opacity="0.56" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="1"/>
+    <line x1="704" y1="58.8" x2="1040" y2="58.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
+    <text x="708" y="80" class="r-body" font-size="13.5" fill="#F0CD78">Lethal forecast</text>
+    <text x="1146" y="80" text-anchor="end" class="r-mono" font-size="11.5" fill="#9AA49E">Standard rotation: {ttk_std} turns</text>
+    <text x="708" y="114" class="r-num" font-size="30" fill="#F4EFE6">{ttk_opt} <tspan class="r-it" font-size="15" fill="#9EE0B4">optimal turns to shatter</tspan></text>
 
-    <line x1="708" y1="126" x2="1146" y2="126" stroke="#D4A843" stroke-opacity="0.18" stroke-width="1"/>
-    <text x="708" y="146" class="r-body" font-size="13.5" fill="#D4886A">Mimic trap risk ({mimic_pct:.1}%): <tspan class="r-mono" font-size="11.5" fill="#E5C068">{mimic_slot}</tspan></text>
-    <text x="708" y="166" class="r-it" font-size="13" fill="#9CC084">{verdict}</text>
+    <line x1="708" y1="126" x2="1146" y2="126" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
+    <text x="708" y="146" class="r-body" font-size="13.5" fill="#D4886A">Mimic trap risk ({mimic_pct:.1}%): <tspan class="r-mono" font-size="11.5" fill="#F0CD78">{mimic_slot}</tspan></text>
+    <text x="708" y="166" class="r-it" font-size="13" fill="#9EE0B4">{verdict}</text>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="190.8" rx="13.4" fill="none" stroke="url(#rs_rim)" stroke-width="1.2"/>
 </svg>"##,
         storage_col = storage_col,
         storage_lbl = storage_lbl,

@@ -610,26 +610,47 @@ def build_loc_svg(data: dict) -> str:
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 456" width="100%" height="100%">
   <defs>
     <linearGradient id="loc_outer_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="50%" stop-color="#131815"/>
-      <stop offset="100%" stop-color="#16131E"/>
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
     </linearGradient>
-    <linearGradient id="loc_card_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#101512"/>
-      <stop offset="55%" stop-color="#141916"/>
-      <stop offset="100%" stop-color="#171420"/>
-    </linearGradient>
-    <linearGradient id="loc_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
-    </linearGradient>
-    <radialGradient id="loc_glow" cx="85%" cy="18%" r="60%">
-      <stop offset="0%" stop-color="#8BA872" stop-opacity="0.10"/>
-      <stop offset="55%" stop-color="#D4A843" stop-opacity="0.05"/>
-      <stop offset="100%" stop-color="#0E1310" stop-opacity="0"/>
+    <radialGradient id="loc_orb1" cx="14%" cy="14%" r="48%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.24"/>
+      <stop offset="55%" stop-color="#45D496" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
     </radialGradient>
-    <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
+    <radialGradient id="loc_orb2" cx="88%" cy="84%" r="46%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#B399EE" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="loc_glow" cx="82%" cy="16%" r="46%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="loc_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="38%" stop-color="#DDF2E8" stop-opacity="0.028"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="loc_shard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8FAF0" stop-opacity="0.13"/>
+      <stop offset="50%" stop-color="#76C99A" stop-opacity="0.055"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="loc_border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="loc_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#A8E8C2" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="14"/></clipPath>
     <clipPath id="loc_bar_clip"><rect x="{bar_x}" y="{bar_y}" width="{bar_w}" height="{bar_h}" rx="8"/></clipPath>
     <linearGradient id="loc_sheen" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#F4EFE6" stop-opacity="0"/>
@@ -669,11 +690,19 @@ def build_loc_svg(data: dict) -> str:
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="455" rx="11.5" fill="url(#loc_outer_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
-
   <g clip-path="url(#loc_clip)">
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_outer_bg)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_orb1)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_orb2)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_glow)"/>
+    <polygon points="0,0 288,0 132,456 0,456" fill="url(#loc_shard)"/>
+    <polygon points="948,0 1200,0 1200,328 1056,456" fill="#B399EE" fill-opacity="0.055"/>
+    <line x1="288" y1="0" x2="132" y2="456" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#loc_glint)" stroke-width="1.4"/>
+
     <g transform="translate(36, 20)">
-      <rect x="0" y="0" width="24" height="24" rx="4" fill="#1A1512" stroke="#D4A843" stroke-width="1.4"/>
+      <rect x="0" y="0" width="24" height="24" rx="5" fill="#0B1918" fill-opacity="0.72" stroke="#E8F6EE" stroke-opacity="0.34" stroke-width="1.2"/>
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="12" x2="21" y2="12" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="17" x2="21" y2="17" stroke="#8E887A" stroke-width="1.2"/>
@@ -686,18 +715,18 @@ def build_loc_svg(data: dict) -> str:
       <circle cx="13" cy="17" r="2" fill="#9CC084"><animate attributeName="cx" values="13;16;13" dur="5.6s" repeatCount="indefinite"/></circle>
     </g>
     <text x="70" y="38" class="cinzel" font-size="17.5" fill="#F4EFE6">Total Kode yang Sudah Saya Tulis</text>
-    <text x="1164" y="38" text-anchor="end" class="folio" fill="#D4A843">Verified codebase across FitzzXYZ owned and contributed repositories</text>
-    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <text x="1164" y="38" text-anchor="end" class="folio" fill="#E5C068">Verified codebase across FitzzXYZ owned and contributed repositories</text>
+    <line x1="36" y1="54" x2="1164" y2="54" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
 
-    <rect x="28" y="68" width="1144" height="362" rx="10" fill="#090C0A"/>
-    <rect x="28" y="68" width="1144" height="362" rx="10" fill="url(#loc_glow)"/>
+    <rect x="28" y="68" width="1144" height="362" rx="10" fill="#081414" fill-opacity="0.54" stroke="#E8F6EE" stroke-opacity="0.17" stroke-width="1"/>
+    <line x1="42" y1="68.8" x2="540" y2="68.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
 
-    <text x="56" y="100" class="folio" font-size="14.5" fill="#9CC084">Verified source lines (no blank lines or comments)</text>
-    <text x="1144" y="100" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">Live verified codebase</text>
+    <text x="56" y="100" class="folio" font-size="14.5" fill="#9EE0B4">Verified source lines (no blank lines or comments)</text>
+    <text x="1144" y="100" text-anchor="end" class="folio" font-size="14.5" fill="#E5C068">Live verified codebase</text>
     <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">{total_lines_str} <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
     <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">{data["total_repos"]} <tspan class="folio" font-size="16" fill="#C8C2B4">active repos, </tspan>{data["total_langs"]} <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">{meta_str}</text>
-    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; 15-min CI</text>
+    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9EE0B4">Auto-synced on every commit &amp; 15-min CI</text>
 
     <g clip-path="url(#loc_bar_clip)">
       {bar_svg}
@@ -706,12 +735,13 @@ def build_loc_svg(data: dict) -> str:
       </rect>
     </g>
 
-    <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="598" y1="224" x2="598" y2="392" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
     {rows_svg}
 
-    <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
-    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#D4A843">{updated_str}</text>
+    <text x="56" y="414" class="folio" font-size="13.5" fill="#9AA49E">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
+    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#E5C068">{updated_str}</text>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="454.8" rx="13.4" fill="none" stroke="url(#loc_border)" stroke-width="1.2"/>
 </svg>'''
 
 
@@ -818,26 +848,46 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 364" width="100%" height="100%">
   <defs>
     <linearGradient id="ag_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="50%" stop-color="#131815"/>
-      <stop offset="100%" stop-color="#16131E"/>
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
     </linearGradient>
-    <linearGradient id="ag_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
+    <radialGradient id="ag_orb1" cx="84%" cy="16%" r="48%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.19"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ag_orb2" cx="16%" cy="84%" r="48%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ag_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.09"/>
+      <stop offset="45%" stop-color="#DDF2E8" stop-opacity="0.025"/>
+      <stop offset="100%" stop-color="#C9B8F8" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="ag_border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="ag_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="58%" stop-color="#A8E8C2" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="ag_line" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#9CC084"/>
-      <stop offset="55%" stop-color="#B399EE"/>
-      <stop offset="100%" stop-color="#E5C068"/>
+      <stop offset="0%" stop-color="#7EE8B2"/>
+      <stop offset="55%" stop-color="#C4B2F8"/>
+      <stop offset="100%" stop-color="#F0CD78"/>
     </linearGradient>
     <linearGradient id="ag_area" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.34"/>
-      <stop offset="65%" stop-color="#9CC084" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0E1310" stop-opacity="0.0"/>
+      <stop offset="0%" stop-color="#7EE8B2" stop-opacity="0.30"/>
+      <stop offset="65%" stop-color="#B399EE" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#091314" stop-opacity="0.0"/>
     </linearGradient>
-    <clipPath id="ag_clip"><rect x="0" y="0" width="1200" height="364" rx="16"/></clipPath>
+    <clipPath id="ag_clip"><rect x="0" y="0" width="1200" height="364" rx="14"/></clipPath>
     <style>
       @font-face {{
         font-family: 'Cinzel';
@@ -853,17 +903,25 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
       }}
       .cinzel {{ font-family: 'Cinzel', Georgia, serif; font-weight: 600; }}
       .folio {{ font-family: 'CormorantItalic', Georgia, serif; font-style: italic; }}
-      .axis-num {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 12px; fill: #9CC084; font-variant-numeric: tabular-nums; }}
-      .axis-title {{ font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; fill: #D4A843; letter-spacing: 1.4px; }}
+      .axis-num {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 12px; fill: #9EE0B4; font-variant-numeric: tabular-nums; }}
+      .axis-title {{ font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; fill: #E5C068; letter-spacing: 1.4px; }}
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="363" rx="11.5" fill="url(#ag_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
-
   <g clip-path="url(#ag_clip)">
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_bg)"/>
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_orb1)"/>
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_orb2)"/>
+    <polygon points="888,0 1200,0 1200,364 1020,364" fill="#76C99A" fill-opacity="0.05"/>
+    <polygon points="0,110 164,0 250,364 0,364" fill="#4AD696" fill-opacity="0.045"/>
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#ag_glint)" stroke-width="1.4"/>
+
     <text x="36" y="40" class="cinzel" font-size="17.5" fill="#F4EFE6">{USERNAME}’s 31-Day Contribution Curve</text>
-    <text x="1164" y="40" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">{period_total} contributions in the last 31 days — {updated_str}</text>
-    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <text x="1164" y="40" text-anchor="end" class="folio" font-size="14.5" fill="#E5C068">{period_total} contributions in the last 31 days — {updated_str}</text>
+    <line x1="36" y1="54" x2="1164" y2="54" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
+
+    <rect x="64" y="68" width="1102" height="248" rx="10" fill="#081414" fill-opacity="0.48" stroke="#E8F6EE" stroke-opacity="0.15" stroke-width="1"/>
 
     <text x="34" y="188" text-anchor="middle" transform="rotate(-90 34 188)" class="axis-title">CONTRIBUTIONS</text>
     <text x="624" y="340" text-anchor="middle" class="axis-title">DAYS</text>
@@ -881,6 +939,7 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
     </circle>
     {"".join(dots)}
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="362.8" rx="13.4" fill="none" stroke="url(#ag_border)" stroke-width="1.2"/>
 </svg>'''
 
 
@@ -1115,7 +1174,19 @@ def build_fantasy_badges(followers: int = 6, pub_repos: int = 3, active_repos: i
 
     def simple_pill(w, border_col, text_svg, icon_svg):
         return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 32" width="{w}" height="32">
-  <rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="8" fill="#111613" stroke="{border_col}" stroke-opacity="0.45" stroke-width="1"/>
+  <defs>
+    <linearGradient id="bg_glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#142723"/>
+      <stop offset="55%" stop-color="#101D1E"/>
+      <stop offset="100%" stop-color="#1B172B"/>
+    </linearGradient>
+    <linearGradient id="bg_top" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#F2FBF6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0.5" y="0.5" width="{w - 1}" height="31" rx="9" fill="url(#bg_glass)" stroke="{border_col}" stroke-opacity="0.52" stroke-width="1"/>
+  <rect x="1.5" y="1.2" width="{w - 3}" height="14" rx="7.5" fill="url(#bg_top)"/>
   {icon_svg}
   {text_svg}
 </svg>'''

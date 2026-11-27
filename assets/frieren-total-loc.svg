@@ -1,26 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 456" width="100%" height="100%">
   <defs>
     <linearGradient id="loc_outer_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="50%" stop-color="#131815"/>
-      <stop offset="100%" stop-color="#16131E"/>
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
     </linearGradient>
-    <linearGradient id="loc_card_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#101512"/>
-      <stop offset="55%" stop-color="#141916"/>
-      <stop offset="100%" stop-color="#171420"/>
-    </linearGradient>
-    <linearGradient id="loc_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
-    </linearGradient>
-    <radialGradient id="loc_glow" cx="85%" cy="18%" r="60%">
-      <stop offset="0%" stop-color="#8BA872" stop-opacity="0.10"/>
-      <stop offset="55%" stop-color="#D4A843" stop-opacity="0.05"/>
-      <stop offset="100%" stop-color="#0E1310" stop-opacity="0"/>
+    <radialGradient id="loc_orb1" cx="14%" cy="14%" r="48%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.24"/>
+      <stop offset="55%" stop-color="#45D496" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
     </radialGradient>
-    <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="16"/></clipPath>
+    <radialGradient id="loc_orb2" cx="88%" cy="84%" r="46%">
+      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#B399EE" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="loc_glow" cx="82%" cy="16%" r="46%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="loc_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="38%" stop-color="#DDF2E8" stop-opacity="0.028"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="loc_shard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8FAF0" stop-opacity="0.13"/>
+      <stop offset="50%" stop-color="#76C99A" stop-opacity="0.055"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="loc_border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="loc_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#A8E8C2" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="loc_clip"><rect x="0" y="0" width="1200" height="456" rx="14"/></clipPath>
     <clipPath id="loc_bar_clip"><rect x="56.0" y="186" width="1088.0" height="16" rx="8"/></clipPath>
     <linearGradient id="loc_sheen" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#F4EFE6" stop-opacity="0"/>
@@ -60,11 +81,19 @@
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="455" rx="11.5" fill="url(#loc_outer_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
-
   <g clip-path="url(#loc_clip)">
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_outer_bg)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_orb1)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_orb2)"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_glow)"/>
+    <polygon points="0,0 288,0 132,456 0,456" fill="url(#loc_shard)"/>
+    <polygon points="948,0 1200,0 1200,328 1056,456" fill="#B399EE" fill-opacity="0.055"/>
+    <line x1="288" y1="0" x2="132" y2="456" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="456" fill="url(#loc_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#loc_glint)" stroke-width="1.4"/>
+
     <g transform="translate(36, 20)">
-      <rect x="0" y="0" width="24" height="24" rx="4" fill="#1A1512" stroke="#D4A843" stroke-width="1.4"/>
+      <rect x="0" y="0" width="24" height="24" rx="5" fill="#0B1918" fill-opacity="0.72" stroke="#E8F6EE" stroke-opacity="0.34" stroke-width="1.2"/>
       <line x1="3" y1="7" x2="21" y2="7" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="12" x2="21" y2="12" stroke="#8E887A" stroke-width="1.2"/>
       <line x1="3" y1="17" x2="21" y2="17" stroke="#8E887A" stroke-width="1.2"/>
@@ -77,26 +106,26 @@
       <circle cx="13" cy="17" r="2" fill="#9CC084"><animate attributeName="cx" values="13;16;13" dur="5.6s" repeatCount="indefinite"/></circle>
     </g>
     <text x="70" y="38" class="cinzel" font-size="17.5" fill="#F4EFE6">Total Kode yang Sudah Saya Tulis</text>
-    <text x="1164" y="38" text-anchor="end" class="folio" fill="#D4A843">Verified codebase across FitzzXYZ owned and contributed repositories</text>
-    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <text x="1164" y="38" text-anchor="end" class="folio" fill="#E5C068">Verified codebase across FitzzXYZ owned and contributed repositories</text>
+    <line x1="36" y1="54" x2="1164" y2="54" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
 
-    <rect x="28" y="68" width="1144" height="362" rx="10" fill="#090C0A"/>
-    <rect x="28" y="68" width="1144" height="362" rx="10" fill="url(#loc_glow)"/>
+    <rect x="28" y="68" width="1144" height="362" rx="10" fill="#081414" fill-opacity="0.54" stroke="#E8F6EE" stroke-opacity="0.17" stroke-width="1"/>
+    <line x1="42" y1="68.8" x2="540" y2="68.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
 
-    <text x="56" y="100" class="folio" font-size="14.5" fill="#9CC084">Verified source lines (no blank lines or comments)</text>
-    <text x="1144" y="100" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">Live verified codebase</text>
-    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">127.170 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
+    <text x="56" y="100" class="folio" font-size="14.5" fill="#9EE0B4">Verified source lines (no blank lines or comments)</text>
+    <text x="1144" y="100" text-anchor="end" class="folio" font-size="14.5" fill="#E5C068">Live verified codebase</text>
+    <text x="56" y="148" class="cinzel" font-size="42" font-weight="800" fill="#F4EFE6">127.240 <tspan class="folio" font-size="21" fill="#E5C068">baris kode</tspan></text>
     <text x="1144" y="144" text-anchor="end" class="cinzel" font-size="22" fill="#E5C068">9 <tspan class="folio" font-size="16" fill="#C8C2B4">active repos, </tspan>14 <tspan class="folio" font-size="16" fill="#C8C2B4">languages</tspan></text>
     <text x="56" y="172" class="folio" font-size="15.5" fill="#C8C2B4">644 file  ·  9 repo  ·  14 bahasa</text>
-    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9CC084">Auto-synced on every commit &amp; 15-min CI</text>
+    <text x="1144" y="172" text-anchor="end" class="folio" font-size="14" fill="#9EE0B4">Auto-synced on every commit &amp; 15-min CI</text>
 
     <g clip-path="url(#loc_bar_clip)">
       <rect x="56.00" y="186" width="527.19" height="16" fill="#7DA8E6"/>
-      <rect x="582.59" y="186" width="236.70" height="16" fill="#9CC084"/>
-      <rect x="818.69" y="186" width="117.02" height="16" fill="#8E96C8"/>
-      <rect x="935.10" y="186" width="58.26" height="16" fill="#E5C068"/>
-      <rect x="992.77" y="186" width="49.56" height="16" fill="#B399EE"/>
-      <rect x="1041.73" y="186" width="41.94" height="16" fill="#6EA8A6"/>
+      <rect x="582.59" y="186" width="235.61" height="16" fill="#9CC084"/>
+      <rect x="817.60" y="186" width="117.02" height="16" fill="#8E96C8"/>
+      <rect x="934.02" y="186" width="58.26" height="16" fill="#E5C068"/>
+      <rect x="991.68" y="186" width="49.56" height="16" fill="#B399EE"/>
+      <rect x="1040.64" y="186" width="43.03" height="16" fill="#6EA8A6"/>
       <rect x="1083.07" y="186" width="33.24" height="16" fill="#6BB5C9"/>
       <rect x="1115.71" y="186" width="10.39" height="16" fill="#C98D6B"/>
       <rect x="1125.50" y="186" width="4.95" height="16" fill="#7EA876"/>
@@ -107,7 +136,7 @@
       </rect>
     </g>
 
-    <line x1="598" y1="224" x2="598" y2="392" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="598" y1="224" x2="598" y2="392" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
     
       <circle cx="64" cy="237" r="6" fill="#7DA8E6"/>
       <text x="84" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">TypeScript</text>
@@ -115,7 +144,7 @@
 
       <circle cx="638" cy="237" r="6" fill="#9CC084"/>
       <text x="658" y="242" class="sans-bold" font-size="16" fill="#F4EFE6">JSX</text>
-      <text x="1144" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">27.535 baris  ·  <tspan fill="#9CC084" font-weight="600">21.7%</tspan></text>
+      <text x="1144" y="242" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">27.535 baris  ·  <tspan fill="#9CC084" font-weight="600">21.6%</tspan></text>
 
       <circle cx="64" cy="273" r="6" fill="#8E96C8"/>
       <text x="84" y="278" class="sans-bold" font-size="16" fill="#F4EFE6">PHP</text>
@@ -131,7 +160,7 @@
 
       <circle cx="638" cy="309" r="6" fill="#6EA8A6"/>
       <text x="658" y="314" class="sans-bold" font-size="16" fill="#F4EFE6">Python</text>
-      <text x="1144" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">4.851 baris  ·  <tspan fill="#6EA8A6" font-weight="600">3.8%</tspan></text>
+      <text x="1144" y="314" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">4.921 baris  ·  <tspan fill="#6EA8A6" font-weight="600">3.9%</tspan></text>
 
       <circle cx="64" cy="345" r="6" fill="#6BB5C9"/>
       <text x="84" y="350" class="sans-bold" font-size="16" fill="#F4EFE6">Go</text>
@@ -149,7 +178,8 @@
       <text x="658" y="386" class="sans-bold" font-size="16" fill="#F4EFE6">Blade</text>
       <text x="1144" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">523 baris  ·  <tspan fill="#C96D68" font-weight="600">0.4%</tspan></text>
 
-    <text x="56" y="414" class="folio" font-size="13.5" fill="#8E887A">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
-    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#D4A843">Diperbarui 27-11-2026</text>
+    <text x="56" y="414" class="folio" font-size="13.5" fill="#9AA49E">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
+    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#E5C068">Diperbarui 27-11-2026</text>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="454.8" rx="13.4" fill="none" stroke="url(#loc_border)" stroke-width="1.2"/>
 </svg>

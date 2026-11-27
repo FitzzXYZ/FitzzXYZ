@@ -207,10 +207,36 @@ func RenderSVG(rep TelemetryReport) string {
 	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 184" width="100%%" height="100%%" role="img" aria-label="Global Dungeon Telemetry — Go Serverless Ledger">
   <defs>
     <linearGradient id="go_bg" x1="0%%" y1="0%%" x2="100%%" y2="100%%">
-      <stop offset="0%%" stop-color="#0E1310"/>
-      <stop offset="100%%" stop-color="#141816"/>
+      <stop offset="0%%" stop-color="#091314"/>
+      <stop offset="50%%" stop-color="#0F1C1C"/>
+      <stop offset="100%%" stop-color="#171426"/>
     </linearGradient>
-    <clipPath id="go_clip"><rect x="0" y="0" width="1200" height="184" rx="12"/></clipPath>
+    <radialGradient id="go_orb1" cx="14%%" cy="18%%" r="46%%">
+      <stop offset="0%%" stop-color="#45D496" stop-opacity="0.24"/>
+      <stop offset="100%%" stop-color="#45D496" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="go_orb2" cx="88%%" cy="84%%" r="46%%">
+      <stop offset="0%%" stop-color="#7DA8E6" stop-opacity="0.22"/>
+      <stop offset="100%%" stop-color="#7DA8E6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="go_frost" x1="0%%" y1="0%%" x2="100%%" y2="100%%">
+      <stop offset="0%%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="40%%" stop-color="#DDF2E8" stop-opacity="0.028"/>
+      <stop offset="100%%" stop-color="#E5C068" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="go_rim" x1="0%%" y1="0%%" x2="100%%" y2="100%%">
+      <stop offset="0%%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%%" stop-color="#8DD4A8" stop-opacity="0.38"/>
+      <stop offset="68%%" stop-color="#7DA8E6" stop-opacity="0.30"/>
+      <stop offset="100%%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="go_glint" x1="0%%" y1="0%%" x2="100%%" y2="0%%">
+      <stop offset="0%%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%%" stop-color="#F2FBF6" stop-opacity="0.56"/>
+      <stop offset="58%%" stop-color="#A8E8C2" stop-opacity="0.25"/>
+      <stop offset="100%%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="go_clip"><rect x="0" y="0" width="1200" height="184" rx="14"/></clipPath>
     <style>
       .t-title { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
       .t-num { font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-variant-numeric: tabular-nums; }
@@ -220,45 +246,52 @@ func RenderSVG(rep TelemetryReport) string {
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="183" rx="11.5" fill="url(#go_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
-
   <g clip-path="url(#go_clip)">
-    <rect x="0" y="0" width="3.5" height="184" fill="#7DA8E6"/>
+    <rect x="0" y="0" width="1200" height="184" fill="url(#go_bg)"/>
+    <rect x="0" y="0" width="1200" height="184" fill="url(#go_orb1)"/>
+    <rect x="0" y="0" width="1200" height="184" fill="url(#go_orb2)"/>
+    <polygon points="0,0 260,0 144,184 0,184" fill="#76C99A" fill-opacity="0.06"/>
+    <polygon points="940,0 1200,0 1200,184 1044,184" fill="#7DA8E6" fill-opacity="0.06"/>
+    <line x1="260" y1="0" x2="144" y2="184" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="184" fill="url(#go_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#go_glint)" stroke-width="1.4"/>
+    <rect x="0" y="0" width="3.5" height="184" fill="#7DA8E6" fill-opacity="0.82"/>
 
-    <!-- Editorial Header (Title Case, No Corner Diamonds, No Middle-Dot Eyebrow) -->
+    <!-- Editorial Header (Title Case, Arcane Crystal Glass Bevel) -->
     <text x="32" y="34" class="t-title" font-size="16" fill="#F4EFE6">Global Dungeon Ledger</text>
-    <text x="242" y="34" class="t-it" font-size="14" fill="#8E887A">Go Serverless runtime</text>
+    <text x="242" y="34" class="t-it" font-size="14" fill="#9AA49E">Go Serverless runtime</text>
     <text x="1166" y="34" text-anchor="end" class="t-mono" font-size="11.5" fill="%s">%s</text>
-    <line x1="32" y1="46" x2="1166" y2="46" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="32" y1="46" x2="1166" y2="46" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
 
-    <!-- Asymmetric Left Anchor (34%% width: Primary Victory Figure + Recessed Context) -->
-    <text x="32" y="72" class="t-body" font-size="13.5" fill="#9CC084">Chambers cleared across all visitors</text>
+    <!-- Asymmetric Left Anchor (34%% width: Primary Victory Figure + Smoked Glass Well) -->
+    <text x="32" y="72" class="t-body" font-size="13.5" fill="#9EE0B4">Chambers cleared across all visitors</text>
     <text x="32" y="118" class="t-num" font-size="44" fill="#F4EFE6">%d</text>
-    <text x="130" y="108" class="t-it" font-size="15.5" fill="#E5C068">%s</text>
-    <text x="130" y="125" class="t-body" font-size="13" fill="#C8C2B4">Relic: %s</text>
+    <text x="130" y="108" class="t-it" font-size="15.5" fill="#F0CD78">%s</text>
+    <text x="130" y="125" class="t-body" font-size="13" fill="#D2D8D4">Relic: %s</text>
 
-    <rect x="32" y="138" width="388" height="28" rx="6" fill="#090C0A"/>
-    <text x="44" y="156" class="t-mono" font-size="11.5" fill="#C8C2B4">%d turns cast</text>
-    <text x="408" y="156" text-anchor="end" class="t-mono" font-size="11.5" fill="#9CC084">%d Frieren rescues</text>
+    <rect x="32" y="138" width="388" height="28" rx="7" fill="#081414" fill-opacity="0.58" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="0.9"/>
+    <text x="44" y="156" class="t-mono" font-size="11.5" fill="#D2D8D4">%d turns cast</text>
+    <text x="408" y="156" text-anchor="end" class="t-mono" font-size="11.5" fill="#9EE0B4">%d Frieren rescues</text>
 
-    <line x1="448" y1="60" x2="448" y2="166" stroke="#D4A843" stroke-opacity="0.2" stroke-width="1"/>
+    <line x1="448" y1="60" x2="448" y2="166" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
 
     <!-- Asymmetric Right Comparative Ledger (62%% width: 3 Horizontal Manuscript Rows) -->
     <text x="480" y="72" class="t-body" font-size="14" fill="#F4EFE6">Authentic grimoire discoveries</text>
-    <text x="1164" y="72" text-anchor="end" class="t-mono" font-size="12" fill="#9CC084">%.1f%% (%d found)</text>
-    <rect x="480" y="80" width="684" height="6" rx="3" fill="#181D1A"/>
-    <rect x="480" y="80" width="%d" height="6" rx="3" fill="#9CC084"/>
+    <text x="1164" y="72" text-anchor="end" class="t-mono" font-size="12" fill="#9EE0B4">%.1f%% (%d found)</text>
+    <rect x="480" y="80" width="684" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
+    <rect x="480" y="80" width="%d" height="6" rx="3" fill="#7EE8B2"/>
 
-    <text x="480" y="112" class="t-body" font-size="14" fill="#F4EFE6">Mimic trap encounters <tspan class="t-it" font-size="13" fill="#8E887A">(Frieren claims 99%% safe)</tspan></text>
+    <text x="480" y="112" class="t-body" font-size="14" fill="#F4EFE6">Mimic trap encounters <tspan class="t-it" font-size="13" fill="#9AA49E">(Frieren claims 99%% safe)</tspan></text>
     <text x="1164" y="112" text-anchor="end" class="t-mono" font-size="12" fill="#D4886A">%.1f%% (%d traps)</text>
-    <rect x="480" y="120" width="684" height="6" rx="3" fill="#181D1A"/>
+    <rect x="480" y="120" width="684" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
     <rect x="480" y="120" width="%d" height="6" rx="3" fill="#D4886A"/>
 
-    <text x="480" y="152" class="t-body" font-size="14" fill="#F4EFE6">Spiegel boss integrity <tspan class="t-it" font-size="13" fill="#C8C2B4">— %s</tspan></text>
-    <text x="1164" y="152" text-anchor="end" class="t-mono" font-size="12" fill="#E5C068">%d / %d HP</text>
-    <rect x="480" y="160" width="684" height="6" rx="3" fill="#181D1A"/>
-    <rect x="480" y="160" width="%d" height="6" rx="3" fill="#E5C068"/>
+    <text x="480" y="152" class="t-body" font-size="14" fill="#F4EFE6">Spiegel boss integrity <tspan class="t-it" font-size="13" fill="#D2D8D4">— %s</tspan></text>
+    <text x="1164" y="152" text-anchor="end" class="t-mono" font-size="12" fill="#F0CD78">%d / %d HP</text>
+    <rect x="480" y="160" width="684" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
+    <rect x="480" y="160" width="%d" height="6" rx="3" fill="#F0CD78"/>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="182.8" rx="13.4" fill="none" stroke="url(#go_rim)" stroke-width="1.2"/>
 </svg>`,
 		storageCol, storageBadge,
 		s.Wins, chamberEsc, relicEsc,

@@ -1,26 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 364" width="100%" height="100%">
   <defs>
     <linearGradient id="ag_bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E1310"/>
-      <stop offset="50%" stop-color="#131815"/>
-      <stop offset="100%" stop-color="#16131E"/>
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
     </linearGradient>
-    <linearGradient id="ag_border" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.55"/>
-      <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
-      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
+    <radialGradient id="ag_orb1" cx="84%" cy="16%" r="48%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.19"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ag_orb2" cx="16%" cy="84%" r="48%">
+      <stop offset="0%" stop-color="#45D496" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#45D496" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ag_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.09"/>
+      <stop offset="45%" stop-color="#DDF2E8" stop-opacity="0.025"/>
+      <stop offset="100%" stop-color="#C9B8F8" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="ag_border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="32%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="ag_glint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="58%" stop-color="#A8E8C2" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="ag_line" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#9CC084"/>
-      <stop offset="55%" stop-color="#B399EE"/>
-      <stop offset="100%" stop-color="#E5C068"/>
+      <stop offset="0%" stop-color="#7EE8B2"/>
+      <stop offset="55%" stop-color="#C4B2F8"/>
+      <stop offset="100%" stop-color="#F0CD78"/>
     </linearGradient>
     <linearGradient id="ag_area" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#B399EE" stop-opacity="0.34"/>
-      <stop offset="65%" stop-color="#9CC084" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0E1310" stop-opacity="0.0"/>
+      <stop offset="0%" stop-color="#7EE8B2" stop-opacity="0.30"/>
+      <stop offset="65%" stop-color="#B399EE" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#091314" stop-opacity="0.0"/>
     </linearGradient>
-    <clipPath id="ag_clip"><rect x="0" y="0" width="1200" height="364" rx="16"/></clipPath>
+    <clipPath id="ag_clip"><rect x="0" y="0" width="1200" height="364" rx="14"/></clipPath>
     <style>
       @font-face {
         font-family: 'Cinzel';
@@ -36,17 +56,25 @@
       }
       .cinzel { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
       .folio { font-family: 'CormorantItalic', Georgia, serif; font-style: italic; }
-      .axis-num { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 12px; fill: #9CC084; font-variant-numeric: tabular-nums; }
-      .axis-title { font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; fill: #D4A843; letter-spacing: 1.4px; }
+      .axis-num { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 12px; fill: #9EE0B4; font-variant-numeric: tabular-nums; }
+      .axis-title { font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; fill: #E5C068; letter-spacing: 1.4px; }
     </style>
   </defs>
 
-  <rect x="0.5" y="0.5" width="1199" height="363" rx="11.5" fill="url(#ag_bg)" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1"/>
-
   <g clip-path="url(#ag_clip)">
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_bg)"/>
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_orb1)"/>
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_orb2)"/>
+    <polygon points="888,0 1200,0 1200,364 1020,364" fill="#76C99A" fill-opacity="0.05"/>
+    <polygon points="0,110 164,0 250,364 0,364" fill="#4AD696" fill-opacity="0.045"/>
+    <rect x="0" y="0" width="1200" height="364" fill="url(#ag_frost)"/>
+    <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#ag_glint)" stroke-width="1.4"/>
+
     <text x="36" y="40" class="cinzel" font-size="17.5" fill="#F4EFE6">FitzzXYZ’s 31-Day Contribution Curve</text>
-    <text x="1164" y="40" text-anchor="end" class="folio" font-size="14.5" fill="#D4A843">77 contributions in the last 31 days — Diperbarui 27-11-2026</text>
-    <line x1="36" y1="54" x2="1164" y2="54" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
+    <text x="1164" y="40" text-anchor="end" class="folio" font-size="14.5" fill="#E5C068">77 contributions in the last 31 days — Diperbarui 27-11-2026</text>
+    <line x1="36" y1="54" x2="1164" y2="54" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
+
+    <rect x="64" y="68" width="1102" height="248" rx="10" fill="#081414" fill-opacity="0.48" stroke="#E8F6EE" stroke-opacity="0.15" stroke-width="1"/>
 
     <text x="34" y="188" text-anchor="middle" transform="rotate(-90 34 188)" class="axis-title">CONTRIBUTIONS</text>
     <text x="624" y="340" text-anchor="middle" class="axis-title">DAYS</text>
@@ -64,4 +92,5 @@
     </circle>
     <circle cx="96.0" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="131.2" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="166.4" cy="248.8" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="201.6" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="236.8" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="272.0" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="307.2" cy="273.5" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="342.4" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="377.6" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="412.8" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="448.0" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="483.2" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="518.4" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="553.6" cy="257.0" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="588.8" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="624.0" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="659.2" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="694.4" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="729.6" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="764.8" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="800.0" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="835.2" cy="149.9" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="870.4" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="905.6" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="940.8" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="976.0" cy="248.8" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="1011.2" cy="248.8" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="1046.4" cy="100.5" r="8" fill="#E5C068" fill-opacity="0.32"><animate attributeName="r" values="6;16;6" dur="3.4s" repeatCount="indefinite"/><animate attributeName="fill-opacity" values="0.38;0.04;0.38" dur="3.4s" repeatCount="indefinite"/></circle><circle cx="1046.4" cy="100.5" r="4.5" fill="#F4EFE6" stroke="#E5C068" stroke-width="1.8"/><circle cx="1081.6" cy="224.1" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/><circle cx="1116.8" cy="290.0" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/><circle cx="1152.0" cy="224.1" r="4.2" fill="#F4EFE6" stroke="#B399EE" stroke-width="1.6"/>
   </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="362.8" rx="13.4" fill="none" stroke="url(#ag_border)" stroke-width="1.2"/>
 </svg>

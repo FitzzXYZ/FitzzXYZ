@@ -48,15 +48,70 @@
         <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
         <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
       </linearGradient>
-      <clipPath id="lp1_clip"><rect x="0" y="0" width="460" height="260" rx="16"/></clipPath>
-    </defs>
-    <rect x="0.5" y="0.5" width="459" height="259" rx="15.5" fill="url(#lp1_bg)" stroke="url(#lp1_gold)" stroke-width="1.2"/>
-    <rect x="6.5" y="6.5" width="447" height="247" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-    <!-- Delicate Astrolabe Corner Diamonds -->
-    <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="444,12 448,16 444,20 440,16" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="16,240 20,244 16,248 12,244" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="444,240 448,244 444,248 440,244" fill="#D4A843" fill-opacity="0.65"/>
+      <clipPath id="lp1_clip"><rect x="0" y="0" width="460" height="260" rx="14"/></clipPath>
+        <!-- ARCANE_GLASS_DEFS_START -->
+    <linearGradient id="l1_gl_base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
+    </linearGradient>
+    <radialGradient id="l1_gl_orb1" cx="86%" cy="14%" r="48%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.2"/>
+      <stop offset="52%" stop-color="#E5C068" stop-opacity="0.064"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="l1_gl_orb2" cx="16%" cy="86%" r="46%">
+      <stop offset="0%" stop-color="#4AD696" stop-opacity="0.22"/>
+      <stop offset="54%" stop-color="#4AD696" stop-opacity="0.066"/>
+      <stop offset="100%" stop-color="#4AD696" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="l1_gl_orb3" cx="52%" cy="10%" r="36%">
+      <stop offset="0%" stop-color="#9CC084" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#9CC084" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="l1_gl_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="32%" stop-color="#DDF2E8" stop-opacity="0.032"/>
+      <stop offset="72%" stop-color="#C9B8F8" stop-opacity="0.022"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.055"/>
+    </linearGradient>
+    <linearGradient id="l1_gl_shard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8FAF0" stop-opacity="0.14"/>
+      <stop offset="48%" stop-color="#76C99A" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="l1_gl_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="30%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="l1_gl_topglint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.55"/>
+      <stop offset="56%" stop-color="#A8E8C2" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="l1_gl_clip"><rect x="0" y="0" width="460" height="260" rx="14"/></clipPath>
+    <!-- ARCANE_GLASS_DEFS_END -->
+  </defs>
+
+  <!-- ARCANE_GLASS_SHELL_START -->
+  <g clip-path="url(#l1_gl_clip)">
+    <rect x="0" y="0" width="460" height="260" fill="url(#l1_gl_base)"/>
+    <rect x="0" y="0" width="460" height="260" fill="url(#l1_gl_orb1)"/>
+    <rect x="0" y="0" width="460" height="260" fill="url(#l1_gl_orb2)"/>
+    <rect x="0" y="0" width="460" height="260" fill="url(#l1_gl_orb3)"/>
+      <polygon points="340,0 460,0 460,260 391,260" fill="url(#l1_gl_shard)"/>
+      <polygon points="294,0 358,0 409,260 345,260" fill="#E5C068" fill-opacity="0.042"/>
+      <polygon points="0,72 64,0 101,260 0,260" fill="#4AD696" fill-opacity="0.052"/>
+      <line x1="340" y1="0" x2="391" y2="260" stroke="#F2FBF6" stroke-opacity="0.11" stroke-width="0.8"/>
+      <line x1="64" y1="0" x2="101" y2="260" stroke="#A7E8C3" stroke-opacity="0.10" stroke-width="0.8"/>
+    <rect x="0" y="0" width="460" height="260" fill="url(#l1_gl_frost)"/>
+    <line x1="18" y1="1.1" x2="294" y2="1.1" stroke="url(#l1_gl_topglint)" stroke-width="1.4"/>
+  </g>
+  <rect x="0.6" y="0.6" width="458.8" height="258.8" rx="13.4" fill="none" stroke="url(#l1_gl_rim)" stroke-width="1.2"/>
+  <!-- ARCANE_GLASS_SHELL_END -->
     
   <g clip-path="url(#lp1_clip)">
     <text x="24" y="38" class="cinzel" font-size="14.5" letter-spacing="0.8" fill="#E5C068">CHRONICLE I · THE PHILOSOPHY OF VISUALIZATION</text>

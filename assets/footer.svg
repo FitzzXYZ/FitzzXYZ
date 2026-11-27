@@ -48,15 +48,70 @@
         <stop offset="50%" stop-color="#8BA872" stop-opacity="0.65"/>
         <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.55"/>
       </linearGradient>
-      <clipPath id="ftr_clip"><rect x="0" y="0" width="1200" height="88" rx="16"/></clipPath>
-    </defs>
-    <rect x="0.5" y="0.5" width="1199" height="87" rx="15.5" fill="url(#ftr_bg)" stroke="url(#ftr_gold)" stroke-width="1.2"/>
-    <rect x="6.5" y="6.5" width="1187" height="75" rx="11" fill="none" stroke="#D4A843" stroke-width="0.7" stroke-opacity="0.28"/>
-    <!-- Delicate Astrolabe Corner Diamonds -->
-    <polygon points="16,12 20,16 16,20 12,16" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="1184,12 1188,16 1184,20 1180,16" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="16,68 20,72 16,76 12,72" fill="#D4A843" fill-opacity="0.65"/>
-    <polygon points="1184,68 1188,72 1184,76 1180,72" fill="#D4A843" fill-opacity="0.65"/>
+      <clipPath id="ftr_clip"><rect x="0" y="0" width="1200" height="88" rx="14"/></clipPath>
+        <!-- ARCANE_GLASS_DEFS_START -->
+    <linearGradient id="ft_gl_base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091314"/>
+      <stop offset="50%" stop-color="#0F1C1B"/>
+      <stop offset="100%" stop-color="#171426"/>
+    </linearGradient>
+    <radialGradient id="ft_gl_orb1" cx="86%" cy="14%" r="48%">
+      <stop offset="0%" stop-color="#E5C068" stop-opacity="0.2"/>
+      <stop offset="52%" stop-color="#E5C068" stop-opacity="0.064"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ft_gl_orb2" cx="16%" cy="86%" r="46%">
+      <stop offset="0%" stop-color="#4AD696" stop-opacity="0.22"/>
+      <stop offset="54%" stop-color="#4AD696" stop-opacity="0.066"/>
+      <stop offset="100%" stop-color="#4AD696" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ft_gl_orb3" cx="52%" cy="10%" r="36%">
+      <stop offset="0%" stop-color="#9CC084" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#9CC084" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ft_gl_frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FAF5" stop-opacity="0.095"/>
+      <stop offset="32%" stop-color="#DDF2E8" stop-opacity="0.032"/>
+      <stop offset="72%" stop-color="#C9B8F8" stop-opacity="0.022"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.055"/>
+    </linearGradient>
+    <linearGradient id="ft_gl_shard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8FAF0" stop-opacity="0.14"/>
+      <stop offset="48%" stop-color="#76C99A" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#B399EE" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="ft_gl_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0.54"/>
+      <stop offset="30%" stop-color="#8DD4A8" stop-opacity="0.36"/>
+      <stop offset="68%" stop-color="#C5B2F8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="ft_gl_topglint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F2FBF6" stop-opacity="0"/>
+      <stop offset="22%" stop-color="#F2FBF6" stop-opacity="0.55"/>
+      <stop offset="56%" stop-color="#A8E8C2" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#E5C068" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="ft_gl_clip"><rect x="0" y="0" width="1200" height="88" rx="14"/></clipPath>
+    <!-- ARCANE_GLASS_DEFS_END -->
+  </defs>
+
+  <!-- ARCANE_GLASS_SHELL_START -->
+  <g clip-path="url(#ft_gl_clip)">
+    <rect x="0" y="0" width="1200" height="88" fill="url(#ft_gl_base)"/>
+    <rect x="0" y="0" width="1200" height="88" fill="url(#ft_gl_orb1)"/>
+    <rect x="0" y="0" width="1200" height="88" fill="url(#ft_gl_orb2)"/>
+    <rect x="0" y="0" width="1200" height="88" fill="url(#ft_gl_orb3)"/>
+      <polygon points="888,0 1200,0 1200,88 1020,88" fill="url(#ft_gl_shard)"/>
+      <polygon points="768,0 936,0 1068,88 900,88" fill="#E5C068" fill-opacity="0.042"/>
+      <polygon points="0,24 168,0 264,88 0,88" fill="#4AD696" fill-opacity="0.052"/>
+      <line x1="888" y1="0" x2="1020" y2="88" stroke="#F2FBF6" stroke-opacity="0.11" stroke-width="0.8"/>
+      <line x1="168" y1="0" x2="264" y2="88" stroke="#A7E8C3" stroke-opacity="0.10" stroke-width="0.8"/>
+    <rect x="0" y="0" width="1200" height="88" fill="url(#ft_gl_frost)"/>
+    <line x1="18" y1="1.1" x2="768" y2="1.1" stroke="url(#ft_gl_topglint)" stroke-width="1.4"/>
+  </g>
+  <rect x="0.6" y="0.6" width="1198.8" height="86.8" rx="13.4" fill="none" stroke="url(#ft_gl_rim)" stroke-width="1.2"/>
+  <!-- ARCANE_GLASS_SHELL_END -->
     
   <g clip-path="url(#ftr_clip)">
     <polygon points="40,36 48,44 40,52 32,44" fill="#D4A843"><animateTransform attributeName="transform" type="rotate" from="0 40 44" to="360 40 44" dur="18s" repeatCount="indefinite"/></polygon>
