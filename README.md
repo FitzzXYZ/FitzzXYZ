@@ -188,6 +188,11 @@
     <img src="./assets/frieren-divider.svg" alt="" width="100%" />
   </p>
 
+  <!-- VISUAL MONOGRAPH — CURATED ÜBEL & AUREOLE HORIZON PLATES -->
+  <p align="center">
+    <img src="./assets/frieren-visual-folio.svg" alt="Visual Monograph — Übel &amp; The Road to Aureole (Curated Character &amp; Horizon Plates)" width="100%" />
+  </p>
+
   <!-- NOCTURNE & EMPATHY — ANIMATED CODA -->
   <p align="center">
     <img width="49%" src="./assets/ubel-nocturne-anim.gif" alt="Übel — Nocturne Gaze" />
