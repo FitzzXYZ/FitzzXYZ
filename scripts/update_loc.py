@@ -173,7 +173,7 @@ def canonical_repo_key(repo_dir: str, remote_url: str | None = None) -> str:
         m = re.search(r"github\.com[:/]([^/\s]+/[^/\s]+?)(?:\.git)?/?$", url, re.IGNORECASE)
         if m:
             return m.group(1).lower()
-    base = os.path.basename(os.path.normpath(repo_dir)).strip() or "unknown"
+    base = repo_dir.replace("\\", "/").rstrip("/").rsplit("/", 1)[-1].strip() or "unknown"
     return f"local/{base.lower()}"
 
 
