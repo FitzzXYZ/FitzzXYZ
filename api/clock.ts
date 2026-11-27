@@ -26,10 +26,19 @@ function loadFontB64(name: string): string {
   }
 }
 
+function loadAssetText(relPath: string): string {
+  try {
+    return fs.readFileSync(path.join(process.cwd(), "assets", relPath), "utf8").trim();
+  } catch {
+    return "";
+  }
+}
+
 const CINZEL_600 = loadFontB64("cinzel-600.woff");
 const CINZEL_800 = loadFontB64("cinzel-800.woff");
 const CORMORANT_600 = loadFontB64("cormorant-600.woff");
 const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
+const CLOCK_BG_URI = loadAssetText("backgrounds/clock-glass-bg-b64.txt");
 
 const FONT_FACE_CSS = [
   CINZEL_600 && `@font-face{font-family:'Cinzel';font-style:normal;font-weight:600;src:url("data:font/woff;base64,${CINZEL_600}") format("woff");}`,
@@ -258,14 +267,26 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
 
   <g clip-path="url(#clk_clip)">
     <rect x="0" y="0" width="1200" height="188" fill="url(#clk_bg)"/>
+    ${CLOCK_BG_URI ? `<image href="${CLOCK_BG_URI}" x="0" y="0" width="1200" height="188" preserveAspectRatio="xMidYMid slice" opacity="0.62"/>` : ""}
     <rect x="0" y="0" width="1200" height="188" fill="url(#clk_orb1)"/>
     <rect x="0" y="0" width="1200" height="188" fill="url(#clk_orb2)"/>
     <rect x="0" y="0" width="1200" height="188" fill="url(#clk_orb3)"/>
     <polygon points="0,0 264,0 168,188 0,188" fill="#76C99A" fill-opacity="0.06"/>
     <polygon points="948,0 1200,0 1200,188 1044,188" fill="#B399EE" fill-opacity="0.06"/>
-    <line x1="264" y1="0" x2="168" y2="188" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
     <rect x="0" y="0" width="1200" height="188" fill="url(#clk_frost)"/>
     <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#clk_glint)" stroke-width="1.4"/>
+
+    <!-- Floating Frosted Glass Pane I: Crystal Astrolabe Watch Housing -->
+    <rect x="18" y="14" width="188" height="160" rx="12" fill="#081416" fill-opacity="0.54" stroke="#E8F6EE" stroke-opacity="0.24" stroke-width="1"/>
+    <line x1="34" y1="14.9" x2="174" y2="14.9" stroke="#F2FBF6" stroke-opacity="0.44" stroke-width="1.1"/>
+
+    <!-- Floating Frosted Glass Pane II: Digital Readout & Live Sync -->
+    <rect x="216" y="14" width="342" height="160" rx="12" fill="#081416" fill-opacity="0.52" stroke="#E8F6EE" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="232" y1="14.9" x2="480" y2="14.9" stroke="#F2FBF6" stroke-opacity="0.42" stroke-width="1.1"/>
+
+    <!-- Floating Frosted Glass Pane III: Era Chronicle & Celestial Meridian -->
+    <rect x="570" y="14" width="612" height="160" rx="12" fill="#081416" fill-opacity="0.52" stroke="#E8F6EE" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="588" y1="14.9" x2="1040" y2="14.9" stroke="#F2FBF6" stroke-opacity="0.42" stroke-width="1.1"/>
     <circle cx="112" cy="94" r="96" fill="none" stroke="#D4A843" stroke-opacity="0.06" stroke-width="1"/>
     <circle cx="112" cy="94" r="73" fill="none" stroke="#D4A843" stroke-opacity="0.34" stroke-width="1" stroke-dasharray="3 6">
       <animateTransform attributeName="transform" type="rotate" from="0 112 94" to="360 112 94" dur="80s" repeatCount="indefinite"/>
@@ -309,14 +330,17 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
     </g>
     <circle cx="112" cy="94" r="4.6" fill="#E5C068"/>
     <circle cx="112" cy="94" r="2.3" fill="#B399EE"/>
+    <!-- Sapphire Watch-Crystal Specular Lens Glare -->
+    <path d="M 62 76 A 54 54 0 0 1 154 62 Q 112 78 62 76 Z" fill="#F2FBF6" fill-opacity="0.12"/>
+    <path d="M 70 54 A 58 58 0 0 1 146 48" fill="none" stroke="#F2FBF6" stroke-opacity="0.34" stroke-width="1.2" stroke-linecap="round"/>
 
-    <circle cx="222" cy="38" r="3.6" fill="#9CC084">
+    <circle cx="232" cy="36" r="3.4" fill="#7EE8B2">
       <animate attributeName="opacity" values="0.35;1;0.35" dur="2.2s" repeatCount="indefinite"/>
     </circle>
-    <text x="234" y="42" class="cinzel" font-size="11.8" fill="#E5C068" letter-spacing="1.6">ASTRAL HOROLOGIUM  ·  ${safeTz.toUpperCase()}</text>
+    <text x="244" y="40" class="cinzel" font-size="11.5" fill="#F0CD78" letter-spacing="1.4">ASTRAL HOROLOGIUM · ${safeTz.toUpperCase()}</text>
 
-    <rect x="218" y="54" width="320" height="74" rx="10" fill="#081414" fill-opacity="0.56" stroke="#E8F6EE" stroke-opacity="0.20" stroke-width="1"/>
-    <line x1="232" y1="54.8" x2="460" y2="54.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
+    <rect x="226" y="54" width="322" height="74" rx="10" fill="#061012" fill-opacity="0.58" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="0.9"/>
+    <line x1="240" y1="54.8" x2="466" y2="54.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
 
     <rect x="228" y="62" width="58" height="46" rx="6" fill="url(#cell_bg)" stroke="#D4A843" stroke-opacity="0.24" stroke-width="0.8"/>
     <line x1="257" y1="64" x2="257" y2="106" stroke="#D4A843" stroke-opacity="0.12" stroke-width="0.8"/>
@@ -352,11 +376,9 @@ export function buildClockSvg(tz = "Asia/Jakarta"): string {
     <text x="484" y="101" text-anchor="middle" class="folio" font-size="14.5" fill="#9CC084">${tzSub}</text>
     <text x="484" y="121" text-anchor="middle" class="unit-lbl" fill="#E5C068">LIVE SYNC</text>
 
-    <text x="220" y="154" class="folio" font-size="16" fill="#C8C2B4">${weekday}, ${day} ${month} ${year}  ·  <tspan fill="${phaseCol}">${phase}</tspan></text>
+    <text x="228" y="156" class="folio" font-size="15.2" fill="#D2DDD8">${weekday}, ${day} ${month} ${year} · <tspan fill="${phaseCol}">${phase}</tspan></text>
 
-    <line x1="564" y1="28" x2="564" y2="160" stroke="#D4A843" stroke-opacity="0.24" stroke-width="1"/>
-
-    <text x="590" y="42" class="cinzel" font-size="11.5" fill="#B399EE" letter-spacing="1.5">IMPERIAL ERA CHRONICLE</text>
+    <text x="590" y="40" class="cinzel" font-size="11.5" fill="#C8B6FA" letter-spacing="1.4">IMPERIAL ERA CHRONICLE</text>
     <text x="590" y="78" class="cinzel" font-size="20" fill="#F4EFE6">29 Years Post-Himmel</text>
     <line x1="590" y1="93" x2="836" y2="93" stroke="#D4A843" stroke-opacity="0.22" stroke-width="1"/>
     <text x="590" y="120" class="folio" font-size="14.5" fill="#8E887A">Mage Registry</text>

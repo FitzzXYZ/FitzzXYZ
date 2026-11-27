@@ -250,46 +250,49 @@ func RenderSVG(rep TelemetryReport) string {
     <rect x="0" y="0" width="1200" height="184" fill="url(#go_bg)"/>
     <rect x="0" y="0" width="1200" height="184" fill="url(#go_orb1)"/>
     <rect x="0" y="0" width="1200" height="184" fill="url(#go_orb2)"/>
+    <!-- Subtle Atmospheric Aureole Mountain Horizon Silhouette Behind Frosted Panes -->
+    <path d="M 0 184 L 0 132 Q 160 88 330 122 T 680 104 T 1020 126 L 1200 96 L 1200 184 Z" fill="#1C3D38" fill-opacity="0.34"/>
+    <path d="M 0 184 L 0 152 Q 220 116 470 144 T 910 128 L 1200 142 L 1200 184 Z" fill="#112227" fill-opacity="0.52"/>
     <polygon points="0,0 260,0 144,184 0,184" fill="#76C99A" fill-opacity="0.06"/>
     <polygon points="940,0 1200,0 1200,184 1044,184" fill="#7DA8E6" fill-opacity="0.06"/>
-    <line x1="260" y1="0" x2="144" y2="184" stroke="#EBF9F2" stroke-opacity="0.11" stroke-width="0.8"/>
     <rect x="0" y="0" width="1200" height="184" fill="url(#go_frost)"/>
     <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#go_glint)" stroke-width="1.4"/>
-    <rect x="0" y="0" width="3.5" height="184" fill="#7DA8E6" fill-opacity="0.82"/>
 
-    <!-- Editorial Header (Title Case, Arcane Crystal Glass Bevel) -->
-    <text x="32" y="34" class="t-title" font-size="16" fill="#F4EFE6">Global Dungeon Ledger</text>
-    <text x="242" y="34" class="t-it" font-size="14" fill="#9AA49E">Go Serverless runtime</text>
-    <text x="1166" y="34" text-anchor="end" class="t-mono" font-size="11.5" fill="%s">%s</text>
-    <line x1="32" y1="46" x2="1166" y2="46" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
+    <!-- Editorial Header Bar -->
+    <text x="28" y="31" class="t-title" font-size="15.5" fill="#F4EFE6">Global Dungeon Ledger</text>
+    <text x="234" y="31" class="t-it" font-size="14" fill="#A4B4AE">Go Serverless runtime</text>
+    <rect x="1008" y="14" width="168" height="22" rx="11" fill="#081516" fill-opacity="0.62" stroke="#E8F6EE" stroke-opacity="0.22" stroke-width="0.9"/>
+    <text x="1092" y="29" text-anchor="middle" class="t-mono" font-size="10.8" fill="%s">%s</text>
 
-    <!-- Asymmetric Left Anchor (34%% width: Primary Victory Figure + Smoked Glass Well) -->
-    <text x="32" y="72" class="t-body" font-size="13.5" fill="#9EE0B4">Chambers cleared across all visitors</text>
-    <text x="32" y="118" class="t-num" font-size="44" fill="#F4EFE6">%d</text>
-    <text x="130" y="108" class="t-it" font-size="15.5" fill="#F0CD78">%s</text>
-    <text x="130" y="125" class="t-body" font-size="13" fill="#D2D8D4">Relic: %s</text>
+    <!-- Floating Frosted Glass Pane I (Left 35%% Victory Anchor) -->
+    <rect x="20" y="46" width="414" height="124" rx="11" fill="#081517" fill-opacity="0.54" stroke="#E8F6EE" stroke-opacity="0.24" stroke-width="1"/>
+    <line x1="34" y1="46.8" x2="310" y2="46.8" stroke="#F2FBF6" stroke-opacity="0.38" stroke-width="1.1"/>
+    <text x="36" y="70" class="t-body" font-size="13.5" fill="#9EE0B4">Chambers cleared across all visitors</text>
+    <text x="36" y="114" class="t-num" font-size="42" fill="#F4EFE6">%d</text>
+    <text x="132" y="103" class="t-it" font-size="15.5" fill="#F0CD78">%s</text>
+    <text x="132" y="120" class="t-body" font-size="13" fill="#D2D8D4">Relic: %s</text>
 
-    <rect x="32" y="138" width="388" height="28" rx="7" fill="#081414" fill-opacity="0.58" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="0.9"/>
-    <text x="44" y="156" class="t-mono" font-size="11.5" fill="#D2D8D4">%d turns cast</text>
-    <text x="408" y="156" text-anchor="end" class="t-mono" font-size="11.5" fill="#9EE0B4">%d Frieren rescues</text>
+    <rect x="34" y="133" width="386" height="26" rx="7" fill="#0B1E1F" fill-opacity="0.62" stroke="#E8F6EE" stroke-opacity="0.16" stroke-width="0.8"/>
+    <text x="46" y="150" class="t-mono" font-size="11.2" fill="#D2D8D4">%d turns cast</text>
+    <text x="408" y="150" text-anchor="end" class="t-mono" font-size="11.2" fill="#9EE0B4">%d Frieren rescues</text>
 
-    <line x1="448" y1="60" x2="448" y2="166" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
+    <!-- Floating Frosted Glass Pane II (Right 61%% Comparative Ledger) -->
+    <rect x="448" y="46" width="732" height="124" rx="11" fill="#081517" fill-opacity="0.52" stroke="#E8F6EE" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="464" y1="46.8" x2="920" y2="46.8" stroke="#F2FBF6" stroke-opacity="0.36" stroke-width="1.1"/>
+    <text x="472" y="71" class="t-body" font-size="14" fill="#F4EFE6">Authentic grimoire discoveries</text>
+    <text x="1156" y="71" text-anchor="end" class="t-mono" font-size="12" fill="#9EE0B4">%.1f%% (%d found)</text>
+    <rect x="472" y="79" width="684" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
+    <rect x="472" y="79" width="%d" height="6" rx="3" fill="#7EE8B2"/>
 
-    <!-- Asymmetric Right Comparative Ledger (62%% width: 3 Horizontal Manuscript Rows) -->
-    <text x="480" y="72" class="t-body" font-size="14" fill="#F4EFE6">Authentic grimoire discoveries</text>
-    <text x="1164" y="72" text-anchor="end" class="t-mono" font-size="12" fill="#9EE0B4">%.1f%% (%d found)</text>
-    <rect x="480" y="80" width="684" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
-    <rect x="480" y="80" width="%d" height="6" rx="3" fill="#7EE8B2"/>
+    <text x="472" y="110" class="t-body" font-size="14" fill="#F4EFE6">Mimic trap encounters <tspan class="t-it" font-size="13" fill="#9AA49E">(Frieren claims 99%% safe)</tspan></text>
+    <text x="1156" y="110" text-anchor="end" class="t-mono" font-size="12" fill="#D4886A">%.1f%% (%d traps)</text>
+    <rect x="472" y="118" width="684" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
+    <rect x="472" y="118" width="%d" height="6" rx="3" fill="#D4886A"/>
 
-    <text x="480" y="112" class="t-body" font-size="14" fill="#F4EFE6">Mimic trap encounters <tspan class="t-it" font-size="13" fill="#9AA49E">(Frieren claims 99%% safe)</tspan></text>
-    <text x="1164" y="112" text-anchor="end" class="t-mono" font-size="12" fill="#D4886A">%.1f%% (%d traps)</text>
-    <rect x="480" y="120" width="684" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
-    <rect x="480" y="120" width="%d" height="6" rx="3" fill="#D4886A"/>
-
-    <text x="480" y="152" class="t-body" font-size="14" fill="#F4EFE6">Spiegel boss integrity <tspan class="t-it" font-size="13" fill="#D2D8D4">— %s</tspan></text>
-    <text x="1164" y="152" text-anchor="end" class="t-mono" font-size="12" fill="#F0CD78">%d / %d HP</text>
-    <rect x="480" y="160" width="684" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
-    <rect x="480" y="160" width="%d" height="6" rx="3" fill="#F0CD78"/>
+    <text x="472" y="149" class="t-body" font-size="14" fill="#F4EFE6">Spiegel boss integrity <tspan class="t-it" font-size="13" fill="#D2D8D4">— %s</tspan></text>
+    <text x="1156" y="149" text-anchor="end" class="t-mono" font-size="12" fill="#F0CD78">%d / %d HP</text>
+    <rect x="472" y="157" width="684" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
+    <rect x="472" y="157" width="%d" height="6" rx="3" fill="#F0CD78"/>
   </g>
   <rect x="0.6" y="0.6" width="1198.8" height="182.8" rx="13.4" fill="none" stroke="url(#go_rim)" stroke-width="1.2"/>
 </svg>`,

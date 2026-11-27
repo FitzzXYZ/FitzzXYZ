@@ -63,6 +63,7 @@ const CORMORANT_500I = loadFontB64("cormorant-italic-500.woff");
 const UBEL_AVATAR = loadFileText("assets/ubel-mini-b64.txt");
 const SPIEGEL_AVATAR = loadFileText("assets/spiegel-mini-b64.txt");
 const FRIEREN_MIMIC_IMG = loadFileText("assets/game/frieren-mimic-b64.txt");
+const GAME_GLASS_BG = loadFileText("assets/backgrounds/game-glass-bg-b64.txt");
 const SERIE_AVATAR = loadFileText("assets/game/ending-serie-b64.txt") || SPIEGEL_AVATAR;
 const BOSS_PORTRAITS = [
   loadFileText("assets/game/boss-ubel-b64.txt") || SPIEGEL_AVATAR,
@@ -871,6 +872,7 @@ export function buildGameSvg(st: ArenaState): string {
 
   <g clip-path="url(#gm_clip)">
     <rect x="0" y="0" width="1200" height="456" fill="url(#gm_bg)"/>
+    ${GAME_GLASS_BG ? `<image href="${GAME_GLASS_BG}" x="0" y="0" width="1200" height="456" preserveAspectRatio="xMidYMid slice" opacity="0.46"/>` : ""}
     <rect x="0" y="0" width="1200" height="456" fill="url(#gm_orb1)"/>
     <rect x="0" y="0" width="1200" height="456" fill="url(#gm_orb2)"/>
     <rect x="0" y="0" width="1200" height="456" fill="url(#gm_orb3)"/>

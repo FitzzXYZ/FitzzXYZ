@@ -362,48 +362,51 @@ fn render_svg(rep: &OracleReport) -> String {
     <rect x="0" y="0" width="1200" height="192" fill="url(#rs_bg)"/>
     <rect x="0" y="0" width="1200" height="192" fill="url(#rs_orb1)"/>
     <rect x="0" y="0" width="1200" height="192" fill="url(#rs_orb2)"/>
+    <!-- Subtle Atmospheric Twilight Mountain Horizon Behind Frosted Panes -->
+    <path d="M 0 192 L 0 124 Q 200 92 410 130 T 820 108 T 1200 132 L 1200 192 Z" fill="#291E3D" fill-opacity="0.38"/>
+    <path d="M 0 192 L 0 156 Q 280 124 560 150 T 1010 132 L 1200 148 L 1200 192 Z" fill="#101E22" fill-opacity="0.54"/>
     <polygon points="888,0 1200,0 1200,192 1004,192" fill="#B399EE" fill-opacity="0.065"/>
     <polygon points="0,52 164,0 248,192 0,192" fill="#4AD696" fill-opacity="0.055"/>
-    <line x1="888" y1="0" x2="1004" y2="192" stroke="#E5DCFF" stroke-opacity="0.11" stroke-width="0.8"/>
     <rect x="0" y="0" width="1200" height="192" fill="url(#rs_frost)"/>
     <line x1="18" y1="1.1" x2="760" y2="1.1" stroke="url(#rs_glint)" stroke-width="1.4"/>
-    <rect x="0" y="0" width="3.5" height="192" fill="#D4886A" fill-opacity="0.85"/>
 
-    <!-- Editorial Header (Inverted Asymmetry vs Go Ledger: 58% Left Spectrum / 42% Right Frosted Glass Well) -->
-    <text x="32" y="34" class="r-title" font-size="16" fill="#F4EFE6">First-Class Combat Oracle</text>
-    <text x="274" y="34" class="r-it" font-size="14" fill="#9AA49E">Rust Fluid Runtime probability engine</text>
-    <text x="1166" y="34" text-anchor="end" class="r-mono" font-size="11.5" fill="{storage_col}">{storage_lbl}</text>
-    <line x1="32" y1="46" x2="1166" y2="46" stroke="#E6F5ED" stroke-opacity="0.18" stroke-width="1"/>
+    <!-- Editorial Header Bar -->
+    <text x="28" y="31" class="r-title" font-size="15.5" fill="#F4EFE6">First-Class Combat Oracle</text>
+    <text x="268" y="31" class="r-it" font-size="14" fill="#A4B4AE">Rust Fluid Runtime probability engine</text>
+    <rect x="1008" y="14" width="168" height="22" rx="11" fill="#0A1419" fill-opacity="0.62" stroke="#E8F6EE" stroke-opacity="0.22" stroke-width="0.9"/>
+    <text x="1092" y="29" text-anchor="middle" class="r-mono" font-size="10.8" fill="{storage_col}">{storage_lbl}</text>
 
-    <!-- Left Panel (x=32..652): Target Summary + 3-Tier Reelseiden Damage Spectrum -->
-    <text x="32" y="72" class="r-body" font-size="16" fill="#F4EFE6">{boss_label}</text>
-    <text x="652" y="72" text-anchor="end" class="r-mono" font-size="11.5" fill="#D2D8D4">HP {boss_hp}/{boss_max_hp} | Ward {armor}% | Empathy {empathy}/3</text>
+    <!-- Floating Frosted Glass Pane I (Left 56% Reelseiden Damage Spectrum) -->
+    <rect x="20" y="46" width="664" height="132" rx="11" fill="#081517" fill-opacity="0.52" stroke="#E8F6EE" stroke-opacity="0.22" stroke-width="1"/>
+    <line x1="36" y1="46.8" x2="510" y2="46.8" stroke="#F2FBF6" stroke-opacity="0.36" stroke-width="1.1"/>
+    <text x="38" y="70" class="r-body" font-size="15.5" fill="#F4EFE6">{boss_label}</text>
+    <text x="664" y="70" text-anchor="end" class="r-mono" font-size="11.2" fill="#D2D8D4">HP {boss_hp}/{boss_max_hp} | Ward {armor}% | Empathy {empathy}/3</text>
 
-    <text x="32" y="98" class="r-body" font-size="13.5" fill="#D2D8D4">Standard Reelseiden (+{slash_bonus} sever)</text>
-    <text x="652" y="98" text-anchor="end" class="r-mono" font-size="11.5" fill="#9EE0B4">{std_min}–{std_max} dmg (avg {std_avg})</text>
-    <rect x="32" y="105" width="620" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
-    <rect x="32" y="105" width="{std_w}" height="6" rx="3" fill="#7EE8B2"/>
+    <text x="38" y="96" class="r-body" font-size="13.5" fill="#D2D8D4">Standard Reelseiden (+{slash_bonus} sever)</text>
+    <text x="664" y="96" text-anchor="end" class="r-mono" font-size="11.2" fill="#9EE0B4">{std_min}–{std_max} dmg (avg {std_avg})</text>
+    <rect x="38" y="103" width="620" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
+    <rect x="38" y="103" width="{std_w}" height="6" rx="3" fill="#7EE8B2"/>
 
-    <text x="32" y="131" class="r-body" font-size="13.5" fill="#D2D8D4">Sorganeil 2.2x sight-lock + Perfect Sever</text>
-    <text x="652" y="131" text-anchor="end" class="r-mono" font-size="11.5" fill="#C8B6FA">{bnd_min}–{bnd_max} dmg</text>
-    <rect x="32" y="138" width="620" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
-    <rect x="32" y="138" width="{bound_w}" height="6" rx="3" fill="#B399EE"/>
+    <text x="38" y="128" class="r-body" font-size="13.5" fill="#D2D8D4">Sorganeil 2.2x sight-lock + Perfect Sever</text>
+    <text x="664" y="128" text-anchor="end" class="r-mono" font-size="11.2" fill="#C8B6FA">{bnd_min}–{bnd_max} dmg</text>
+    <rect x="38" y="135" width="620" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
+    <rect x="38" y="135" width="{bound_w}" height="6" rx="3" fill="#B399EE"/>
 
-    <text x="32" y="164" class="r-body" font-size="13.5" fill="#F0CD78">Empathy 3/3 true cleave (ignores armor ward)</text>
-    <text x="652" y="164" text-anchor="end" class="r-mono" font-size="11.5" fill="#F0CD78">{emp_min}–{emp_max} dmg</text>
-    <rect x="32" y="171" width="620" height="6" rx="3" fill="#0B1919" fill-opacity="0.72"/>
-    <rect x="32" y="171" width="{emp_w}" height="6" rx="3" fill="#F0CD78"/>
+    <text x="38" y="160" class="r-body" font-size="13.5" fill="#F0CD78">Empathy 3/3 true cleave (ignores armor ward)</text>
+    <text x="664" y="160" text-anchor="end" class="r-mono" font-size="11.2" fill="#F0CD78">{emp_min}–{emp_max} dmg</text>
+    <rect x="38" y="167" width="620" height="6" rx="3" fill="#0B1E1F" fill-opacity="0.78"/>
+    <rect x="38" y="167" width="{emp_w}" height="6" rx="3" fill="#F0CD78"/>
 
-    <!-- Right Panel (x=688..1166): Smoked-Crystal Forecast & Mimic Aura Well -->
-    <rect x="688" y="58" width="478" height="120" rx="10" fill="#081414" fill-opacity="0.56" stroke="#E8F6EE" stroke-opacity="0.18" stroke-width="1"/>
-    <line x1="704" y1="58.8" x2="1040" y2="58.8" stroke="#F2FBF6" stroke-opacity="0.28" stroke-width="1"/>
-    <text x="708" y="80" class="r-body" font-size="13.5" fill="#F0CD78">Lethal forecast</text>
-    <text x="1146" y="80" text-anchor="end" class="r-mono" font-size="11.5" fill="#9AA49E">Standard rotation: {ttk_std} turns</text>
-    <text x="708" y="114" class="r-num" font-size="30" fill="#F4EFE6">{ttk_opt} <tspan class="r-it" font-size="15" fill="#9EE0B4">optimal turns to shatter</tspan></text>
+    <!-- Floating Frosted Glass Pane II (Right 41% Lethal Forecast & Mimic Aura) -->
+    <rect x="698" y="46" width="482" height="132" rx="11" fill="#0A141A" fill-opacity="0.56" stroke="#D8CAFF" stroke-opacity="0.26" stroke-width="1"/>
+    <line x1="714" y1="46.8" x2="1060" y2="46.8" stroke="#F2FBF6" stroke-opacity="0.38" stroke-width="1.1"/>
+    <text x="716" y="72" class="r-body" font-size="13.5" fill="#F0CD78">Lethal forecast</text>
+    <text x="1160" y="72" text-anchor="end" class="r-mono" font-size="11.2" fill="#A4B4AE">Standard rotation: {ttk_std} turns</text>
+    <text x="716" y="109" class="r-num" font-size="31" fill="#F4EFE6">{ttk_opt} <tspan class="r-it" font-size="15" fill="#9EE0B4">optimal turns to shatter</tspan></text>
 
-    <line x1="708" y1="126" x2="1146" y2="126" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
-    <text x="708" y="146" class="r-body" font-size="13.5" fill="#D4886A">Mimic trap risk ({mimic_pct:.1}%): <tspan class="r-mono" font-size="11.5" fill="#F0CD78">{mimic_slot}</tspan></text>
-    <text x="708" y="166" class="r-it" font-size="13" fill="#9EE0B4">{verdict}</text>
+    <line x1="716" y1="123" x2="1160" y2="123" stroke="#E6F5ED" stroke-opacity="0.16" stroke-width="1"/>
+    <text x="716" y="145" class="r-body" font-size="13.5" fill="#D4886A">Mimic trap risk ({mimic_pct:.1}%): <tspan class="r-mono" font-size="11.2" fill="#F0CD78">{mimic_slot}</tspan></text>
+    <text x="716" y="166" class="r-it" font-size="13" fill="#9EE0B4">{verdict}</text>
   </g>
   <rect x="0.6" y="0.6" width="1198.8" height="190.8" rx="13.4" fill="none" stroke="url(#rs_rim)" stroke-width="1.2"/>
 </svg>"##,

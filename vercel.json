@@ -2,10 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/clock.ts": {
-      "includeFiles": "assets/fonts/*.woff"
+      "includeFiles": "assets/{fonts/*.woff,backgrounds/clock-glass-bg-b64.txt}"
     },
     "api/game.ts": {
-      "includeFiles": "assets/{fonts/*.woff,ubel-mini-b64.txt,spiegel-mini-b64.txt,game/*-b64.txt}"
+      "includeFiles": "assets/{fonts/*.woff,ubel-mini-b64.txt,spiegel-mini-b64.txt,game/*-b64.txt,backgrounds/game-glass-bg-b64.txt}"
     }
   }
 }

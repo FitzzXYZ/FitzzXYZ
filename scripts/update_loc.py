@@ -607,6 +607,10 @@ def build_loc_svg(data: dict) -> str:
     total_lines_str = fmt_id(data["total_lines"])
     meta_str = f'{fmt_id(data["total_files"])} file  ·  {data["total_repos"]} repo  ·  {data["total_langs"]} bahasa'
 
+    loc_bg_path = os.path.join(ASSETS_DIR, "backgrounds", "loc-glass-bg-b64.txt")
+    loc_bg_uri = open(loc_bg_path, "r", encoding="ascii").read().strip() if os.path.exists(loc_bg_path) else ""
+    loc_bg_el = f'<image href="{loc_bg_uri}" x="0" y="0" width="1200" height="456" preserveAspectRatio="xMidYMid slice" opacity="0.40"/>' if loc_bg_uri else ""
+
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 456" width="100%" height="100%">
   <defs>
     <linearGradient id="loc_outer_bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -692,6 +696,7 @@ def build_loc_svg(data: dict) -> str:
 
   <g clip-path="url(#loc_clip)">
     <rect x="0" y="0" width="1200" height="456" fill="url(#loc_outer_bg)"/>
+    {loc_bg_el}
     <rect x="0" y="0" width="1200" height="456" fill="url(#loc_orb1)"/>
     <rect x="0" y="0" width="1200" height="456" fill="url(#loc_orb2)"/>
     <rect x="0" y="0" width="1200" height="456" fill="url(#loc_glow)"/>
@@ -845,6 +850,9 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
             dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.4" fill="#F4EFE6" stroke="#8BA872" stroke-width="1.1" fill-opacity="0.9"/>')
 
     period_total = sum(vals)
+    ag_bg_path = os.path.join(ASSETS_DIR, "backgrounds", "loc-glass-bg-b64.txt")
+    ag_bg_uri = open(ag_bg_path, "r", encoding="ascii").read().strip() if os.path.exists(ag_bg_path) else ""
+    ag_bg_el = f'<image href="{ag_bg_uri}" x="0" y="0" width="1200" height="364" preserveAspectRatio="xMidYMid slice" opacity="0.38"/>' if ag_bg_uri else ""
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 364" width="100%" height="100%">
   <defs>
     <linearGradient id="ag_bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -910,6 +918,7 @@ def build_activity_graph_svg(daily_points: list[tuple[str, int]]) -> str:
 
   <g clip-path="url(#ag_clip)">
     <rect x="0" y="0" width="1200" height="364" fill="url(#ag_bg)"/>
+    {ag_bg_el}
     <rect x="0" y="0" width="1200" height="364" fill="url(#ag_orb1)"/>
     <rect x="0" y="0" width="1200" height="364" fill="url(#ag_orb2)"/>
     <polygon points="888,0 1200,0 1200,364 1020,364" fill="#76C99A" fill-opacity="0.05"/>
@@ -1266,8 +1275,20 @@ def sync_readme_alt(data: dict) -> bool:
     if n and updated != text:
         with open(README_PATH, "w", encoding="utf-8") as f:
             f.write(updated)
-        return True
-    return False
+    desktop_svg = os.path.join(ASSETS_DIR, "frieren-desktop-banner.svg")
+    if os.path.exists(desktop_svg):
+        with open(desktop_svg, "r", encoding="utf-8") as f:
+            dtxt = f.read()
+        dnew, dn = re.subn(
+            r"[\d.]+ verified LOC across \d+ active repos",
+            f'{fmt_id(data["total_lines"])} verified LOC across {data["total_repos"]} active repos',
+            dtxt,
+            count=1,
+        )
+        if dn and dnew != dtxt:
+            with open(desktop_svg, "w", encoding="utf-8") as f:
+                f.write(dnew)
+    return bool(n and updated != text)
 
 
 def install_post_commit_hooks(extra_repos: list[str] | None = None):
