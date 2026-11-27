@@ -180,7 +180,7 @@
       <text x="1144" y="386" text-anchor="end" class="mono-stat" font-size="15.5" fill="#C8C2B4">523 baris  ·  <tspan fill="#C96D68" font-weight="600">0.4%</tspan></text>
 
     <text x="56" y="414" class="folio" font-size="13.5" fill="#9AA49E">Dihitung dari repo milik sendiri &amp; kontribusi GitHub (termasuk private, tanpa fork), kode aktual tanpa baris kosong &amp; komentar.</text>
-    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#E5C068">Diperbarui 27-11-2026</text>
+    <text x="1144" y="414" text-anchor="end" class="folio" font-size="13.5" fill="#E5C068">Diperbarui 28-11-2026</text>
   </g>
   <rect x="0.6" y="0.6" width="1198.8" height="454.8" rx="13.4" fill="none" stroke="url(#loc_border)" stroke-width="1.2"/>
 </svg>

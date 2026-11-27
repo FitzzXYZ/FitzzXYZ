@@ -13,5 +13,5 @@
   <rect x="0.5" y="0.5" width="147" height="31" rx="9" fill="url(#bg_glass)" stroke="#7DA8E6" stroke-opacity="0.52" stroke-width="1"/>
   <rect x="1.5" y="1.2" width="145" height="14" rx="7.5" fill="url(#bg_top)"/>
   <circle cx="19" cy="16" r="4" fill="#9CC084"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/></circle><circle cx="19" cy="16" r="7" fill="none" stroke="#9CC084" stroke-width="1"><animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/></circle>
-  <text x="34" y="20.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="12.5" font-weight="600" fill="#F4EFE6">Live <tspan fill="#8E96AA" font-weight="500">· 27 Nov 2026</tspan></text>
+  <text x="34" y="20.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="12.5" font-weight="600" fill="#F4EFE6">Live <tspan fill="#8E96AA" font-weight="500">· 28 Nov 2026</tspan></text>
 </svg>
